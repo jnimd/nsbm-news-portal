@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NSBM NewsDesk — Campus News Management System</title>
+  <meta name="description" content="Official NSBM NewsDesk: University Campus News Management System featuring campus announcements, category beats, investigative student journalism, and admin editorial desk." />
+
+  <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Modular External CSS Stylesheets -->
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/scrolly.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+
+  <!-- Theme Script (Early execute to prevent flash of wrong theme) -->
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- =================================================================
+       1. NSBM NEWSDESK CAMPUS PRELOADER
+  ================================================================== -->
+  <div id="preloader">
+    <div class="preloader-card">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="text-xs font-display tracking-widest uppercase text-emerald-400 font-semibold">NSBM Green University</span>
+      </div>
+
+      <div class="spinner-dual-ring">
+        <div class="spinner-ring-outer"></div>
+        <div class="spinner-ring-inner"></div>
+        <div class="flex flex-col items-center justify-center z-10">
+          <span class="text-2xl font-display font-black tracking-tight text-white" id="loader-percent">0%</span>
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-editorial font-bold mb-2 tracking-tight">
+        NSBM <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-accent to-emerald-400">NewsDesk</span>
+      </h1>
+      
+      <p class="text-xs tracking-wider text-zinc-400 mb-5 font-display" id="loader-status">
+        Loading Campus Chronicle & Editorial Dispatches...
+      </p>
+
+      <div class="loader-track">
+        <div id="loader-bar"></div>
+      </div>
+
+      <div class="mt-4 flex items-center justify-between w-full text-[11px] font-mono text-zinc-400">
+        <span id="loader-count" class="font-medium">Faculty & Student Media Guild</span>
+        <span class="text-emerald-400 font-medium">Verified Press Desk</span>
+      </div>
+
+      <button id="quick-launch-btn" class="btn-secondary mt-5 text-xs" style="display: none;">
+        Launch NewsDesk
+      </button>
+    </div>
+  </div>
+
+  <!-- Ambient Light Backdrops -->
+  <div class="glow-sphere glow-sphere-1"></div>
+  <div class="glow-sphere glow-sphere-2"></div>
+
+  <!-- =================================================================
+       2. TOP NAVBAR & BREAKING NEWS BULLETIN TICKER
+  ================================================================== -->
+  <header class="top-header">
+    <!-- Breaking Bulletin Ticker -->
+    <div class="breaking-ticker">
+      <div class="ticker-badge">
+        <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+        BULLETIN
+      </div>
+      <div class="ticker-wrapper">
+        <div class="ticker-track">
+          <span class="ticker-item">★ NSBM GREEN UNIVERSITY INAUGURATES 2026 ACADEMIC YEAR</span>
+          <span class="ticker-item text-brand-accent">★ FACULTY OF COMPUTING BREAKTHROUGH: ZERO-CLOUD EDGE AI DIAGNOSTICS</span>
+          <span class="ticker-item text-emerald-300">★ SUSTAINABILITY AUDIT: CAMPUS ACHIEVES 85% CARBON REDUCTION</span>
+          <span class="ticker-item">★ STUDENT SENATE ELECTIONS SCHEDULED FOR NEXT WEEK</span>
+          <span class="ticker-item text-amber-400">★ VARSITY GREEN DRAGONS CLINCH WESTERN PROVINCE RUGBY CHAMPIONSHIP</span>
+          <span class="ticker-item">★ UNDERGRADUATE RESEARCH SEED GRANTS NOW OPEN FOR REGISTRATION</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="main-nav">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-brand-logo">
+          <div class="nav-brand-inner">
+            <svg class="svg-icon text-brand-accent" style="width: 1.25rem; height: 1.25rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+              <path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="nav-brand-text">
+            NSBM <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-accent">NewsDesk</span>
+          </span>
+          <span class="nav-brand-sub">Campus News Management System</span>
+        </div>
+      </a>
+
+      <!-- Center navigation button pills -->
+      <div class="nav-links">
+        <a href="#seq-track" class="nav-link">
+          <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          <span>Campus Story</span>
+        </a>
+        <a href="#announcements-section" class="nav-link">
+          <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span>Announcements</span>
+        </a>
+        <a href="#categories-section" class="nav-link">
+          <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Categories</span>
+        </a>
+        <a href="#campus-news-section" class="nav-link">
+          <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+          <span>Latest News</span>
+        </a>
+        <a href="campus-feed.html" class="nav-link nav-link-buzz" title="Explore Campus Social Media Feed">
+          <svg class="svg-icon-sm text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          <span>Campus Buzz</span>
+          <span class="buzz-badge">Feed</span>
+        </a>
+        <a href="student-dashboard.html" class="nav-link">
+          <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>Student Portal</span>
+        </a>
+        <a href="admin-dashboard.html" class="nav-link">
+          <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Admin Desk</span>
+        </a>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Live Clock -->
+        <div class="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono text-zinc-400">
+          <svg class="svg-icon-sm text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="current-clock">COLOMBO LIVE</span>
+        </div>
+
+        <!-- Light / Dark Theme Toggle Button -->
+        <button type="button" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+          <span class="theme-toggle-icon"></span>
+          <span class="theme-toggle-text hidden sm:inline">Theme</span>
+        </button>
+
+        <!-- Auth / Profile CTA -->
+        <a href="login.html" id="nav-auth-btn" class="btn-primary text-xs">
+          Sign In
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button type="button" id="mobile-menu-toggle-btn" class="mobile-menu-btn md:hidden" aria-label="Open Navigation Menu">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Drawer Navigation -->
+    <div id="mobile-nav-drawer" class="mobile-nav-drawer">
+      <div class="mobile-nav-inner">
+        <div class="flex items-center justify-between pb-4 border-b border-white/10">
+          <span class="font-editorial text-lg font-bold text-white">NSBM <span class="text-brand-accent">Navigation</span></span>
+          <button id="mobile-nav-close-btn" class="modal-close-btn" style="position: static; width: 2rem; height: 2rem;">✕</button>
+        </div>
+        <div class="flex flex-col gap-3 py-4">
+          <a href="#seq-track" class="mobile-nav-link">Campus Story</a>
+          <a href="campus-feed.html" class="mobile-nav-link text-brand-accent font-bold">Campus Buzz (Social Media Feed)</a>
+          <a href="#announcements-section" class="mobile-nav-link">Campus Announcements</a>
+          <a href="#categories-section" class="mobile-nav-link">Categories & Beats</a>
+          <a href="#campus-news-section" class="mobile-nav-link">Latest Campus News</a>
+          <a href="student-dashboard.html" class="mobile-nav-link text-brand-accent">Student Journalism Portal</a>
+          <a href="admin-dashboard.html" class="mobile-nav-link text-emerald-400">Admin Editorial Desk</a>
+          <a href="login.html" class="mobile-nav-link">Account Sign In / Register</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Global Progress Line -->
+  <div class="global-progress-track">
+    <div id="global-progress-bar"></div>
+  </div>
+
+  <!-- Chapter Navigator (Right Side) -->
+  <aside class="chapter-nav" aria-label="Campus Story Chapter Navigator">
+    <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest rotate-90 origin-right translate-x-3 mb-8">
+      STORY BEATS
+    </div>
+    
+    <!-- Chapter 1 -->
+    <button onclick="scrollToPercent(0.08)" class="chap-dot" data-seq="1" title="Chapter 01: Campus Life">
+      <span class="chap-dot-label">01 / Campus Life</span>
+      <div class="dot-indicator"></div>
+    </button>
+    <!-- Chapter 2 -->
+    <button onclick="scrollToPercent(0.45)" class="chap-dot" data-seq="2" title="Chapter 02: Green Living">
+      <span class="chap-dot-label">02 / Green Living</span>
+      <div class="dot-indicator"></div>
+    </button>
+    <!-- Chapter 3 -->
+    <button onclick="scrollToPercent(0.78)" class="chap-dot" data-seq="3" title="Chapter 03: Press Syndicate">
+      <span class="chap-dot-label">03 / Press Syndicate</span>
+      <div class="dot-indicator"></div>
+    </button>
+
+    <div class="w-px h-16 bg-zinc-800 my-1 mr-1.5"></div>
+    <div class="text-[10px] font-mono text-zinc-400 mr-[-2px] font-semibold" id="hud-percent">00%</div>
+  </aside>
+
+  <!-- Dynamic Control HUD (Bottom Left) -->
+  <div class="scrolly-hud">
+    <div class="hud-top-row">
+      <div class="hud-tag">
+        <span class="hud-pulse-dot"></span>
+        <span id="hud-sequence-label">Campus Life & Undergrad Research</span>
+      </div>
+      <span id="hud-frame-num" class="hud-frame-badge">Beat 01 of 03</span>
+    </div>
+    
+    <div class="hud-scrub-bar">
+      <div id="hud-sub-progress"></div>
+    </div>
+
+    <div class="hud-bottom-row">
+      <button id="autoplay-btn" onclick="toggleAutoPlay()" class="hud-btn-glide">
+        <span id="autoplay-icon">▶</span>
+        <span id="autoplay-text">Story Tour</span>
+      </button>
+
+      <span>Scroll to Explore</span>
+
+      <span class="text-brand-accent font-semibold px-2 py-0.5 rounded bg-brand-500/10 border border-brand-500/20 text-[10px]">
+        Green University
+      </span>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       3. CAMPUS STORY CONTAINER (STICKY CANVAS + TEXT OVERLAYS)
+  ================================================================== -->
+  <main id="seq-track">
+
+    <!-- STICKY CANVAS CONTAINER -->
+    <div class="sticky-canvas-container">
+      
+      <!-- HTML5 Canvas Background -->
+      <canvas id="scrolly-canvas"></canvas>
+
+      <!-- Readability Gradient Layers -->
+      <div class="canvas-vignette-radial"></div>
+      <div class="canvas-vignette-vertical"></div>
+      <div class="canvas-vignette-horizontal"></div>
+      <div class="canvas-dark-overlay"></div>
+      <div class="canvas-noise"></div>
+
+      <!-- STORY OVERLAYS -->
+      
+      <!-- OVERLAY 1: HERO -->
+      <div id="overlay-1" class="overlay-stage">
+        <div class="scrolly-floating-hero">
+          <div class="scrolly-pill-badge pill-cyan">
+            <span class="pill-dot bg-cyan"></span>
+            <span>Official University Chronicle • NSBM Green Campus</span>
+          </div>
+
+          <h1 class="scrolly-hero-title">
+            The Living Pulse of <br />
+            <span class="gradient-text-hero">NSBM Green University</span>
+          </h1>
+
+          <p class="scrolly-desc">
+            Where breakthrough research, environmental stewardship, and student journalism converge. Explore verified campus dispatches, announcements, and student-led investigations.
+          </p>
+
+          <!-- Hero Action Buttons -->
+          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.85rem; margin-top:1.25rem;">
+            <a href="campus-feed.html" class="btn-primary" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.35rem; font-weight:700; font-size:0.88rem; text-decoration:none; box-shadow:0 6px 20px rgba(16,185,129,0.35);">
+              <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              <span>Explore Campus Buzz</span>
+              <span style="font-size:0.65rem; background:rgba(255,255,255,0.25); padding:1px 6px; border-radius:99px; text-transform:uppercase;">Social Wall</span>
+            </a>
+            <a href="#campus-news-section" class="btn-secondary" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.25rem; font-size:0.88rem; text-decoration:none;">
+              <span>Browse News Dispatches</span>
+            </a>
+          </div>
+
+          <!-- Interactive scroll prompt -->
+          <div class="scroll-prompt-indicator">
+            <div class="mouse-scroll-icon">
+              <div class="mouse-wheel-dot"></div>
+            </div>
+            <span class="scroll-prompt-text">Scroll Down to Discover Stories</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY 2: CHAPTER 1 — DISCOVERY & STUDENTS -->
+      <div id="overlay-2" class="overlay-stage">
+        <div class="scrolly-floating-content">
+          <div class="scrolly-pill-badge pill-cyan">
+            <span class="pill-dot bg-cyan"></span>
+            <span>CHAPTER 01 // CURIOSITY & ACADEMIA</span>
+          </div>
+
+          <h2 class="scrolly-section-title">
+            Curiosity Ignited in <br />
+            <span class="gradient-text-cyan">Every Lecture Hall</span>
+          </h2>
+
+          <p class="scrolly-desc">
+            Across 50 lush acres in Pitipana, Homagama, NSBM isn’t just an academic campus—it’s an engine of creative innovation. Student researchers, debaters, and coders challenge convention every single day.
+          </p>
+
+          <div class="scrolly-metrics-row">
+            <div class="metric-capsule">
+              <div class="metric-number metric-white">12,000+</div>
+              <div class="metric-label">Undergraduates</div>
+            </div>
+            <div class="metric-capsule">
+              <div class="metric-number metric-cyan">04</div>
+              <div class="metric-label">Faculties</div>
+            </div>
+            <div class="metric-capsule">
+              <div class="metric-number metric-emerald">50+</div>
+              <div class="metric-label">Clubs & Desks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY 3: CHAPTER 2 — SUSTAINABILITY & INNOVATION -->
+      <div id="overlay-3" class="overlay-stage">
+        <div class="scrolly-floating-content">
+          <div class="scrolly-pill-badge pill-emerald">
+            <span class="pill-dot bg-emerald"></span>
+            <span>CHAPTER 02 // SUSTAINABILITY IN PRACTICE</span>
+          </div>
+
+          <h2 class="scrolly-section-title">
+            South Asia’s First <br />
+            <span class="gradient-text-emerald">Green University</span>
+          </h2>
+
+          <p class="scrolly-desc">
+            Engineered from the ground up for environmental harmony: rainwater harvesting cascades through landscaped wetlands, solar arrays power laboratories, and carbon-negative building envelopes keep classrooms cool naturally.
+          </p>
+
+          <div class="scrolly-features-row">
+            <div class="feature-pill">
+              <span class="feature-check">✓</span>
+              <span>100% Recycled Greywater Irrigation Network</span>
+            </div>
+            <div class="feature-pill">
+              <span class="feature-check">✓</span>
+              <span>Smart IoT Energy Monitoring Grid</span>
+            </div>
+            <div class="feature-pill">
+              <span class="feature-check">✓</span>
+              <span>Biodiversity Preserves & Native Flora Corridors</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY 4: CHAPTER 3 — STUDENT JOURNALISM DESK -->
+      <div id="overlay-4" class="overlay-stage">
+        <div class="scrolly-floating-content">
+          <div class="scrolly-pill-badge pill-purple">
+            <span class="pill-dot bg-purple"></span>
+            <span>CHAPTER 03 // STUDENT PRESS SYNDICATE</span>
+          </div>
+
+          <h2 class="scrolly-section-title">
+            Be Part of the <br />
+            <span class="gradient-text-purple">Next Headline</span>
+          </h2>
+
+          <p class="scrolly-desc">
+            NSBM NewsDesk is powered by student reporters, photojournalists, and faculty editors. Pitch your story for editorial review or browse recent campus beats.
+          </p>
+
+          <div class="scrolly-actions-row">
+            <a href="student-dashboard.html" class="btn-primary">
+              Submit an Article
+            </a>
+            <a href="#campus-news-section" class="btn-secondary">
+              Browse Newsfeed ↓
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =================================================================
+       5. FEATURED ANNOUNCEMENTS SECTION
+  ================================================================== -->
+  <section id="announcements-section" class="section-landing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-mono uppercase tracking-widest">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
+            OFFICIAL CAMPUS DIRECTIVES
+          </div>
+          <h2>Featured Announcements</h2>
+        </div>
+        <p class="section-subtitle">
+          Administrative directives, event schedules, and varsity sports announcements curated directly by the Vice Chancellor's bureau and student affairs.
+        </p>
+      </div>
+
+      <!-- Announcements Grid (Populated dynamically via js/landing.js) -->
+      <div id="announcements-container" class="announcements-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       6. CATEGORIES SECTION (Academic, Events, Sports, General, etc.)
+  ================================================================== -->
+  <section id="categories-section" class="section-landing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-mono uppercase tracking-widest">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+            EDITORIAL BEATS & TAXONOMY
+          </div>
+          <h2>Explore by Category</h2>
+        </div>
+        <p class="section-subtitle">
+          From academic research and faculty notices to varsity sports and campus events—select a category to filter stories or subscribe to notifications.
+        </p>
+      </div>
+
+      <!-- Categories Grid (Populated dynamically via js/landing.js with clean SVG icons) -->
+      <div id="categories-container" class="categories-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       7. LATEST CAMPUS NEWS GRID & SEARCH/FILTER BAR
+  ================================================================== -->
+  <section id="campus-news-section" class="section-landing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-group">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono uppercase tracking-widest">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+            CAMPUS DISPATCHES & REPORTS
+          </div>
+          <h2>Latest News & Investigative Stories</h2>
+        </div>
+        <p class="section-subtitle">
+          Fact-checked, uncompromising journalism produced independently by the students and faculty researchers of NSBM Green University.
+        </p>
+      </div>
+
+      <!-- Filter Tabs & Search Bar -->
+      <div class="filter-tabs-wrapper">
+        <div id="filter-tabs-container" class="filter-tabs">
+          <!-- Populated via JS -->
+        </div>
+
+        <div class="search-box">
+          <span class="search-icon" id="search-icon-slot"></span>
+          <input 
+            type="text" 
+            id="news-search-input" 
+            class="search-input" 
+            placeholder="Search dispatches, authors, topics..." 
+          />
+          <button type="button" id="search-clear-btn" class="search-clear-btn" style="display: none;" title="Clear search">✕</button>
+        </div>
+      </div>
+
+      <!-- News Cards Grid (Populated dynamically via js/landing.js) -->
+      <div id="news-grid-container" class="news-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================
+       8. STORY READER MODAL (WITH COMMENTS & DISCUSSION)
+  ================================================================== -->
+  <div id="reader-modal" class="modal-backdrop">
+    <div class="modal-content-card">
+      <button id="modal-close-btn" class="modal-close-btn" title="Close Reader">✕</button>
+
+      <div class="modal-header-meta">
+        <span id="modal-cat-badge" class="badge-category badge-academic">Academic</span>
+        <span id="modal-read-time" class="text-xs text-zinc-400 font-mono">6 min read</span>
+      </div>
+
+      <h2 id="modal-title" class="modal-title">Article Headline</h2>
+
+      <div class="modal-author-strip">
+        <div class="flex items-center gap-3">
+          <div class="author-avatar" id="modal-author-avatar">N</div>
+          <div>
+            <div id="modal-author" class="font-bold text-xs">Author Name</div>
+            <div id="modal-author-role" class="text-[11px] text-zinc-400">Campus Journalist</div>
+          </div>
+        </div>
+        <div id="modal-date" class="text-xs text-zinc-400 font-mono">Date</div>
+      </div>
+
+      <!-- Full Body Content -->
+      <div id="modal-body-content" class="modal-body">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Modal Bottom Actions -->
+      <div class="flex items-center justify-between pb-6 border-b border-white/10 text-xs">
+        <button id="modal-share-btn" class="btn-secondary text-xs">
+          <span id="modal-share-icon"></span> Share Story
+        </button>
+        <span class="text-zinc-400 font-mono text-[11px]">NSBM Verified Press Syndicate</span>
+      </div>
+
+      <!-- Article Discussion & Commenting Thread -->
+      <div class="modal-discussion-section">
+        <div class="modal-discussion-title">
+          <span id="modal-discussion-icon"></span>
+          <span>Student & Faculty Discussion</span>
+        </div>
+
+        <form id="modal-comment-form" class="comment-input-box">
+          <textarea 
+            id="modal-comment-input" 
+            class="comment-textarea" 
+            placeholder="Add your constructive perspective to this campus dispatch..." 
+            required
+          ></textarea>
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] text-zinc-400 font-mono">Comments are moderated under NSBM Media Guild standards</span>
+            <button type="submit" class="btn-primary text-xs py-2 px-5">
+              Post Comment
+            </button>
+          </div>
+        </form>
+
+        <div id="modal-comments-list" class="comments-list">
+          <!-- Comments rendered via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       9. NEWSLETTER & FOOTER
+  ================================================================== -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <span class="font-editorial text-2xl font-bold">
+              NSBM <span class="text-brand-accent">NewsDesk</span>
+            </span>
+            <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-white/10 text-zinc-400 font-semibold">Campus News System</span>
+          </div>
+          <p class="text-xs text-zinc-400 max-w-md">
+            Published independently by the Student Media Guild at NSBM Green University, Mahenwaththa, Pitipana, Homagama, Sri Lanka.
+          </p>
+        </div>
+
+        <form id="newsletter-form" class="flex flex-col sm:flex-row items-center gap-2 max-w-md w-full">
+          <input 
+            type="email" 
+            id="newsletter-email" 
+            placeholder="Enter your campus email for dispatches..." 
+            required 
+            class="form-input text-xs" 
+          />
+          <button type="submit" class="btn-primary text-xs shrink-0 w-full sm:w-auto">
+            Subscribe
+          </button>
+        </form>
+      </div>
+
+      <div id="newsletter-msg" class="hidden text-xs text-emerald-400 font-mono mb-4 text-center"></div>
+
+      <div class="footer-bottom">
+        <div>© 2026 NSBM NewsDesk — Campus News Management System. Faculty of Computing.</div>
+        <div class="flex items-center gap-6">
+          <a href="login.html" class="text-zinc-400 hover:text-white transition-colors">Portal Login</a>
+          <a href="register.html" class="text-zinc-400 hover:text-white transition-colors">Register</a>
+          <a href="student-dashboard.html" class="text-zinc-400 hover:text-white transition-colors">Student Panel</a>
+          <a href="admin-dashboard.html" class="text-zinc-400 hover:text-white transition-colors">Admin Desk</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modular Scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/data-store.js"></script>
+  <script src="js/scrolly.js"></script>
+  <script src="js/landing.js"></script>
+</body>
+</html>

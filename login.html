@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — NSBM NewsDesk Campus Management System</title>
+  <meta name="description" content="Secure portal login for students, faculty journalists, and editors at NSBM Green University NewsDesk." />
+
+  <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+
+  <!-- Theme Script -->
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Ambient Light Backdrops -->
+  <div class="glow-sphere glow-sphere-1"></div>
+  <div class="glow-sphere glow-sphere-2"></div>
+
+  <main class="auth-viewport">
+
+    <!-- Top Navigation Row -->
+    <div class="auth-nav-top">
+      <a href="index.html" class="auth-back-link">
+        <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Back to Public Portal</span>
+      </a>
+      <button type="button" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+        <span class="theme-toggle-icon"></span>
+        <span class="theme-toggle-text text-[11px]">Theme</span>
+      </button>
+    </div>
+
+    <!-- Main Split Layout -->
+    <div class="auth-split-wrapper">
+
+      <!-- Left Branded Editorial Side -->
+      <section class="auth-brand-side">
+        <div class="auth-brand-logo-group">
+          <div class="auth-brand-logo-icon">N</div>
+          <div>
+            <h1 class="auth-brand-heading">
+              NSBM <span>NewsDesk</span>
+            </h1>
+            <div style="font-size: 0.8125rem; font-weight: 600; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px;">
+              Campus Press Syndicate
+            </div>
+          </div>
+        </div>
+
+        <p class="auth-brand-text">
+          Connect with Sri Lanka's premier green university journalism portal. Publish investigative reports, access breaking campus bulletins, and engage in real-time academic discussions.
+        </p>
+
+        <div class="auth-brand-features">
+          <div class="auth-feature-item">
+            <div class="auth-feature-dot">✓</div>
+            <span><strong>Student Journalism Portal</strong> — Draft, submit, and track research articles</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-dot">✓</div>
+            <span><strong>Campus Buzz Social Wall</strong> — Connect with classmates, clubs, and leaders</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-dot">✓</div>
+            <span><strong>Editorial Review Suite</strong> — Peer-moderated student dispatches and directives</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Login Card (Facebook-Inspired) -->
+      <section class="auth-card">
+        
+        <div class="auth-header">
+          <h2 class="auth-title">Log In to NewsDesk</h2>
+          <p class="auth-subtitle">Select your account role and enter your credentials.</p>
+        </div>
+
+        <!-- Alert Box -->
+        <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+        <!-- Role Selector (Segmented Pill Switch) -->
+        <div class="role-selector-group">
+          <button type="button" class="role-tab-btn active" data-role="student">
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            <span>Student Panel</span>
+          </button>
+          <button type="button" class="role-tab-btn" data-role="admin">
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Admin Desk</span>
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email" class="form-label">Campus Email Address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <input 
+                type="email" 
+                id="login-email" 
+                class="form-input" 
+                placeholder="student@students.nsbm.ac.lk" 
+                required 
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="flex items-center justify-between mb-1">
+              <label for="login-password" class="form-label" style="margin-bottom: 0;">Password</label>
+              <a href="#" class="auth-link text-xs">Forgot password?</a>
+            </div>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input 
+                type="password" 
+                id="login-password" 
+                class="form-input" 
+                placeholder="••••••••••••" 
+                required 
+              />
+              <button type="button" class="password-toggle-btn" data-target="login-password" title="Toggle password visibility">
+                <span class="pw-eye-slot">
+                  <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Prominent Facebook Blue Submit Button -->
+          <button type="submit" class="btn-fb-login">
+            <span>Log In to Portal</span>
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </form>
+
+        <!-- Facebook-style Divider -->
+        <div class="auth-divider">
+          <span>or</span>
+        </div>
+
+        <!-- Facebook-green Create New Account Button -->
+        <div style="text-align: center;">
+          <a href="register.html" class="btn-fb-create">
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            <span>Create New Account</span>
+          </a>
+        </div>
+
+        <!-- Quick Demo Login for Instant Testing -->
+        <div class="demo-quick-box">
+          <div class="demo-quick-title">Quick Demo Login (One-Click)</div>
+          <div class="demo-btn-row">
+            <button type="button" id="demo-student-btn" class="btn-demo">
+              <svg class="svg-icon-sm text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              <span>Student Demo</span>
+            </button>
+            <button type="button" id="demo-admin-btn" class="btn-demo">
+              <svg class="svg-icon-sm text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Admin Demo</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modular Scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/data-store.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

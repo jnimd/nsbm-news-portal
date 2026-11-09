@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Panel — NSBM NewsDesk Campus Management System</title>
+  <meta name="description" content="Student portal to browse news, filter by category/date, bookmark dispatches, manage category subscriptions, and submit articles for editorial approval." />
+
+  <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+
+  <!-- Theme Script -->
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Ambient Light Backdrops -->
+  <div class="glow-sphere glow-sphere-1"></div>
+  <div class="glow-sphere glow-sphere-2"></div>
+
+  <div class="dashboard-layout">
+    
+    <!-- =============================================================
+         1. SIDEBAR NAVIGATION
+    ============================================================== -->
+    <aside class="dashboard-sidebar">
+      <div>
+        <a href="index.html" class="sidebar-brand">
+          <div class="nav-brand-logo" style="width: 2.25rem; height: 2.25rem;">
+            <div class="nav-brand-inner" style="font-size: 0.875rem;">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+            </div>
+          </div>
+          <div>
+            <div class="nav-brand-text" style="font-size: 1.125rem;">NSBM NewsDesk</div>
+            <div class="nav-brand-sub">Student Portal</div>
+          </div>
+        </a>
+
+        <!-- User Profile Card -->
+        <div class="sidebar-user-card">
+          <div class="sidebar-avatar">KP</div>
+          <div class="sidebar-user-info">
+            <span id="user-profile-name" class="sidebar-user-name">Kasun Perera</span>
+            <span id="user-profile-id" class="sidebar-user-role">NSBM-IT-24-9021</span>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="sidebar-menu">
+          <button class="sidebar-tab-btn active" data-tab="browse">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="tab-icon-browse"></span>
+              <span>Browse News</span>
+            </div>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="submit">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="tab-icon-submit"></span>
+              <span>Submit Article</span>
+            </div>
+            <span class="sidebar-tab-badge">Draft</span>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="submissions">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="tab-icon-submissions"></span>
+              <span>My Submissions</span>
+            </div>
+            <span id="badge-submissions-count" class="sidebar-tab-badge">0</span>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="bookmarks">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="tab-icon-bookmarks"></span>
+              <span>My Bookmarks</span>
+            </div>
+            <span id="badge-bookmarks-count" class="sidebar-tab-badge">0</span>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="subscriptions">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="tab-icon-subscriptions"></span>
+              <span>Category Subscriptions</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <a href="campus-feed.html" class="sidebar-tab-btn" style="color:var(--accent-primary);">
+          <div class="sidebar-tab-left">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <span>Campus Buzz Feed</span>
+          </div>
+        </a>
+        <a href="index.html" class="sidebar-tab-btn">
+          <div class="sidebar-tab-left">
+            <span id="tab-icon-portal"></span>
+            <span>Public News Portal</span>
+          </div>
+        </a>
+        <button id="logout-btn" class="sidebar-tab-btn text-rose-400 hover:text-rose-300">
+          <div class="sidebar-tab-left">
+            <span id="tab-icon-logout"></span>
+            <span>Sign Out</span>
+          </div>
+        </button>
+      </div>
+    </aside>
+
+    <!-- =============================================================
+         2. MAIN DASHBOARD CONTENT AREA
+    ============================================================== -->
+    <main class="dashboard-main">
+      
+      <!-- Topbar Header -->
+      <header class="dashboard-topbar">
+        <div class="flex items-center gap-3">
+          <button id="mobile-toggle-btn" class="mobile-toggle-btn" aria-label="Toggle Menu">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-title-group">
+            <h1>Student Journalism Desk</h1>
+          </div>
+        </div>
+
+        <div class="topbar-actions flex items-center gap-3">
+          <!-- Campus Buzz Quick Link -->
+          <a href="campus-feed.html" class="btn-primary text-xs hidden sm:inline-flex" style="gap:0.4rem; padding:0.4rem 0.85rem;">
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <span>Campus Buzz</span>
+          </a>
+
+          <!-- Light / Dark Theme Toggle Button -->
+          <button type="button" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+            <span class="theme-toggle-icon"></span>
+            <span class="theme-toggle-text hidden sm:inline">Theme</span>
+          </button>
+
+          <a href="index.html#campus-news-section" class="btn-secondary text-xs hidden sm:inline-flex">
+            Public Newsfeed ↗
+          </a>
+          <button class="btn-primary text-xs" onclick="document.querySelector('.sidebar-tab-btn[data-tab=\'submit\']').click()">
+            + Pitch Story
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Views -->
+      <div class="dashboard-content-area">
+
+        <!-- Top Overview Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <div id="stat-published-count" class="stat-number">0</div>
+              <div class="stat-label">Published Dispatches</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-blue" id="stat-icon-published"></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div id="stat-pending-count" class="stat-number">0</div>
+              <div class="stat-label">My In-Review Stories</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-amber" id="stat-icon-pending"></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div id="stat-bookmarks-count" class="stat-number">0</div>
+              <div class="stat-label">Saved Bookmarks</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-purple" id="stat-icon-bookmarks"></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div id="stat-subs-count" class="stat-number">0</div>
+              <div class="stat-label">Subscribed Beats</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-green" id="stat-icon-subs"></div>
+          </div>
+        </div>
+
+        <!-- ===========================================================
+             VIEW 1: BROWSE NEWS (SEARCH, CATEGORY & DATE FILTERS)
+        ============================================================ -->
+        <section id="view-browse" class="dashboard-view-pane active">
+          <div class="panel-card">
+            <div class="panel-header">
+              <h2 class="panel-title">Explore Campus News & Research</h2>
+              <span class="text-xs text-zinc-400 font-mono">Fact-Checked Student Syndicate</span>
+            </div>
+
+            <!-- Filter & Search Controls -->
+            <div class="dash-filter-bar">
+              <div class="dash-filter-controls">
+                <!-- Category Filter (Academic, Events, Sports, General, etc.) -->
+                <select id="student-cat-filter" class="form-select text-xs" style="max-width: 14rem;">
+                  <!-- Populated via JS -->
+                </select>
+
+                <!-- Date Filter Input -->
+                <input 
+                  type="date" 
+                  id="student-date-filter" 
+                  class="form-select text-xs" 
+                  style="max-width: 12rem;" 
+                  title="Filter articles by publication date"
+                />
+
+                <button type="button" id="student-reset-filters" class="btn-secondary text-xs" style="padding: 0.55rem 0.9rem;">
+                  Reset
+                </button>
+              </div>
+
+              <!-- Keyword Search -->
+              <div class="search-box">
+                <span class="search-icon" id="student-search-icon-slot"></span>
+                <input 
+                  type="text" 
+                  id="student-search-input" 
+                  class="search-input" 
+                  placeholder="Search articles, authors, topics..." 
+                />
+              </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div id="student-news-container" class="news-grid">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             VIEW 2: SUBMIT ARTICLE FORM INTERFACE (FOR APPROVAL)
+        ============================================================ -->
+        <section id="view-submit" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Submit Article for Editorial Approval</h2>
+                <p class="text-xs text-zinc-400 mt-1">
+                  Draft and submit your investigative scoops, club reviews, or academic research for review by the Chief Editor.
+                </p>
+              </div>
+              <span class="badge-category badge-academic">Editor Approval Required</span>
+            </div>
+
+            <div id="submit-alert" class="auth-alert" style="display: none; margin-bottom: 1.5rem;"></div>
+
+            <form id="submit-article-form">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="sub-title" class="form-label">Article Headline / Title *</label>
+                  <input 
+                    type="text" 
+                    id="sub-title" 
+                    class="form-input" 
+                    placeholder="e.g., Breakthrough in Solar Battery Storage at Faculty of Engineering" 
+                    required 
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="sub-category" class="form-label">Primary Category Beat *</label>
+                  <select id="sub-category" class="form-select" required>
+                    <option value="Academic">Academic (Research, Faculty notices, Curriculum)</option>
+                    <option value="Events">Events (Hackathons, Galas, Expos, Convocations)</option>
+                    <option value="Sports">Sports (Rugby, Cricket, Swimming, Athletics)</option>
+                    <option value="General">General (Official notices, Campus safety, Shuttle)</option>
+                    <option value="Computing & AI">Computing & AI (Software, Tech, Robotics)</option>
+                    <option value="Sustainability">Sustainability (Green audits, Energy, Waste)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="sub-readtime" class="form-label">Estimated Read Time</label>
+                  <input 
+                    type="text" 
+                    id="sub-readtime" 
+                    class="form-input" 
+                    placeholder="e.g., 5 min read" 
+                    value="4 min read" 
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="sub-image" class="form-label">Campus Story Cover Photography</label>
+                  <select id="sub-image" class="form-select">
+                    <option value="1im/ezgif-frame-045.jpg">Faculty of Computing Edge-AI Lab & Diagnostics</option>
+                    <option value="2im/ezgif-frame-080.jpg">Green University Plaza & Recreation Dome</option>
+                    <option value="3im/ezgif-frame-110.jpg">NSBM International Sports Ground & Rugby Match</option>
+                    <option value="1im/ezgif-frame-090.jpg">Campus Wetlands & Solar Harvesting Array</option>
+                    <option value="2im/ezgif-frame-130.jpg">Administrative Council & Faculty Board Chambers</option>
+                    <option value="3im/ezgif-frame-020.jpg">Student Cultural Stage & Amphitheatre Canopy</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="sub-excerpt" class="form-label">Summary / Teaser Excerpt (1-2 sentences) *</label>
+                <input 
+                  type="text" 
+                  id="sub-excerpt" 
+                  class="form-input" 
+                  placeholder="A concise overview displayed on the card preview..." 
+                  required 
+                />
+              </div>
+
+              <div class="form-group">
+                <div class="flex items-center justify-between mb-1">
+                  <label for="sub-content" class="form-label" style="margin-bottom: 0;">Full Article Content *</label>
+                  <span id="sub-char-count" class="text-xs text-zinc-400 font-mono">0 characters</span>
+                </div>
+                <textarea 
+                  id="sub-content" 
+                  class="form-textarea" 
+                  placeholder="Write your complete journalistic scoop or campus report here. Use multiple paragraphs for readability..." 
+                  required
+                ></textarea>
+              </div>
+
+              <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                <span class="text-xs text-zinc-400">
+                  Submissions are reviewed within 24 hours under NSBM Media Guild standards.
+                </span>
+                <button type="submit" class="btn-primary">
+                  Submit for Editorial Review →
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             VIEW 3: MY SUBMISSIONS STATUS TRACKER
+        ============================================================ -->
+        <section id="view-submissions" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">My Article Submissions Status</h2>
+                <p class="text-xs text-zinc-400 mt-1">
+                  Track the progress of your submitted articles as they move through editorial review, feedback, and publishing.
+                </p>
+              </div>
+            </div>
+
+            <div id="student-submissions-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             VIEW 4: MY BOOKMARKS
+        ============================================================ -->
+        <section id="view-bookmarks" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Saved Articles & Reading List</h2>
+                <p class="text-xs text-zinc-400 mt-1">Stories bookmarked for offline study, citation, or future reference.</p>
+              </div>
+            </div>
+
+            <div id="student-bookmarks-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             VIEW 5: CATEGORY SUBSCRIPTIONS (TOPIC 1 REQUIREMENT)
+        ============================================================ -->
+        <section id="view-subscriptions" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Manage News Category Subscriptions</h2>
+                <p class="text-xs text-zinc-400 mt-1">
+                  Subscribe to specific news beats (Academic, Events, Sports, General, etc.) to receive tailored dispatches and alerts.
+                </p>
+              </div>
+            </div>
+
+            <div id="student-subscriptions-container" class="categories-grid" style="grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- STORY READER MODAL (STUDENT PANEL) -->
+  <div id="student-reader-modal" class="modal-backdrop">
+    <div class="modal-content-card">
+      <button onclick="closeStudentModal()" class="modal-close-btn" title="Close">✕</button>
+
+      <div class="modal-header-meta">
+        <span id="modal-read-cat" class="badge-category badge-academic">Academic</span>
+        <span id="modal-read-time" class="text-xs text-zinc-400 font-mono">4 min read</span>
+      </div>
+
+      <h2 id="modal-read-title" class="modal-title">Headline</h2>
+
+      <div class="modal-author-strip">
+        <div class="flex items-center gap-2">
+          <span class="author-name font-bold" id="modal-read-author">Author</span>
+          <span class="text-zinc-500">•</span>
+          <span class="text-zinc-400 text-xs font-mono" id="modal-read-date">Date</span>
+        </div>
+      </div>
+
+      <div id="modal-read-body" class="modal-body"></div>
+
+      <!-- Live Discussion Section -->
+      <div class="modal-discussion-section">
+        <div class="modal-discussion-title flex items-center gap-2">
+          <span id="modal-discuss-icon-slot"></span>
+          <span>Student Comments & Discussion</span>
+        </div>
+
+        <form id="student-comment-form" class="comment-input-box">
+          <textarea 
+            id="student-comment-input" 
+            class="comment-textarea" 
+            placeholder="Write a constructive, fact-based comment on this dispatch..." 
+            required
+          ></textarea>
+          <div class="flex justify-end">
+            <button type="submit" class="btn-primary text-xs py-2 px-5">
+              Add Comment
+            </button>
+          </div>
+        </form>
+
+        <div id="student-comments-list" class="comments-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/data-store.js"></script>
+  <script src="js/student-dashboard.js"></script>
+</body>
+</html>

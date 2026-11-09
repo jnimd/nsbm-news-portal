@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Editorial Suite — NSBM NewsDesk Campus Management System</title>
+  <meta name="description" content="Administrative control center for full CRUD article management, student submission approval queue, announcements manager, category beats, comment moderation, and readership analytics." />
+
+  <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+
+  <!-- Theme Script -->
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Ambient Light Backdrops -->
+  <div class="glow-sphere glow-sphere-1"></div>
+  <div class="glow-sphere glow-sphere-2"></div>
+
+  <div class="dashboard-layout">
+    
+    <!-- =============================================================
+         1. ADMIN SIDEBAR NAVIGATION
+    ============================================================== -->
+    <aside class="dashboard-sidebar">
+      <div>
+        <a href="index.html" class="sidebar-brand">
+          <div class="nav-brand-logo" style="width: 2.25rem; height: 2.25rem;">
+            <div class="nav-brand-inner" style="font-size: 0.875rem;">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+            </div>
+          </div>
+          <div>
+            <div class="nav-brand-text" style="font-size: 1.125rem;">NSBM NewsDesk</div>
+            <div class="nav-brand-sub" style="color: var(--brand-accent);">Admin Editorial Suite</div>
+          </div>
+        </a>
+
+        <!-- Admin Profile Card -->
+        <div class="sidebar-user-card">
+          <div class="sidebar-avatar" style="background: linear-gradient(135deg, var(--brand-accent), var(--brand-emerald));">
+            PK
+          </div>
+          <div class="sidebar-user-info">
+            <span id="admin-profile-name" class="sidebar-user-name">Dr. Priyantha Kumar</span>
+            <span id="admin-profile-title" class="sidebar-user-role">Chief Editor</span>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="sidebar-menu">
+          <button class="sidebar-tab-btn active" data-tab="overview">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="admin-tab-icon-overview"></span>
+              <span>Readership & Reports</span>
+            </div>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="articles">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="admin-tab-icon-articles"></span>
+              <span>Articles (CRUD)</span>
+            </div>
+            <span id="badge-admin-articles" class="sidebar-tab-badge">0</span>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="approvals">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="admin-tab-icon-approvals"></span>
+              <span>Submission Approvals</span>
+            </div>
+            <span id="badge-admin-pending" class="sidebar-tab-badge" style="background: var(--brand-amber); color: #000;">0</span>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="announcements">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="admin-tab-icon-announcements"></span>
+              <span>Announcements & Ticker</span>
+            </div>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="categories">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="admin-tab-icon-categories"></span>
+              <span>Category Manager</span>
+            </div>
+          </button>
+
+          <button class="sidebar-tab-btn" data-tab="comments">
+            <div class="sidebar-tab-left">
+              <span class="sidebar-tab-icon" id="admin-tab-icon-comments"></span>
+              <span>Comment Moderation</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <a href="campus-feed.html" class="sidebar-tab-btn" style="color:var(--accent-primary);">
+          <div class="sidebar-tab-left">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <span>Campus Buzz Feed</span>
+          </div>
+        </a>
+        <a href="index.html" class="sidebar-tab-btn">
+          <div class="sidebar-tab-left">
+            <span id="admin-tab-icon-portal"></span>
+            <span>Live Portal View</span>
+          </div>
+        </a>
+        <button id="admin-logout-btn" class="sidebar-tab-btn text-rose-400 hover:text-rose-300">
+          <div class="sidebar-tab-left">
+            <span id="admin-tab-icon-logout"></span>
+            <span>Sign Out</span>
+          </div>
+        </button>
+      </div>
+    </aside>
+
+    <!-- =============================================================
+         2. MAIN DASHBOARD CONTENT AREA
+    ============================================================== -->
+    <main class="dashboard-main">
+      
+      <!-- Topbar Header -->
+      <header class="dashboard-topbar">
+        <div class="flex items-center gap-3">
+          <button id="mobile-toggle-btn" class="mobile-toggle-btn" aria-label="Toggle Menu">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-title-group">
+            <h1>Editorial & Content Management</h1>
+          </div>
+        </div>
+
+        <div class="topbar-actions flex items-center gap-3">
+          <!-- Campus Buzz Quick Link -->
+          <a href="campus-feed.html" class="btn-secondary text-xs hidden sm:inline-flex" style="gap:0.4rem; padding:0.4rem 0.85rem;">
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <span>Campus Buzz</span>
+          </a>
+
+          <!-- Light / Dark Theme Toggle Button -->
+          <button type="button" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+            <span class="theme-toggle-icon"></span>
+            <span class="theme-toggle-text hidden sm:inline">Theme</span>
+          </button>
+
+          <button class="btn-primary text-xs" onclick="openCreateArticleModal()">
+            + Create New Dispatch
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Views -->
+      <div class="dashboard-content-area">
+
+        <!-- Top Overview Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <div id="admin-stat-articles" class="stat-number">0</div>
+              <div class="stat-label">Published Articles</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-blue" id="stat-icon-admin-articles"></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div id="admin-stat-views" class="stat-number">0</div>
+              <div class="stat-label">Total Readership Views</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-purple" id="stat-icon-admin-views"></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div id="admin-stat-pending" class="stat-number">0</div>
+              <div class="stat-label">Pending Approval Queue</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-amber" id="stat-icon-admin-pending"></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div id="admin-stat-comments" class="stat-number">0</div>
+              <div class="stat-label">Reader Comments</div>
+            </div>
+            <div class="stat-icon-bubble stat-icon-green" id="stat-icon-admin-comments"></div>
+          </div>
+        </div>
+
+        <!-- ===========================================================
+             TAB 1: READERSHIP REPORTS & ANALYTICS (ASSIGNMENT REQUIREMENT)
+        ============================================================ -->
+        <section id="view-overview" class="dashboard-view-pane active">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Category Distribution Bar Chart -->
+            <div class="panel-card lg:col-span-2">
+              <div class="panel-header">
+                <div>
+                  <h2 class="panel-title">Readership Distribution by Category Beat</h2>
+                  <p class="text-xs text-zinc-400 mt-1">
+                    Visual audit of published dispatches across Academic, Events, Sports, General, and Science faculties.
+                  </p>
+                </div>
+                <button type="button" class="btn-secondary text-xs" onclick="window.print()">
+                  Print / Export Report
+                </button>
+              </div>
+
+              <div id="admin-category-chart" class="analytics-chart-container">
+                <!-- Rendered dynamically via JS -->
+              </div>
+            </div>
+
+            <!-- Top Performing Stories -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <div>
+                  <h2 class="panel-title">Top Read Campus Stories</h2>
+                  <p class="text-xs text-zinc-400 mt-1">Highest reader engagement</p>
+                </div>
+              </div>
+
+              <div id="admin-top-stories-list" class="flex flex-col gap-3">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             TAB 2: ARTICLES FULL CRUD OPERATIONS
+        ============================================================ -->
+        <section id="view-articles" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Manage Campus News Articles (Full CRUD)</h2>
+                <p class="text-xs text-zinc-400 mt-1">Create, edit, view, and delete news articles across all university beats.</p>
+              </div>
+              <button class="btn-primary text-xs" onclick="openCreateArticleModal()">
+                + New Article
+              </button>
+            </div>
+
+            <!-- Search & Filter Controls -->
+            <div class="dash-filter-bar">
+              <div class="dash-filter-controls">
+                <select id="admin-articles-cat-filter" class="form-select text-xs" style="max-width: 14rem;">
+                  <option value="all">All Categories</option>
+                </select>
+              </div>
+
+              <div class="search-box">
+                <span class="search-icon" id="admin-search-icon-slot"></span>
+                <input 
+                  type="text" 
+                  id="admin-articles-search" 
+                  class="search-input" 
+                  placeholder="Search articles by title or author..." 
+                />
+              </div>
+            </div>
+
+            <!-- Table of Articles -->
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Headline</th>
+                    <th>Category</th>
+                    <th>Byline</th>
+                    <th>Views</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-articles-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             TAB 3: SUBMISSION APPROVALS QUEUE
+        ============================================================ -->
+        <section id="view-approvals" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Student Article Approval Queue</h2>
+                <p class="text-xs text-zinc-400 mt-1">
+                  Review student pitches, approve verified stories to publish directly to the live newsfeed, or request revisions.
+                </p>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Ref ID</th>
+                    <th>Submitted Headline</th>
+                    <th>Category</th>
+                    <th>Student Author</th>
+                    <th>Status</th>
+                    <th>Editorial Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-submissions-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             TAB 4: ANNOUNCEMENTS & TICKER MANAGER (ASSIGNMENT REQUIREMENT)
+        ============================================================ -->
+        <section id="view-announcements" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Announcements & Breaking News Management</h2>
+                <p class="text-xs text-zinc-400 mt-1">
+                  Publish campus bulletins, administrative directives, and emergency alerts to the homepage ticker and announcements grid.
+                </p>
+              </div>
+              <button class="btn-primary text-xs" onclick="openCreateAnnouncementModal()">
+                + Create Announcement
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Ref</th>
+                    <th>Title & Summary</th>
+                    <th>Category Beat</th>
+                    <th>Badge Type</th>
+                    <th>Published Date</th>
+                    <th>Pinned Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-announcements-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             TAB 5: CATEGORY MANAGEMENT (TOPIC 1 REQUIREMENT)
+        ============================================================ -->
+        <section id="view-categories" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Editorial Beats & Category Taxonomy</h2>
+                <p class="text-xs text-zinc-400 mt-1">Manage categories (Academic, Events, Sports, General, etc.) and their visual themes.</p>
+              </div>
+              <button class="btn-primary text-xs" onclick="openAddCategoryModal()">
+                + Add Category
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Icon</th>
+                    <th>Category Name</th>
+                    <th>Slug ID</th>
+                    <th>Description</th>
+                    <th>Articles</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-categories-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===========================================================
+             TAB 6: COMMENT MODERATION
+        ============================================================ -->
+        <section id="view-comments" class="dashboard-view-pane">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Discussion & Comment Moderation</h2>
+                <p class="text-xs text-zinc-400 mt-1">
+                  Monitor student discussions for academic integrity and compliance with NSBM community guidelines.
+                </p>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Commenter</th>
+                    <th>Comment Message</th>
+                    <th>Article Target</th>
+                    <th>Timestamp</th>
+                    <th>Moderation</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-comments-tbody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- =============================================================
+       MODAL 1: CREATE / EDIT ARTICLE MODAL (FULL CRUD)
+  ============================================================== -->
+  <div id="admin-article-modal" class="modal-backdrop">
+    <div class="modal-content-card">
+      <button onclick="closeArticleModal()" class="modal-close-btn" title="Close">✕</button>
+
+      <h2 id="modal-editor-title" class="modal-title" style="font-size: 1.75rem; margin-bottom: 1.5rem;">
+        Create New Campus Dispatch
+      </h2>
+
+      <form id="admin-article-form">
+        <div class="form-group">
+          <label for="modal-art-title" class="form-label">Article Headline *</label>
+          <input type="text" id="modal-art-title" class="form-input" required />
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="modal-art-category" class="form-label">Beat / Category *</label>
+            <select id="modal-art-category" class="form-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-art-author" class="form-label">Byline / Author *</label>
+            <input type="text" id="modal-art-author" class="form-input" value="Dr. Priyantha Kumar" required />
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="modal-art-readtime" class="form-label">Read Time</label>
+            <input type="text" id="modal-art-readtime" class="form-input" value="5 min read" />
+          </div>
+
+          <div class="form-group">
+            <label for="modal-art-image" class="form-label">Campus Photography Asset</label>
+            <select id="modal-art-image" class="form-select">
+              <option value="1im/ezgif-frame-045.jpg">Faculty of Computing Edge-AI Lab & Diagnostics</option>
+              <option value="2im/ezgif-frame-080.jpg">Green University Plaza & Amphitheatre</option>
+              <option value="3im/ezgif-frame-110.jpg">NSBM International Sports Ground & Pavilion</option>
+              <option value="1im/ezgif-frame-090.jpg">Eco-System & Organic Waste Innovation Station</option>
+              <option value="2im/ezgif-frame-130.jpg">Administrative Council & Faculty Board Chambers</option>
+              <option value="3im/ezgif-frame-020.jpg">Student Recreation Canopy & Cultural Stage</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="modal-art-excerpt" class="form-label">Excerpt / Teaser Summary *</label>
+          <input type="text" id="modal-art-excerpt" class="form-input" required />
+        </div>
+
+        <div class="form-group">
+          <label for="modal-art-content" class="form-label">Full Article Content *</label>
+          <textarea id="modal-art-content" class="form-textarea" style="min-height: 10rem;" required></textarea>
+        </div>
+
+        <div class="form-group flex items-center gap-2">
+          <input type="checkbox" id="modal-art-featured" class="w-4 h-4 rounded" />
+          <label for="modal-art-featured" class="text-xs cursor-pointer select-none">
+            Feature this dispatch on the main landing page
+          </label>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <button type="button" onclick="closeArticleModal()" class="btn-secondary text-xs">
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary text-xs">
+            Save & Publish Dispatch
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =============================================================
+       MODAL 2: REVIEW STUDENT SUBMISSION MODAL
+  ============================================================== -->
+  <div id="admin-review-modal" class="modal-backdrop">
+    <div class="modal-content-card">
+      <button onclick="closeReviewModal()" class="modal-close-btn" title="Close">✕</button>
+
+      <div class="modal-header-meta">
+        <span id="review-sub-category" class="badge-category badge-academic">Academic</span>
+        <span id="review-sub-date" class="text-xs text-zinc-400 font-mono">Date</span>
+      </div>
+
+      <h2 id="review-sub-title" class="modal-title" style="font-size: 1.75rem;">Headline</h2>
+      <div class="text-xs text-zinc-400 mb-4 pb-3 border-b border-white/10">
+        Submitted by: <span id="review-sub-author" class="font-bold"></span>
+      </div>
+
+      <div id="review-sub-content" class="modal-body mb-6" style="max-height: 14rem; overflow-y: auto;"></div>
+
+      <!-- Feedback note to student -->
+      <div class="form-group mb-6">
+        <label for="review-feedback-input" class="form-label">Editorial Feedback to Student Contributor</label>
+        <textarea 
+          id="review-feedback-input" 
+          class="form-textarea" 
+          style="min-height: 4.5rem;" 
+          placeholder="Include editorial guidance, compliments, or requested revisions..."
+        ></textarea>
+      </div>
+
+      <!-- Review Action Buttons -->
+      <div class="flex items-center justify-between pt-4 border-t border-white/10">
+        <button type="button" onclick="decideSubmission('rejected')" class="btn-danger">
+          ✕ Request Revisions
+        </button>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeReviewModal()" class="btn-secondary text-xs">
+            Cancel
+          </button>
+          <button type="button" onclick="decideSubmission('approved')" class="btn-primary text-xs" style="background: linear-gradient(135deg, var(--brand-emerald), var(--brand-accent));">
+            ✓ Approve & Publish to Newsfeed
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================================
+       MODAL 3: ADD CATEGORY MODAL (CLEAN SVG ICON SELECTOR)
+  ============================================================== -->
+  <div id="admin-category-modal" class="modal-backdrop">
+    <div class="modal-content-card" style="max-width: 32rem;">
+      <button onclick="closeCategoryModal()" class="modal-close-btn" title="Close">✕</button>
+
+      <h2 class="modal-title" style="font-size: 1.5rem; margin-bottom: 1.25rem;">
+        Add New Editorial Beat
+      </h2>
+
+      <form id="admin-category-form">
+        <div class="form-group">
+          <label for="modal-cat-name" class="form-label">Category Name *</label>
+          <input type="text" id="modal-cat-name" class="form-input" placeholder="e.g., Medicine & Health" required />
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="modal-cat-icon" class="form-label">Icon Vector Glyph</label>
+            <select id="modal-cat-icon" class="form-select">
+              <option value="general">General Bulletin (Newspaper)</option>
+              <option value="academic">Academic (Graduation Cap)</option>
+              <option value="events">Events (Calendar Star)</option>
+              <option value="sports">Sports (Medal / Target)</option>
+              <option value="computing">Computing & AI (Tech Chip)</option>
+              <option value="sustainability">Sustainability (Eco Leaf)</option>
+              <option value="campus">Campus Life (University Pillars)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-cat-color" class="form-label">Accent Color</label>
+            <input type="color" id="modal-cat-color" class="form-input" value="#6366f1" style="height: 2.75rem; padding: 0.25rem 0.5rem;" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="modal-cat-desc" class="form-label">Description</label>
+          <input type="text" id="modal-cat-desc" class="form-input" placeholder="Brief focus description..." />
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <button type="button" onclick="closeCategoryModal()" class="btn-secondary text-xs">
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary text-xs">
+            Save Category
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =============================================================
+       MODAL 4: CREATE / EDIT ANNOUNCEMENT MODAL
+  ============================================================== -->
+  <div id="admin-announcement-modal" class="modal-backdrop">
+    <div class="modal-content-card" style="max-width: 34rem;">
+      <button onclick="closeAnnouncementModal()" class="modal-close-btn" title="Close">✕</button>
+
+      <h2 id="modal-ann-title-heading" class="modal-title" style="font-size: 1.5rem; margin-bottom: 1.25rem;">
+        Publish Campus Announcement
+      </h2>
+
+      <form id="admin-announcement-form">
+        <div class="form-group">
+          <label for="modal-ann-title" class="form-label">Notice Headline *</label>
+          <input type="text" id="modal-ann-title" class="form-input" placeholder="e.g., Convocation 2026 Gown Collection Schedule" required />
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="modal-ann-category" class="form-label">Category Beat</label>
+            <select id="modal-ann-category" class="form-select">
+              <option value="General">General Notice</option>
+              <option value="Academic">Academic Notice</option>
+              <option value="Events">Events & Galas</option>
+              <option value="Sports">Varsity Sports</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-ann-badge" class="form-label">Bulletin Priority Badge</label>
+            <select id="modal-ann-badge" class="form-select">
+              <option value="URGENT">URGENT Directive</option>
+              <option value="FEATURED">FEATURED Notice</option>
+              <option value="GENERAL">GENERAL Bulletin</option>
+              <option value="SPORTS">SPORTS Alert</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="modal-ann-summary" class="form-label">Official Notice Summary *</label>
+          <textarea id="modal-ann-summary" class="form-textarea" style="min-height: 6rem;" placeholder="Detailed instructions or notice text..." required></textarea>
+        </div>
+
+        <div class="form-group flex items-center gap-2">
+          <input type="checkbox" id="modal-ann-pinned" class="w-4 h-4 rounded" checked />
+          <label for="modal-ann-pinned" class="text-xs cursor-pointer select-none">
+            Pin this announcement prominently on the homepage bulletin
+          </label>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+          <button type="button" onclick="closeAnnouncementModal()" class="btn-secondary text-xs">
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary text-xs">
+            Publish Announcement
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/data-store.js"></script>
+  <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

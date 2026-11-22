@@ -1,0 +1,1237 @@
+/* campus feed styles - full facebook & linkedin modern design system */
+
+/* Feed Shell Layout */
+.feed-page-body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Feed Top Navigation (Facebook Header) */
+.feed-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0.65rem 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.feed-nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.feed-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: var(--text-main);
+}
+
+.feed-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.15rem;
+  box-shadow: 0 2px 8px rgba(24, 119, 242, 0.35);
+}
+
+.feed-brand-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text-main);
+}
+
+.feed-brand-badge {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(24, 119, 242, 0.12);
+  color: var(--brand-primary);
+  border: 1px solid rgba(24, 119, 242, 0.3);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.feed-nav-search {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+
+.feed-search-input {
+  width: 100%;
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 9999px !important;
+  padding: 0.55rem 1rem 0.55rem 2.6rem !important;
+  color: var(--text-main) !important;
+  font-size: 0.88rem !important;
+  transition: all 0.2s ease;
+}
+
+.feed-search-input:focus {
+  outline: none;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2) !important;
+  background: var(--bg-card) !important;
+}
+
+.feed-search-icon {
+  position: absolute;
+  left: 0.95rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.feed-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feed-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.feed-nav-link:hover {
+  color: var(--text-main);
+  background: var(--bg-secondary);
+}
+
+.feed-nav-link.active {
+  color: var(--brand-primary);
+  background: rgba(24, 119, 242, 0.1);
+  border-color: rgba(24, 119, 242, 0.2);
+}
+
+.feed-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem 0.25rem 0.3rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 0.84rem;
+  transition: all 0.2s ease;
+}
+.feed-user-chip:hover {
+  border-color: var(--brand-primary);
+}
+
+.feed-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.feed-user-name {
+  color: var(--text-main);
+}
+
+/* Feed Main 3-Column Grid */
+.feed-layout {
+  max-width: 1400px;
+  width: 100%;
+  margin: 1.5rem auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr) 350px;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+/* Left Sidebar (Facebook Profile & Shortcuts) */
+.feed-sidebar-left {
+  position: sticky;
+  top: 4.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.feed-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Profile Snippet Card */
+.feed-profile-snippet {
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+}
+
+.feed-profile-avatar-lg {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 0.75rem;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  border: 3px solid var(--bg-card);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+.feed-profile-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.2rem;
+}
+
+.feed-profile-role {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.feed-profile-faculty {
+  display: inline-block;
+  font-size: 0.72rem;
+  color: var(--brand-primary);
+  background: rgba(24, 119, 242, 0.1);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.feed-profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.feed-stat-num {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.feed-stat-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Sidebar Quick Nav Links */
+.feed-quick-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.feed-quick-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.feed-quick-link-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+}
+
+.feed-quick-link-btn.active {
+  color: var(--brand-primary);
+  background: rgba(24, 119, 242, 0.1);
+}
+
+/* Center Feed Stream */
+.feed-center-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+/* Facebook "What's on your mind?" Composer Widget */
+.feed-composer-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+
+.feed-composer-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.feed-composer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.feed-composer-trigger {
+  flex: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 9999px;
+  padding: 0.72rem 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.feed-composer-trigger:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--brand-primary);
+}
+
+.feed-composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+  gap: 0.5rem;
+}
+
+.feed-composer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.feed-composer-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+}
+
+.feed-composer-btn.accent-blue { color: var(--brand-primary); }
+.feed-composer-btn.accent-green { color: var(--brand-emerald); }
+.feed-composer-btn.accent-amber { color: var(--brand-amber); }
+
+/* Category Filter Tabs (Facebook Styled Horizontal Bar) */
+.feed-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0;
+  scrollbar-width: none;
+}
+.feed-filter-bar::-webkit-scrollbar { display: none; }
+
+.feed-filter-pill {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.feed-filter-pill:hover {
+  border-color: var(--brand-primary);
+  color: var(--text-main);
+  background: var(--bg-secondary);
+}
+
+.feed-filter-pill.active {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
+}
+
+/* Social Post Card (Facebook / LinkedIn Design) */
+.social-post-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-post-card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.post-header {
+  padding: 1rem 1.25rem 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.post-author-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.post-author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.post-author-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.post-author-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.post-author-verified {
+  color: var(--brand-primary);
+  display: inline-flex;
+}
+
+.post-meta-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.post-category-tag {
+  font-size: 0.72rem;
+  padding: 1px 8px;
+  border-radius: 9999px;
+  background: rgba(24, 119, 242, 0.1);
+  color: var(--brand-primary);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.post-body {
+  padding: 0 1.25rem 0.85rem;
+}
+
+.post-headline {
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 0.45rem;
+  color: var(--text-main) !important;
+}
+
+.post-text {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-main) !important;
+  white-space: pre-line;
+}
+
+.post-tags {
+  margin-top: 0.65rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.post-hashtag {
+  font-size: 0.8125rem;
+  color: var(--brand-primary) !important;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.post-hashtag:hover {
+  text-decoration: underline;
+}
+
+/* Post Media Photography */
+.post-media {
+  position: relative;
+  width: 100%;
+  max-height: 480px;
+  overflow: hidden;
+  background: #000;
+  margin-bottom: 0.5rem;
+}
+
+.post-media img {
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.post-media:hover img {
+  transform: scale(1.015);
+}
+
+.post-media-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  color: #fff;
+  padding: 1.25rem 1rem 0.5rem;
+  font-size: 0.8125rem;
+}
+
+/* Facebook Stats Bar (Reactions + Comment Counts) */
+.post-stats-bar {
+  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.8125rem;
+  color: var(--text-secondary) !important;
+}
+
+.post-stats-left {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reaction-icons-stack {
+  display: flex;
+  align-items: center;
+  margin-right: 0.25rem;
+}
+
+.rxn-badge {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  border: 2px solid var(--bg-card);
+  margin-left: -5px;
+}
+.rxn-badge:first-child { margin-left: 0; }
+.rxn-blue { background: #1877f2; color: #fff; }
+.rxn-red { background: #fa383e; color: #fff; }
+.rxn-yellow { background: #f7b125; color: #fff; }
+
+.post-stats-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Facebook Post Action Buttons */
+.post-actions-bar {
+  padding: 0.35rem 0.85rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.35rem;
+}
+
+.post-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.post-action-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+}
+
+.post-action-btn.active-like {
+  color: var(--brand-primary) !important;
+}
+
+.post-action-btn.active-bookmark {
+  color: var(--brand-primary) !important;
+}
+
+/* Inline Comments Thread */
+.post-comments-container {
+  padding: 0.85rem 1.25rem 1.15rem;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-light);
+  display: none;
+}
+
+.post-comments-container.open {
+  display: block;
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.comment-bubble {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.comment-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.comment-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 0.65rem 0.95rem;
+  flex: 1;
+}
+
+.comment-author-name {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-main) !important;
+  margin-bottom: 2px;
+}
+
+.comment-author-role {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-left: 0.4rem;
+  font-weight: 400;
+}
+
+.comment-text {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text-main) !important;
+}
+
+.comment-composer-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.comment-input-field {
+  flex: 1;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 9999px !important;
+  padding: 0.55rem 1rem !important;
+  font-size: 0.84rem !important;
+  color: var(--text-main) !important;
+  transition: border-color 0.2s ease;
+}
+
+.comment-input-field:focus {
+  outline: none;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2) !important;
+}
+
+.comment-submit-btn {
+  background: var(--brand-primary);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.comment-submit-btn:hover {
+  background: var(--brand-primary-hover);
+  transform: scale(1.05);
+}
+
+/* Right Sidebar (Trending Topics & Campus Events) */
+.feed-sidebar-right {
+  position: sticky;
+  top: 4.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.feed-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.95rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.feed-widget-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-main);
+}
+
+.trending-topic-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.5rem;
+  border-radius: 8px;
+  border-bottom: 1px solid var(--border-light);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.2s ease;
+}
+
+.trending-topic-item:last-child {
+  border-bottom: none;
+}
+
+.trending-topic-item:hover {
+  background: var(--bg-secondary);
+}
+
+.trending-topic-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-main) !important;
+}
+
+.trending-topic-count {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* Upcoming Calendar Events Widget */
+.feed-event-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.5rem;
+  border-radius: 8px;
+  border-bottom: 1px solid var(--border-light);
+  transition: background-color 0.2s ease;
+}
+
+.feed-event-item:last-child {
+  border-bottom: none;
+}
+
+.feed-event-item:hover {
+  background: var(--bg-secondary);
+}
+
+.event-date-box {
+  width: 44px;
+  height: 48px;
+  background: rgba(24, 119, 242, 0.1);
+  border: 1px solid rgba(24, 119, 242, 0.25);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-primary);
+  flex-shrink: 0;
+}
+
+.event-month {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.event-day {
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.event-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-main) !important;
+  margin-bottom: 2px;
+}
+
+.event-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Quick Post Modal */
+.feed-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.feed-modal-backdrop.open {
+  display: flex;
+}
+
+.feed-modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+  animation: modalScaleUp 0.2s ease-out;
+}
+
+@keyframes modalScaleUp {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.feed-modal-header {
+  padding: 1.15rem 1.25rem;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feed-modal-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.feed-modal-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feed-modal-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-input) !important;
+  border-radius: 10px;
+  padding: 0.85rem;
+  font-size: 0.95rem;
+  color: var(--text-main) !important;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.feed-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--brand-primary);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  box-shadow: 0 6px 20px rgba(24, 119, 242, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 300;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feed-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   LIGHT MODE OVERRIDES FOR SOCIAL FEED (Facebook Clean White Cards)
+   ========================================================================== */
+[data-theme="light"] .feed-page-body {
+  background-color: #f0f2f5;
+  color: #050505;
+}
+
+[data-theme="light"] .feed-navbar {
+  background: #ffffff;
+  border-bottom-color: #e4e6eb;
+}
+
+[data-theme="light"] .feed-card,
+[data-theme="light"] .feed-composer-box,
+[data-theme="light"] .social-post-card,
+[data-theme="light"] .feed-modal-card {
+  background: #ffffff;
+  border-color: #ced0d4;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .post-headline,
+[data-theme="light"] .post-author-name,
+[data-theme="light"] .feed-profile-name,
+[data-theme="light"] .feed-stat-num,
+[data-theme="light"] .feed-widget-title,
+[data-theme="light"] .trending-topic-name,
+[data-theme="light"] .event-title,
+[data-theme="light"] .comment-author-name,
+[data-theme="light"] .feed-modal-title {
+  color: #050505 !important;
+}
+
+[data-theme="light"] .post-text,
+[data-theme="light"] .comment-text {
+  color: #050505 !important;
+}
+
+[data-theme="light"] .post-meta-sub,
+[data-theme="light"] .post-stats-bar,
+[data-theme="light"] .feed-profile-role,
+[data-theme="light"] .feed-stat-label,
+[data-theme="light"] .trending-topic-count,
+[data-theme="light"] .event-time,
+[data-theme="light"] .comment-author-role,
+[data-theme="light"] .post-action-btn,
+[data-theme="light"] .feed-composer-btn {
+  color: #65676b !important;
+}
+
+[data-theme="light"] .feed-filter-pill {
+  background: #ffffff;
+  border-color: #ced0d4;
+  color: #65676b;
+}
+
+[data-theme="light"] .feed-filter-pill:hover {
+  background: #f0f2f5;
+  color: #050505;
+  border-color: #1877f2;
+}
+
+[data-theme="light"] .feed-filter-pill.active {
+  background: #1877f2;
+  border-color: #1877f2;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .post-action-btn:hover,
+[data-theme="light"] .feed-composer-btn:hover,
+[data-theme="light"] .feed-quick-link-btn:hover,
+[data-theme="light"] .trending-topic-item:hover,
+[data-theme="light"] .feed-event-item:hover {
+  background: #f0f2f5;
+  color: #050505 !important;
+}
+
+[data-theme="light"] .comment-content {
+  background: #f0f2f5;
+  border-color: #e4e6eb;
+}
+
+[data-theme="light"] .post-comments-container {
+  background: #f7f8fa;
+  border-top-color: #e4e6eb;
+}
+
+[data-theme="light"] .feed-composer-trigger {
+  background: #f0f2f5;
+  border-color: #ced0d4;
+  color: #65676b;
+}
+
+[data-theme="light"] .feed-composer-trigger:hover {
+  background: #e4e6eb;
+}
+
+/* Feed Mobile Bottom Dock */
+.feed-mobile-bottom-dock {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-light);
+  z-index: 1000;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 0.5rem;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .feed-mobile-bottom-dock {
+  background: #ffffff;
+  border-top-color: #dadde1;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  transition: all 0.2s ease;
+  min-width: 52px;
+}
+
+.dock-item svg {
+  width: 20px;
+  height: 20px;
+}
+
+.dock-item:hover,
+.dock-item.active {
+  color: var(--brand-primary);
+}
+
+.dock-item-highlight {
+  color: #ffffff;
+  background: var(--brand-primary);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+  transform: translateY(-8px);
+}
+
+.dock-item-highlight svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dock-item-highlight span {
+  display: none;
+}
+
+.dock-item-highlight:hover {
+  background: var(--brand-primary-hover);
+  color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1120px) {
+  .feed-layout {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+  .feed-sidebar-right {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .feed-layout {
+    grid-template-columns: 1fr;
+    padding: 0 1rem 5.5rem;
+  }
+  .feed-sidebar-left {
+    display: none;
+  }
+  .feed-nav-search {
+    display: none;
+  }
+  .feed-mobile-bottom-dock {
+    display: flex;
+  }
+  .feed-nav-actions .feed-nav-link {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .feed-layout {
+    padding: 0 0.5rem 5.5rem;
+  }
+  .feed-nav-inner {
+    padding: 0 0.75rem;
+  }
+  .feed-brand-badge {
+    display: none;
+  }
+  .feed-user-chip .feed-user-name {
+    display: none;
+  }
+  .feed-user-chip {
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+  .feed-modal-content {
+    width: 95vw;
+    max-height: 90vh;
+    padding: 1.25rem 1rem;
+    border-radius: 12px;
+  }
+  .post-actions {
+    gap: 0.15rem;
+  }
+  .post-action-btn {
+    padding: 0.45rem 0.25rem;
+    font-size: 0.76rem;
+    gap: 0.3rem;
+  }
+  .post-action-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .post-card {
+    border-radius: 10px;
+    margin-bottom: 0.85rem;
+  }
+}

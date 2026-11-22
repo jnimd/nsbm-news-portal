@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSBM Connect — Campus Social Network | NSBM Green University</title>
+  <meta name="description" content="The official NSBM Green University student social network. Share updates, connect with classmates, and explore campus life.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base:       #18191a;
+      --bg-surface:    #242526;
+      --bg-elevated:   #3a3b3c;
+      --bg-hover:      #3a3b3c;
+      --bg-input:      #3a3b3c;
+      --bg-modal:      #242526;
+      --text-primary:  #e4e6eb;
+      --text-secondary:#b0b3b8;
+      --text-muted:    #8a8d91;
+      --text-link:     #2d88ff;
+      --border:        #3e4042;
+      --accent:        #2d88ff;
+      --accent-hover:  #1877f2;
+      --accent-bg:     rgba(45,136,255,0.15);
+      --accent-text:   #2d88ff;
+      --btn-primary-bg:#2d88ff;
+      --btn-primary-fg:#ffffff;
+      --btn-secondary-bg:#3a3b3c;
+      --btn-secondary-fg:#e4e6eb;
+      --like-color:    #2d88ff;
+      --heart-color:   #f3425f;
+      --shadow:        0 2px 12px rgba(0,0,0,0.5);
+      --shadow-lg:     0 8px 32px rgba(0,0,0,0.6);
+      --divider:       #3e4042;
+      --scrollbar-bg:  #242526;
+      --scrollbar-thumb:#3e4042;
+      --profile-cover: linear-gradient(135deg,#18191a 0%,#242526 50%,#18191a 100%);
+    }
+    [data-theme="light"] {
+      --bg-base:       #f0f2f5;
+      --bg-surface:    #ffffff;
+      --bg-elevated:   #e4e6eb;
+      --bg-hover:      #f2f2f2;
+      --bg-input:      #f0f2f5;
+      --bg-modal:      #ffffff;
+      --text-primary:  #050505;
+      --text-secondary:#65676b;
+      --text-muted:    #8a8d91;
+      --text-link:     #1877f2;
+      --border:        #dadde1;
+      --accent:        #1877f2;
+      --accent-hover:  #166fe5;
+      --accent-bg:     rgba(24,119,242,0.1);
+      --accent-text:   #1877f2;
+      --btn-primary-bg:#1877f2;
+      --btn-primary-fg:#ffffff;
+      --btn-secondary-bg:#e4e6eb;
+      --btn-secondary-fg:#050505;
+      --like-color:    #1877f2;
+      --heart-color:   #f3425f;
+      --shadow:        0 2px 8px rgba(0,0,0,0.08);
+      --shadow-lg:     0 8px 24px rgba(0,0,0,0.12);
+      --divider:       #dadde1;
+      --scrollbar-bg:  #f0f2f5;
+      --scrollbar-thumb:#c9ccd1;
+      --profile-cover: linear-gradient(135deg,#1a6b45 0%,#2d9964 50%,#1a6b45 100%);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;background:var(--bg-base);font-family:'Inter',system-ui,sans-serif;}
+    body{background:var(--bg-base);color:var(--text-primary);min-height:100vh;font-size:15px;line-height:1.34;transition:background .25s,color .25s;}
+    ::-webkit-scrollbar{width:8px;}
+    ::-webkit-scrollbar-track{background:var(--scrollbar-bg);}
+    ::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:4px;}
+
+    /* NAVBAR */
+    .fb-nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--bg-surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;z-index:1000;box-shadow:var(--shadow);transition:background .25s,border-color .25s;}
+    .nav-left{display:flex;align-items:center;gap:10px;flex:1;}
+    .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+    .nav-logo img{width:36px;height:36px;border-radius:8px;object-fit:contain;background:#1c7c54;padding:2px;}
+    .brand-wrap{display:flex;flex-direction:column;line-height:1.1;}
+    .brand-name{font-size:15px;font-weight:800;color:var(--text-primary);letter-spacing:-.3px;}
+    .brand-sub{font-size:10px;font-weight:600;color:var(--accent-text);text-transform:uppercase;letter-spacing:.5px;}
+    .search-box{position:relative;display:flex;align-items:center;}
+    .search-box svg{position:absolute;left:10px;width:16px;height:16px;color:var(--text-muted);pointer-events:none;}
+    .search-input{background:var(--bg-input);border:1px solid var(--border);border-radius:999px;padding:8px 14px 8px 34px;font-size:14px;color:var(--text-primary);width:220px;outline:none;transition:border-color .2s,width .3s;font-family:'Inter',sans-serif;}
+    .search-input::placeholder{color:var(--text-muted);}
+    .search-input:focus{border-color:var(--accent);width:260px;}
+    .nav-center{display:flex;align-items:center;gap:2px;}
+    .nav-tab{display:flex;align-items:center;justify-content:center;width:108px;height:48px;border-radius:8px;background:transparent;border:none;color:var(--text-muted);cursor:pointer;transition:all .15s;text-decoration:none;position:relative;}
+    .nav-tab:hover{background:var(--bg-elevated);color:var(--text-primary);}
+    .nav-tab.active{color:var(--accent);border-bottom:3px solid var(--accent);border-radius:0;}
+    .nav-tab svg{width:22px;height:22px;}
+    .nav-right{display:flex;align-items:center;gap:8px;flex:1;justify-content:flex-end;}
+    .icon-btn{width:36px;height:36px;border-radius:50%;background:var(--bg-elevated);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-primary);transition:background .15s;text-decoration:none;}
+    .icon-btn:hover{background:var(--bg-hover);}
+    .icon-btn svg{width:18px;height:18px;}
+    .profile-nav-btn{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border-radius:999px;background:transparent;border:none;cursor:pointer;color:var(--text-primary);transition:background .15s;text-decoration:none;}
+    .profile-nav-btn:hover{background:var(--bg-elevated);}
+    .avatar{border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;}
+    .nav-avatar-name{font-size:14px;font-weight:600;color:var(--text-primary);}
+
+    /* LAYOUT */
+    .fb-layout{display:grid;grid-template-columns:360px 1fr 360px;max-width:1440px;margin:56px auto 0;min-height:calc(100vh - 56px);}
+    
+    /* LEFT SIDEBAR */
+    .fb-left{padding:16px 8px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;display:flex;flex-direction:column;gap:4px;}
+    .sidebar-link{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--text-primary);transition:background .15s;background:none;border:none;width:100%;text-align:left;cursor:pointer;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;}
+    .sidebar-link:hover{background:var(--bg-elevated);}
+    .sidebar-link.active{background:var(--accent-bg);color:var(--accent-text);font-weight:700;}
+    .sidebar-link.active .s-icon{background:var(--accent-bg);color:var(--accent-text);}
+    .s-icon{width:36px;height:36px;border-radius:50%;background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text-primary);}
+    .s-icon svg{width:18px;height:18px;}
+    .sidebar-divider{height:1px;background:var(--divider);margin:8px 10px;}
+    .sidebar-section-label{font-size:17px;font-weight:700;color:var(--text-primary);padding:8px 10px 4px;}
+
+    /* FEED */
+    .fb-feed{border-left:1px solid var(--border);border-right:1px solid var(--border);min-height:calc(100vh - 56px);}
+
+    /* STORIES */
+    .stories-row{display:flex;gap:10px;padding:12px 16px;overflow-x:auto;background:var(--bg-surface);border-bottom:8px solid var(--bg-base);scrollbar-width:none;}
+    .stories-row::-webkit-scrollbar{display:none;}
+    .story-card{flex-shrink:0;width:100px;height:172px;border-radius:12px;overflow:hidden;cursor:pointer;position:relative;border:1px solid var(--border);transition:transform .2s;}
+    .story-card:hover{transform:scale(1.03);}
+    .story-card img{width:100%;height:100%;object-fit:cover;}
+    .story-card-gradient{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);}
+    .story-card-name{position:absolute;bottom:8px;left:8px;right:8px;font-size:12px;font-weight:700;color:#fff;}
+    .story-card-av{position:absolute;top:8px;left:8px;width:36px;height:36px;border-radius:50%;border:3px solid var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;}
+    .create-story{flex-shrink:0;width:100px;height:172px;border-radius:12px;border:1px solid var(--border);background:var(--bg-surface);display:flex;flex-direction:column;cursor:pointer;overflow:hidden;transition:background .15s;}
+    .create-story:hover{background:var(--bg-elevated);}
+    .create-story-top{flex:1;background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;}
+    .create-story-bottom{padding:8px 6px;font-size:12px;font-weight:700;text-align:center;color:var(--text-primary);}
+    .plus-icon{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;}
+
+    /* COMPOSER */
+    .composer{background:var(--bg-surface);border-bottom:8px solid var(--bg-base);padding:12px 16px;}
+    .composer-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+    .composer-trigger{flex:1;background:var(--bg-input);border:1px solid var(--border);border-radius:999px;padding:10px 16px;font-size:15px;color:var(--text-muted);cursor:pointer;text-align:left;transition:background .15s,border-color .15s;font-family:'Inter',sans-serif;}
+    .composer-trigger:hover{background:var(--bg-elevated);border-color:var(--accent);}
+    .composer-divider{height:1px;background:var(--divider);margin:0 -16px 12px;}
+    .composer-actions{display:flex;align-items:center;gap:4px;}
+    .composer-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:8px;background:transparent;border:none;font-size:14px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:background .15s;font-family:'Inter',sans-serif;}
+    .composer-btn:hover{background:var(--bg-elevated);}
+    .composer-btn svg{width:20px;height:20px;}
+
+    /* FILTER BAR */
+    .filter-bar{background:var(--bg-surface);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none;}
+    .filter-bar::-webkit-scrollbar{display:none;}
+    .chip{white-space:nowrap;padding:6px 14px;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border);font-size:14px;font-weight:600;color:var(--text-primary);cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;}
+    .chip:hover{border-color:var(--accent);}
+    .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+    /* POST CARD */
+    .post-card{background:var(--bg-surface);margin-bottom:8px;transition:background .25s;}
+    .post-header{display:flex;align-items:flex-start;justify-content:space-between;padding:12px 16px 0;gap:10px;}
+    .post-author-row{display:flex;align-items:center;gap:10px;}
+    .post-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;cursor:pointer;flex-shrink:0;border:2px solid var(--border);}
+    .post-author-name{font-size:15px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px;}
+    .post-author-name a{color:var(--text-primary);text-decoration:none;}
+    .post-author-name a:hover{text-decoration:underline;}
+    .verified-badge{width:16px;height:16px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;}
+    .verified-badge svg{width:10px;height:10px;}
+    .post-meta{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap;}
+    .cat-badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:999px;background:var(--accent-bg);color:var(--accent-text);}
+    .post-more{width:36px;height:36px;border-radius:50%;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-secondary);transition:background .15s;flex-shrink:0;}
+    .post-more:hover{background:var(--bg-elevated);}
+    .post-more svg{width:20px;height:20px;}
+    .post-text{padding:10px 16px 8px;}
+    .post-headline{font-size:17px;font-weight:700;color:var(--text-primary);margin-bottom:6px;line-height:1.3;}
+    .post-body{font-size:15px;color:var(--text-primary);line-height:1.5;white-space:pre-line;}
+    .post-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .post-tag{font-size:14px;font-weight:600;color:var(--text-link);cursor:pointer;}
+    .post-media{width:100%;max-height:500px;overflow:hidden;cursor:pointer;background:#000;position:relative;}
+    .post-media img{width:100%;max-height:500px;object-fit:cover;display:block;}
+    .media-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);color:#fff;padding:24px 12px 10px;font-size:13px;}
+    .post-stats{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 0;border-top:1px solid var(--divider);margin-top:8px;}
+    .stats-left{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--text-secondary);}
+    .reaction-icons{display:flex;align-items:center;}
+    .rxn-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid var(--bg-surface);margin-left:-4px;}
+    .rxn-icon:first-child{margin-left:0;}
+    .stats-right{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--text-secondary);cursor:pointer;}
+    .stats-right span:hover{text-decoration:underline;}
+    .post-actions{display:flex;align-items:center;padding:4px 12px;border-top:1px solid var(--divider);}
+    .post-action{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:8px;background:transparent;border:none;font-size:14px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:background .15s,color .15s;font-family:'Inter',sans-serif;}
+    .post-action:hover{background:var(--bg-elevated);color:var(--text-primary);}
+    .post-action.liked{color:var(--like-color);}
+    .post-action.bookmarked{color:var(--accent);}
+    .post-action svg{width:18px;height:18px;}
+
+    /* COMMENTS */
+    .post-comments{padding:0 16px 12px;display:none;}
+    .post-comments.open{display:block;}
+    .comment-input-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+    .comment-field{flex:1;background:var(--bg-input);border:none;border-radius:999px;padding:8px 16px;font-size:14px;color:var(--text-primary);font-family:'Inter',sans-serif;outline:none;}
+    .comment-field::placeholder{color:var(--text-muted);}
+    .comment-send{width:32px;height:32px;border-radius:50%;background:var(--accent);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;flex-shrink:0;}
+    .comment-send:hover{background:var(--accent-hover);}
+    .comment-send svg{width:14px;height:14px;}
+    .comment-item{display:flex;gap:8px;margin-bottom:8px;}
+    .comment-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+    .comment-bubble{background:var(--bg-input);border-radius:12px;padding:8px 12px;flex:1;}
+    .comment-name{font-size:13px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px;}
+    .comment-role{font-size:11px;font-weight:400;color:var(--text-muted);}
+    .comment-text{font-size:14px;color:var(--text-primary);margin-top:2px;line-height:1.4;}
+
+    /* RIGHT SIDEBAR */
+    .fb-right{padding:16px 8px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+    .widget{background:var(--bg-surface);border-radius:12px;padding:16px;margin-bottom:12px;border:1px solid var(--border);}
+    .widget-title{font-size:17px;font-weight:700;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+    .widget-title a{font-size:14px;font-weight:600;color:var(--accent-text);text-decoration:none;}
+    .contact-item{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:8px;cursor:pointer;transition:background .15s;}
+    .contact-item:hover{background:var(--bg-elevated);}
+    .contact-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;position:relative;flex-shrink:0;}
+    .online-dot{width:10px;height:10px;border-radius:50%;background:#44b700;border:2px solid var(--bg-surface);position:absolute;bottom:0;right:0;}
+    .contact-name{font-size:15px;font-weight:500;color:var(--text-primary);}
+    .trend-item{padding:8px;border-bottom:1px solid var(--divider);cursor:pointer;border-radius:4px;transition:background .15s;}
+    .trend-item:last-child{border-bottom:none;}
+    .trend-item:hover{background:var(--bg-elevated);}
+    .trend-tag{font-size:15px;font-weight:700;color:var(--text-primary);}
+    .trend-count{font-size:13px;color:var(--text-muted);margin-top:2px;}
+    .event-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--divider);}
+    .event-item:last-child{border-bottom:none;}
+    .ev-date{width:44px;height:48px;border-radius:8px;background:var(--accent-bg);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--accent-text);flex-shrink:0;}
+    .ev-date .month{font-size:10px;font-weight:800;text-transform:uppercase;}
+    .ev-date .day{font-size:18px;font-weight:800;line-height:1;}
+    .ev-title{font-size:14px;font-weight:700;color:var(--text-primary);}
+    .ev-meta{font-size:12px;color:var(--text-muted);margin-top:2px;}
+
+    /* MODALS */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
+    .modal-overlay.open{display:flex;}
+    .modal-card{background:var(--bg-modal);border-radius:12px;width:100%;max-width:680px;box-shadow:var(--shadow-lg);overflow:hidden;animation:slideUp .25s ease;margin:auto;}
+    @keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--divider);}
+    .modal-title{font-size:20px;font-weight:700;color:var(--text-primary);}
+    .modal-close{width:36px;height:36px;border-radius:50%;background:var(--bg-elevated);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-primary);}
+    .modal-close:hover{background:var(--bg-hover);}
+    .modal-close svg{width:18px;height:18px;}
+    .modal-body{padding:20px;display:flex;flex-direction:column;gap:14px;}
+    .modal-textarea{width:100%;min-height:120px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:18px;color:var(--text-primary);font-family:'Inter',sans-serif;resize:none;outline:none;transition:border-color .2s;}
+    .modal-textarea::placeholder{color:var(--text-muted);}
+    .modal-textarea:focus{border-color:var(--accent);}
+    .modal-select{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;color:var(--text-primary);font-family:'Inter',sans-serif;outline:none;}
+    .modal-select:focus{border-color:var(--accent);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .form-label{font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:6px;}
+    .upload-area{border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+    .upload-area:hover{border-color:var(--accent);background:var(--accent-bg);}
+    .upload-area.has-img{border-style:solid;border-color:var(--accent);padding:8px;}
+    .upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    #uploadPreview{width:100%;max-height:300px;object-fit:cover;border-radius:8px;display:none;}
+    .upload-ph{display:flex;flex-direction:column;align-items:center;gap:8px;}
+    .upload-ph svg{width:32px;height:32px;color:var(--text-muted);}
+    .upload-ph-title{font-size:15px;font-weight:700;color:var(--text-primary);}
+    .upload-ph-sub{font-size:13px;color:var(--text-muted);}
+    .modal-footer{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-top:1px solid var(--divider);}
+    .footer-actions{display:flex;gap:8px;}
+    .btn-primary{background:var(--btn-primary-bg);color:var(--btn-primary-fg);border:none;border-radius:8px;padding:10px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,transform .1s;}
+    .btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px);}
+    .btn-secondary{background:var(--btn-secondary-bg);color:var(--btn-secondary-fg);border:none;border-radius:8px;padding:10px 20px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;}
+    .btn-secondary:hover{background:var(--bg-hover);}
+
+    /* PROFILE PAGE */
+    #profile-page{display:none;}
+    #profile-page.active{display:block;}
+    #feed-view.hidden{display:none;}
+    .profile-cover{width:100%;height:280px;background:var(--profile-cover);position:relative;overflow:hidden;}
+    .profile-cover img{width:100%;height:100%;object-fit:cover;}
+    .cover-edit-btn{position:absolute;bottom:16px;right:16px;background:var(--bg-surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:14px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px;cursor:pointer;}
+    .profile-info{background:var(--bg-surface);padding:0 16px 16px;border-bottom:8px solid var(--bg-base);}
+    .profile-av-wrap{position:relative;display:inline-block;margin-top:-50px;margin-bottom:12px;}
+    .profile-av-lg{width:100px;height:100px;border-radius:50%;border:4px solid var(--bg-surface);background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#fff;cursor:pointer;}
+    .profile-name-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:4px;}
+    .profile-display-name{font-size:28px;font-weight:800;color:var(--text-primary);display:flex;align-items:center;gap:8px;}
+    .profile-bio{font-size:15px;color:var(--text-secondary);margin:6px 0 12px;}
+    .profile-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+    .pb{padding:4px 12px;border-radius:999px;background:var(--accent-bg);color:var(--accent-text);font-size:13px;font-weight:700;}
+    .profile-stats-row{display:flex;gap:24px;padding:12px 0;border-top:1px solid var(--divider);border-bottom:1px solid var(--divider);}
+    .profile-stat{text-align:center;cursor:pointer;}
+    .profile-stat-num{font-size:18px;font-weight:800;color:var(--text-primary);}
+    .profile-stat-label{font-size:13px;color:var(--text-muted);}
+    .profile-action-row{display:flex;gap:8px;margin-top:12px;}
+    .profile-tabs{background:var(--bg-surface);border-bottom:1px solid var(--divider);display:flex;padding:0 16px;gap:4px;overflow-x:auto;scrollbar-width:none;}
+    .profile-tabs::-webkit-scrollbar{display:none;}
+    .ptab{padding:12px 16px;background:none;border:none;border-bottom:3px solid transparent;font-size:15px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;transition:color .15s;}
+    .ptab:hover{color:var(--text-primary);}
+    .ptab.active{color:var(--accent-text);border-bottom-color:var(--accent);}
+
+    /* MOBILE BOTTOM NAV */
+    .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg-surface);border-top:1px solid var(--border);padding:8px 0;z-index:999;}
+    .mobile-nav-tabs{display:flex;align-items:center;}
+    .mobile-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:11px;font-weight:600;font-family:'Inter',sans-serif;transition:color .15s;text-decoration:none;}
+    .mobile-tab.active{color:var(--accent-text);}
+    .mobile-tab svg{width:22px;height:22px;}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#333;color:#fff;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:600;z-index:3000;opacity:0;transition:all .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.4);pointer-events:none;white-space:nowrap;}
+    [data-theme="light"] .toast{background:#050505;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    /* RESPONSIVE */
+    @media(max-width:1100px){.fb-layout{grid-template-columns:1fr 680px;}.fb-right{display:none;}}
+    @media(max-width:800px){.fb-layout{grid-template-columns:1fr;}.fb-left{display:none;}.fb-feed{border:none;}.mobile-nav{display:block;}body{padding-bottom:60px;}.search-box{display:none;}.brand-sub{display:none;}}
+    @media(max-width:500px){.nav-center{display:none;}.composer-btn span{display:none;}.post-action span{display:none;}.form-row{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="fb-nav">
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo" title="Back to NewsDesk">
+      <img src="nsbm-logo.jpg" alt="NSBM Green University">
+      <div class="brand-wrap">
+        <span class="brand-name">NSBM Connect</span>
+        <span class="brand-sub">Green University</span>
+      </div>
+    </a>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-input" id="globalSearch" placeholder="Search NSBM Connect...">
+    </div>
+  </div>
+
+  <nav class="nav-center">
+    <button class="nav-tab active" id="navFeedBtn" onclick="showFeed()" title="Home Feed">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </button>
+    <button class="nav-tab" id="navProfileBtn" onclick="showProfile()" title="My Profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+    <a href="student-dashboard.html" class="nav-tab" title="Student Portal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </a>
+    <a href="index.html" class="nav-tab" title="News Portal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/></svg>
+    </a>
+  </nav>
+
+  <div class="nav-right">
+    <div class="icon-btn" title="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </div>
+    <button class="icon-btn" id="themeBtn" title="Toggle Theme">
+      <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+      <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="profile-nav-btn" onclick="showProfile()" title="My Profile">
+      <div class="avatar" id="navAv" style="width:32px;height:32px;font-size:14px;">K</div>
+      <span class="nav-avatar-name" id="navName">Kasun</span>
+    </button>
+  </div>
+</header>
+
+<!-- MAIN LAYOUT -->
+<div class="fb-layout">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="fb-left">
+    <button class="sidebar-link" onclick="showProfile()">
+      <div class="avatar s-icon" id="sidebarAv" style="background:var(--accent);">K</div>
+      <span id="sidebarName">Kasun Perera</span>
+    </button>
+    <button class="sidebar-link active" id="sidebarFeedBtn" onclick="showFeed()">
+      <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <span>Home Feed</span>
+    </button>
+    <button class="sidebar-link" onclick="showProfile()">
+      <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <span>My Profile</span>
+    </button>
+    <button class="sidebar-link" onclick="openComposer()">
+      <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></div>
+      <span>Create Post</span>
+    </button>
+    <button class="sidebar-link" onclick="filterFeed('bookmarks')">
+      <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+      <span>Saved Posts</span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Campus Portals</div>
+    <a href="index.html" class="sidebar-link">
+      <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/></svg></div>
+      <span>NewsDesk Portal</span>
+    </a>
+    <a href="student-dashboard.html" class="sidebar-link">
+      <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+      <span>Student Desk</span>
+    </a>
+    <a href="admin-dashboard.html" class="sidebar-link">
+      <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <span>Admin Editorial</span>
+    </a>
+  </aside>
+
+  <!-- CENTER FEED -->
+  <main class="fb-feed">
+    <!-- FEED VIEW -->
+    <div id="feed-view">
+      <!-- Stories -->
+      <div class="stories-row" id="storiesRow">
+        <div class="create-story" onclick="openComposer()">
+          <div class="create-story-top"><div class="plus-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+          <div class="create-story-bottom">Create Post</div>
+        </div>
+      </div>
+
+      <!-- Composer Box -->
+      <div class="composer">
+        <div class="composer-top">
+          <div class="avatar" id="composerAv" style="width:40px;height:40px;font-size:17px;background:var(--accent);">K</div>
+          <button class="composer-trigger" onclick="openComposer()">What's on your mind, <span id="firstName">Kasun</span>?</button>
+        </div>
+        <div class="composer-divider"></div>
+        <div class="composer-actions">
+          <button class="composer-btn" onclick="openComposer('photo')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#45bd62" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo / Video</span>
+          </button>
+          <button class="composer-btn" onclick="openComposer()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f7b928" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            <span>Feeling / Activity</span>
+          </button>
+          <button class="composer-btn" onclick="openComposer()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f3425f" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+            <span>News Article</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <button class="chip active" data-cat="all" onclick="filterFeed('all')">All</button>
+        <button class="chip" data-cat="academic" onclick="filterFeed('academic')">Academic</button>
+        <button class="chip" data-cat="events" onclick="filterFeed('events')">Events</button>
+        <button class="chip" data-cat="sports" onclick="filterFeed('sports')">Sports</button>
+        <button class="chip" data-cat="computing" onclick="filterFeed('computing')">Computing &amp; AI</button>
+        <button class="chip" data-cat="sustainability" onclick="filterFeed('sustainability')">Sustainability</button>
+        <button class="chip" data-cat="general" onclick="filterFeed('general')">General</button>
+      </div>
+
+      <!-- Posts Stream -->
+      <div id="postsStream"></div>
+    </div>
+
+    <!-- PROFILE VIEW -->
+    <div id="profile-page">
+      <div class="profile-cover" id="profileCover">
+        <div class="cover-edit-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Edit Cover
+        </div>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name-row">
+          <div>
+            <div class="profile-av-wrap">
+              <div class="profile-av-lg avatar" id="profileAvLg" style="width:100px;height:100px;font-size:36px;border:4px solid var(--bg-surface);">K</div>
+            </div>
+            <div class="profile-display-name" id="profileDisplayName">
+              Kasun Perera
+              <div class="verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div class="profile-bio" id="profileBio">Computing Undergrad · Faculty of Computing · NSBM Green University</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-primary" onclick="openComposer()">+ Add Post</button>
+            <button class="btn-secondary">Edit Profile</button>
+          </div>
+        </div>
+        <div class="profile-badges" id="profileBadges">
+          <span class="pb">Faculty of Computing</span>
+          <span class="pb">NSBM-IT-24-9021</span>
+          <span class="pb">Student Journalist</span>
+        </div>
+        <div class="profile-stats-row">
+          <div class="profile-stat"><div class="profile-stat-num" id="statPosts">0</div><div class="profile-stat-label">Posts</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="statLikes">348</div><div class="profile-stat-label">Likes</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="statSaved">0</div><div class="profile-stat-label">Saved</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="statArticles">3</div><div class="profile-stat-label">Articles</div></div>
+        </div>
+      </div>
+      <div class="profile-tabs">
+        <button class="ptab active" onclick="showProfileTab('posts', event)">Posts</button>
+        <button class="ptab" onclick="showProfileTab('about', event)">About</button>
+        <button class="ptab" onclick="showProfileTab('saved', event)">Saved</button>
+      </div>
+      <div id="profileContent"></div>
+    </div>
+  </main>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="fb-right">
+    <div class="widget">
+      <div class="widget-title">Campus Directives <a href="index.html">See all</a></div>
+      <div id="rightDirectives"></div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Trending on NSBM</div>
+      <div>
+        <div class="trend-item" onclick="filterFeed('sports')"><div class="trend-tag">#NSBMGreenCup2026</div><div class="trend-count">1.8k posts · Sports</div></div>
+        <div class="trend-item" onclick="filterFeed('academic')"><div class="trend-tag">#EdgeAI_Computing</div><div class="trend-count">940 posts · Academic</div></div>
+        <div class="trend-item" onclick="filterFeed('events')"><div class="trend-tag">#HackPulseDawn</div><div class="trend-count">720 posts · Events</div></div>
+        <div class="trend-item" onclick="filterFeed('sustainability')"><div class="trend-tag">#ZeroPlastics2027</div><div class="trend-count">510 posts · Sustainability</div></div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Campus Connections</div>
+      <div id="rightContacts"></div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Upcoming Events</div>
+      <div>
+        <div class="event-item"><div class="ev-date"><span class="month">NOV</span><span class="day">02</span></div><div><div class="ev-title">National AI Hackathon</div><div class="ev-meta">Recreation Dome · 09:00 AM</div></div></div>
+        <div class="event-item"><div class="ev-date"><span class="month">NOV</span><span class="day">07</span></div><div><div class="ev-title">Varsity Green Cup Finals</div><div class="ev-meta">NSBM Ground · 07:30 AM</div></div></div>
+        <div class="event-item"><div class="ev-date"><span class="month">NOV</span><span class="day">14</span></div><div><div class="ev-title">Computing Symposium</div><div class="ev-meta">Auditorium Wing B · 10:00 AM</div></div></div>
+      </div>
+    </div>
+    <div style="padding:8px 16px;font-size:12px;color:var(--text-muted);line-height:1.8;">
+      <a href="index.html" style="color:var(--text-muted);text-decoration:none;margin-right:10px;">NewsDesk</a>
+      <a href="student-dashboard.html" style="color:var(--text-muted);text-decoration:none;margin-right:10px;">Student Portal</a>
+      <a href="admin-dashboard.html" style="color:var(--text-muted);text-decoration:none;">Admin</a>
+      <br>NSBM Connect &copy; 2026 · NSBM Green University
+    </div>
+  </aside>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-tabs">
+    <button class="mobile-tab active" onclick="showFeed()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
+    <button class="mobile-tab" onclick="showProfile()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
+    <button class="mobile-tab" onclick="openComposer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Post</button>
+    <a class="mobile-tab" href="student-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Desk</a>
+    <a class="mobile-tab" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/></svg>News</a>
+  </div>
+</nav>
+
+<!-- COMPOSER MODAL -->
+<div class="modal-overlay" id="composerModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-title">Create Post</div>
+      <button class="modal-close" onclick="closeComposer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="avatar" id="modalAv" style="width:40px;height:40px;font-size:17px;background:var(--accent);">K</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--text-primary);" id="modalName">Kasun Perera</div>
+          <div style="font-size:12px;color:var(--text-muted);">Posting to NSBM Connect</div>
+        </div>
+      </div>
+      <textarea class="modal-textarea" id="postText" placeholder="What's on your mind? Share campus news, events, or updates..."></textarea>
+      <div class="upload-area" id="uploadArea">
+        <input type="file" id="imgFileInput" accept="image/*" onchange="handleImg(event)">
+        <div class="upload-ph" id="uploadPh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="upload-ph-title">Add Photo or Video</div>
+          <div class="upload-ph-sub">Click or drag and drop</div>
+        </div>
+        <img id="uploadPreview" alt="Preview">
+      </div>
+      <div class="form-row">
+        <div>
+          <div class="form-label">Category</div>
+          <select class="modal-select" id="postCategory">
+            <option value="General">General Campus Life</option>
+            <option value="Academic">Academic &amp; Research</option>
+            <option value="Events">Events &amp; Galas</option>
+            <option value="Sports">Sports &amp; Athletics</option>
+            <option value="Computing">Computing &amp; AI</option>
+            <option value="Sustainability">Sustainability</option>
+          </select>
+        </div>
+        <div>
+          <div class="form-label">Feeling (optional)</div>
+          <select class="modal-select" id="postMood">
+            <option value="">None</option>
+            <option value="excited">excited</option>
+            <option value="proud">proud</option>
+            <option value="grateful">grateful</option>
+            <option value="motivated">motivated</option>
+            <option value="celebrating">celebrating</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div style="font-size:13px;color:var(--text-muted);">Sharing with NSBM Community</div>
+      <div class="footer-actions">
+        <button class="btn-secondary" onclick="closeComposer()">Cancel</button>
+        <button class="btn-primary" onclick="submitPost()">Post</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="js/data-store.js"></script>
+<script>
+// ===================== THEME =====================
+(function(){
+  const t = localStorage.getItem('nsbm_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  setThemeIcon(t);
+})();
+document.getElementById('themeBtn').addEventListener('click', function(){
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('nsbm_theme', next);
+  setThemeIcon(next);
+});
+function setThemeIcon(t){
+  document.getElementById('iconSun').style.display = t === 'light' ? 'block' : 'none';
+  document.getElementById('iconMoon').style.display = t === 'dark' ? 'block' : 'none';
+}
+
+// ===================== STATE =====================
+let currentUser = null;
+let uploadedImg = null;
+let currentFilter = 'all';
+let savedPosts = JSON.parse(localStorage.getItem('nsbm_saved') || '[]');
+let likedPosts = JSON.parse(localStorage.getItem('nsbm_liked') || '[]');
+let customPosts = JSON.parse(localStorage.getItem('nsbm_cposts') || '[]');
+
+const avatarColors = ['#10b981','#3b82f6','#8b5cf6','#f59e0b','#f43f5e','#06b6d4','#ec4899'];
+function avColor(name){let h=0;for(let c of(name||'?'))h=c.charCodeAt(0)+((h<<5)-h);return avatarColors[Math.abs(h)%avatarColors.length];}
+
+function esc(s){ if(s==null)return ''; const d=document.createElement('div');d.textContent=String(s);return d.innerHTML; }
+
+// ===================== USER =====================
+function initUser(){
+  currentUser = window.DataStore ? window.DataStore.getCurrentUser() : null;
+  if(!currentUser) currentUser = {name:'Kasun Perera',email:'student@students.nsbm.ac.lk',role:'student',studentId:'NSBM-IT-24-9021',faculty:'Faculty of Computing',title:'Student Journalist'};
+  const init = currentUser.name.charAt(0).toUpperCase();
+  const first = currentUser.name.split(' ')[0];
+  const color = currentUser.role === 'admin' ? '#6366f1' : '#10b981';
+
+  ['navAv','composerAv','modalAv','profileAvLg','sidebarAv'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent=init;el.style.background=color;}
+  });
+
+  setText('navName', first);
+  setText('sidebarName', currentUser.name);
+  setText('firstName', first);
+  setText('modalName', currentUser.name);
+  setText('profileDisplayName', currentUser.name);
+  setText('profileBio', (currentUser.title||'Student') + ' · ' + (currentUser.faculty||'Faculty of Computing') + ' · NSBM Green University');
+
+  const badges = [currentUser.faculty||'Faculty of Computing', currentUser.studentId||currentUser.adminId||'', currentUser.title||'Student Journalist'].filter(Boolean);
+  const pb = document.getElementById('profileBadges');
+  if(pb) pb.innerHTML = badges.map(b=>`<span class="pb">${esc(b)}</span>`).join('');
+}
+
+function setText(id, val){const el=document.getElementById(id);if(el)el.textContent=val;}
+
+// ===================== POSTS =====================
+function buildFromDataStore(){
+  if(!window.DataStore) return [];
+  const articles = window.DataStore.getArticles();
+  const liked = window.DataStore.getLikedIds ? window.DataStore.getLikedIds() : [];
+  return articles.map(art=>{
+    const comments = window.DataStore.getComments(art.id);
+    const slug = art.categorySlug || (art.category||'general').toLowerCase();
+    return {
+      id:'art-'+art.id, articleId:art.id, isOfficial:true,
+      author:art.author, role:art.authorRole||'NSBM Bureau', date:art.date,
+      category:art.category, categorySlug:slug,
+      title:art.title, text:art.excerpt||'', image:art.image||null,
+      imageCaption:art.imageCaption||'',
+      likesCount:art.likes!==undefined?art.likes:Math.floor((art.views||100)/8)+12,
+      isLiked:liked.includes(art.id), comments:comments, commentsCount:comments.length,
+      sharesCount:Math.floor((art.views||50)/20)+2,
+      tags:['#NSBM','#'+((art.category||'Campus').replace(/\s+/g,'')),'#GreenUniversity'], mood:null
+    };
+  });
+}
+
+function getAllPosts(cat){
+  const official = buildFromDataStore();
+  let all = [...customPosts,...official];
+  if(cat==='bookmarks') return all.filter(p=>savedPosts.includes(p.id));
+  if(cat && cat!=='all') return all.filter(p=>{
+    const slug=(p.categorySlug||(p.category||'')).toLowerCase();
+    const c=(p.category||'').toLowerCase();
+    return slug===cat||c===cat||c.includes(cat);
+  });
+  return all;
+}
+
+function renderFeed(cat){
+  currentFilter = cat||currentFilter;
+  const stream = document.getElementById('postsStream');
+  if(!stream) return;
+  const posts = getAllPosts(currentFilter);
+  if(!posts.length){
+    stream.innerHTML=`<div style="padding:40px;text-align:center;color:var(--text-muted);background:var(--bg-surface);margin-bottom:8px;"><div style="font-size:24px;margin-bottom:8px;">&#128269;</div><div style="font-size:17px;font-weight:700;color:var(--text-primary);">No posts found</div><div style="font-size:14px;margin-top:6px;">Create the first post!</div></div>`;
+    return;
+  }
+  stream.innerHTML = posts.map(p=>postHtml(p)).join('');
+  bindEvents(stream);
+}
+
+function postHtml(p){
+  const color = avColor(p.author);
+  const init = (p.author||'N').charAt(0).toUpperCase();
+  const saved = savedPosts.includes(p.id);
+  const liked = likedPosts.includes(p.id)||p.isLiked;
+
+  const commHtml = (p.comments||[]).slice(0,2).map(c=>`
+    <div class="comment-item">
+      <div class="comment-av" style="background:${avColor(c.author)}">${(c.author||'?').charAt(0).toUpperCase()}</div>
+      <div class="comment-bubble">
+        <div class="comment-name">${esc(c.author)} <span class="comment-role">· ${esc(c.role||'')}</span></div>
+        <div class="comment-text">${esc(c.text||c.comment_text||'')}</div>
+      </div>
+    </div>`).join('');
+
+  const mediaHtml = p.image ? `<div class="post-media"><img src="${esc(p.image)}" alt="${esc(p.title||p.author)}" loading="lazy" onerror="this.parentElement.style.display='none'">${p.imageCaption?`<div class="media-caption">${esc(p.imageCaption)}</div>`:''}</div>` : '';
+
+  const tagsHtml = (p.tags||[]).map(t=>`<span class="post-tag">${esc(t)}</span>`).join(' ');
+
+  return `<div class="post-card" id="${esc(p.id)}">
+    <div class="post-header">
+      <div class="post-author-row">
+        <div class="post-av avatar" style="background:${color}" onclick="showProfile()">${init}</div>
+        <div>
+          <div class="post-author-name">
+            <a href="#" onclick="showProfile();return false;">${esc(p.author)}</a>
+            ${p.isOfficial?`<div class="verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>`:''}
+            ${p.mood?` <span style="font-weight:400;color:var(--text-secondary);">— feeling <strong>${esc(p.mood)}</strong></span>`:''}
+          </div>
+          <div class="post-meta">
+            <span>${esc(p.date||'Just now')}</span>
+            <span>·</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            ${p.category?`<span class="cat-badge">${esc(p.category)}</span>`:''}
+          </div>
+        </div>
+      </div>
+      <button class="post-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+    </div>
+    <div class="post-text">
+      ${p.title?`<div class="post-headline">${esc(p.title)}</div>`:''}
+      <div class="post-body">${esc(p.text||'')}</div>
+      ${tagsHtml?`<div class="post-tags">${tagsHtml}</div>`:''}
+    </div>
+    ${mediaHtml}
+    <div class="post-stats">
+      <div class="stats-left">
+        <div class="reaction-icons">
+          <div class="rxn-icon" style="background:#2d88ff;color:#fff;">&#128077;</div>
+          <div class="rxn-icon" style="background:#f3425f;color:#fff;">&#10084;&#65039;</div>
+        </div>
+        <span class="likes-count">${p.likesCount||0} Likes</span>
+      </div>
+      <div class="stats-right">
+        <span class="comments-count" onclick="toggleComments('${esc(p.id)}')">${p.commentsCount||0} Comments</span>
+        <span>${p.sharesCount||0} Shares</span>
+      </div>
+    </div>
+    <div class="post-actions">
+      <button class="post-action like-btn ${liked?'liked':''}" data-pid="${esc(p.id)}" data-aid="${esc(String(p.articleId||''))}">
+        <svg viewBox="0 0 24 24" fill="${liked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h3"/><path d="M12 2a3 3 0 0 0-3 3.88"/></svg>
+        <span>${liked?'Liked':'Like'}</span>
+      </button>
+      <button class="post-action comment-btn" data-pid="${esc(p.id)}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Comment</span>
+      </button>
+      <button class="post-action share-btn" data-pid="${esc(p.id)}" data-title="${esc(p.title||'')}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span>Share</span>
+      </button>
+      <button class="post-action save-btn ${saved?'bookmarked':''}" data-pid="${esc(p.id)}" data-aid="${esc(String(p.articleId||''))}">
+        <svg viewBox="0 0 24 24" fill="${saved?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span>${saved?'Saved':'Save'}</span>
+      </button>
+    </div>
+    <div class="post-comments" id="cmt-${esc(p.id)}">
+      <div class="comment-input-row">
+        <div class="comment-av avatar" style="background:${avColor(currentUser?.name||'K')}">${(currentUser?.name||'K').charAt(0)}</div>
+        <input type="text" class="comment-field" placeholder="Write a comment..." id="cinp-${esc(p.id)}">
+        <button class="comment-send" data-pid="${esc(p.id)}" data-aid="${esc(String(p.articleId||''))}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div id="clist-${esc(p.id)}">${commHtml}</div>
+    </div>
+  </div>`;
+}
+
+function bindEvents(container){
+  container.querySelectorAll('.like-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const pid=btn.dataset.pid, aid=btn.dataset.aid;
+      const card=document.getElementById(pid); if(!card) return;
+      const nowLiked=!btn.classList.contains('liked');
+      const countEl=card.querySelector('.likes-count');
+      let count=parseInt(countEl?.textContent)||0;
+      if(nowLiked){
+        btn.classList.add('liked'); btn.querySelector('span').textContent='Liked';
+        btn.querySelector('svg').setAttribute('fill','currentColor');
+        count++;
+        if(!likedPosts.includes(pid)) likedPosts.push(pid);
+        if(aid && window.DataStore?.toggleLike) window.DataStore.toggleLike(aid);
+      } else {
+        btn.classList.remove('liked'); btn.querySelector('span').textContent='Like';
+        btn.querySelector('svg').setAttribute('fill','none');
+        count=Math.max(0,count-1); likedPosts=likedPosts.filter(i=>i!==pid);
+        if(aid && window.DataStore?.toggleLike) window.DataStore.toggleLike(aid);
+      }
+      if(countEl) countEl.textContent=count+' Likes';
+      localStorage.setItem('nsbm_liked',JSON.stringify(likedPosts));
+    });
+  });
+
+  container.querySelectorAll('.comment-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>toggleComments(btn.dataset.pid));
+  });
+
+  container.querySelectorAll('.save-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const pid=btn.dataset.pid, aid=btn.dataset.aid;
+      const isSaved=savedPosts.includes(pid);
+      if(isSaved){
+        savedPosts=savedPosts.filter(i=>i!==pid);
+        btn.classList.remove('bookmarked'); btn.querySelector('svg').setAttribute('fill','none'); btn.querySelector('span').textContent='Save';
+        showToast('Removed from saved');
+      } else {
+        savedPosts.push(pid); btn.classList.add('bookmarked'); btn.querySelector('svg').setAttribute('fill','currentColor'); btn.querySelector('span').textContent='Saved';
+        showToast('Post saved!');
+        if(aid && window.DataStore?.toggleBookmark) window.DataStore.toggleBookmark(aid);
+      }
+      localStorage.setItem('nsbm_saved',JSON.stringify(savedPosts));
+    });
+  });
+
+  container.querySelectorAll('.share-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const url = location.href.split('?')[0]+'?post='+btn.dataset.pid;
+      if(navigator.clipboard) navigator.clipboard.writeText(url).then(()=>showToast('Link copied!')).catch(()=>showToast('Ready to share!'));
+      else showToast('Ready to share with campus!');
+    });
+  });
+
+  container.querySelectorAll('.comment-send').forEach(btn=>{
+    const doSend = () => {
+      const pid=btn.dataset.pid, aid=btn.dataset.aid;
+      const inp=document.getElementById('cinp-'+pid); if(!inp) return;
+      const text=inp.value.trim(); if(!text) return;
+      const name=currentUser?.name||'Kasun Perera';
+      const role=currentUser?.role==='admin'?'Press Editor':'Computing Undergrad';
+      if(aid && window.DataStore?.addComment) window.DataStore.addComment(aid,text,name,role);
+      const list=document.getElementById('clist-'+pid);
+      if(list){
+        const d=document.createElement('div'); d.className='comment-item';
+        d.innerHTML=`<div class="comment-av avatar" style="background:${avColor(name)}">${name.charAt(0)}</div><div class="comment-bubble"><div class="comment-name">${esc(name)} <span class="comment-role">· ${esc(role)}</span></div><div class="comment-text">${esc(text)}</div></div>`;
+        list.appendChild(d);
+      }
+      const card=document.getElementById(pid);
+      if(card){const cc=card.querySelector('.comments-count');if(cc){const n=parseInt(cc.textContent)||0;cc.textContent=(n+1)+' Comments';}}
+      inp.value=''; showToast('Comment posted!');
+    };
+    btn.addEventListener('click', doSend);
+    const inp=document.getElementById('cinp-'+btn.dataset.pid);
+    if(inp) inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doSend();}});
+  });
+}
+
+function toggleComments(pid){
+  const sec=document.getElementById('cmt-'+pid); if(!sec) return;
+  sec.classList.toggle('open');
+  if(sec.classList.contains('open')){const inp=document.getElementById('cinp-'+pid);if(inp) setTimeout(()=>inp.focus(),50);}
+}
+
+// ===================== COMPOSER =====================
+function openComposer(){
+  document.getElementById('composerModal').classList.add('open');
+  setTimeout(()=>document.getElementById('postText')?.focus(),100);
+}
+function closeComposer(){
+  document.getElementById('composerModal').classList.remove('open');
+  document.getElementById('postText').value='';
+  uploadedImg=null;
+  const prev=document.getElementById('uploadPreview'), ph=document.getElementById('uploadPh'), area=document.getElementById('uploadArea');
+  if(prev){prev.style.display='none';prev.src='';}
+  if(ph) ph.style.display='flex';
+  if(area) area.classList.remove('has-img');
+}
+function handleImg(e){
+  const file=e.target.files[0]; if(!file) return;
+  if(!file.type.startsWith('image/')){showToast('Select an image file');return;}
+  const r=new FileReader();
+  r.onload=ev=>{
+    uploadedImg=ev.target.result;
+    const prev=document.getElementById('uploadPreview'), ph=document.getElementById('uploadPh'), area=document.getElementById('uploadArea');
+    if(prev){prev.src=uploadedImg;prev.style.display='block';}
+    if(ph) ph.style.display='none';
+    if(area) area.classList.add('has-img');
+  };
+  r.readAsDataURL(file);
+}
+function submitPost(){
+  const text=document.getElementById('postText')?.value?.trim();
+  const cat=document.getElementById('postCategory')?.value||'General';
+  const mood=document.getElementById('postMood')?.value||null;
+  if(!text && !uploadedImg){showToast('Write something or add a photo!');return;}
+  const user=currentUser||{name:'Kasun Perera',role:'student',title:'Student Journalist'};
+  const newPost={
+    id:'custom-'+Date.now(), articleId:null, isOfficial:false,
+    author:user.name, role:user.role==='admin'?'Chief Editor':(user.title||'Student Contributor'),
+    date:'Just now', category:cat, categorySlug:cat.toLowerCase().replace(/[\s&]+/g,'-'),
+    title:'', text:text||'', image:uploadedImg||null, imageCaption:'',
+    likesCount:1, isLiked:true, comments:[], commentsCount:0, sharesCount:0,
+    tags:['#NSBM','#'+cat.replace(/\s+/g,''),'#CampusLife'], mood:mood
+  };
+  customPosts.unshift(newPost); likedPosts.push(newPost.id);
+  localStorage.setItem('nsbm_cposts',JSON.stringify(customPosts));
+  localStorage.setItem('nsbm_liked',JSON.stringify(likedPosts));
+  closeComposer(); showToast('Your post is live on NSBM Connect!'); renderFeed();
+}
+document.getElementById('composerModal').addEventListener('click',function(e){if(e.target===this)closeComposer();});
+
+// ===================== FILTER & VIEW =====================
+function filterFeed(cat){
+  currentFilter=cat;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.cat===cat));
+  renderFeed();
+}
+function showFeed(){
+  document.getElementById('feed-view').classList.remove('hidden');
+  document.getElementById('profile-page').classList.remove('active');
+  document.getElementById('navFeedBtn').classList.add('active');
+  document.getElementById('navProfileBtn').classList.remove('active');
+  document.getElementById('sidebarFeedBtn').classList.add('active');
+}
+function showProfile(){
+  document.getElementById('feed-view').classList.add('hidden');
+  document.getElementById('profile-page').classList.add('active');
+  document.getElementById('navFeedBtn').classList.remove('active');
+  document.getElementById('navProfileBtn').classList.add('active');
+  document.getElementById('sidebarFeedBtn').classList.remove('active');
+  renderMyPosts(); updateStats();
+}
+function showProfileTab(tab, e){
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  if(e?.target) e.target.classList.add('active');
+  const cont=document.getElementById('profileContent');
+  if(tab==='posts'){ renderMyPosts(); }
+  else if(tab==='saved'){
+    const saved=getAllPosts('all').filter(p=>savedPosts.includes(p.id));
+    if(!saved.length){ cont.innerHTML=`<div style="padding:40px;text-align:center;color:var(--text-muted);">No saved posts yet.</div>`; }
+    else { cont.innerHTML=saved.map(p=>postHtml(p)).join(''); bindEvents(cont); }
+  } else if(tab==='about'){
+    const u=currentUser;
+    cont.innerHTML=`<div style="background:var(--bg-surface);padding:20px;"><div style="font-size:17px;font-weight:700;margin-bottom:12px;color:var(--text-primary);">About</div><div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:var(--text-secondary);">
+      <div><strong style="color:var(--text-primary);">University:</strong> NSBM Green University</div>
+      <div><strong style="color:var(--text-primary);">Faculty:</strong> ${esc(u.faculty||'Faculty of Computing')}</div>
+      ${u.studentId?`<div><strong style="color:var(--text-primary);">Student ID:</strong> ${esc(u.studentId)}</div>`:''}
+      ${u.adminId?`<div><strong style="color:var(--text-primary);">Admin ID:</strong> ${esc(u.adminId)}</div>`:''}
+      <div><strong style="color:var(--text-primary);">Email:</strong> ${esc(u.email||'')}</div>
+      <div><strong style="color:var(--text-primary);">Role:</strong> ${esc(u.title||'Student Journalist')}</div>
+    </div></div>`;
+  }
+}
+function renderMyPosts(){
+  const cont=document.getElementById('profileContent');
+  const mine=customPosts.filter(p=>p.author===currentUser?.name);
+  if(!mine.length){
+    cont.innerHTML=`<div style="padding:40px;text-align:center;color:var(--text-muted);background:var(--bg-surface);"><div style="font-size:17px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">No posts yet</div><div>Share your first campus update!</div><button class="btn-primary" style="margin-top:16px;" onclick="openComposer()">Create Post</button></div>`;
+  } else { cont.innerHTML=mine.map(p=>postHtml(p)).join(''); bindEvents(cont); }
+}
+function updateStats(){
+  const mine=customPosts.filter(p=>p.author===currentUser?.name);
+  setText('statPosts',mine.length); setText('statSaved',savedPosts.length);
+  if(window.DataStore) setText('statArticles',window.DataStore.getSubmissions().length);
+}
+
+// ===================== RIGHT SIDEBAR =====================
+function renderRight(){
+  // Directives
+  const dir=document.getElementById('rightDirectives');
+  if(dir && window.DataStore){
+    const anns=window.DataStore.getAnnouncements().slice(0,3);
+    dir.innerHTML=anns.map(a=>`<div style="padding:8px 0;border-bottom:1px solid var(--divider);cursor:pointer;" onclick="filterFeed('${esc(a.category.toLowerCase())}')">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+        <span style="font-size:10px;font-weight:800;text-transform:uppercase;padding:1px 6px;border-radius:999px;background:rgba(243,66,95,.15);color:#f3425f;border:1px solid rgba(243,66,95,.3);">${esc(a.badge||'')}</span>
+        <span style="font-size:12px;color:var(--text-muted);">${esc(a.date||'')}</span>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:2px;">${esc(a.title)}</div>
+      <div style="font-size:13px;color:var(--text-secondary);line-height:1.4;">${esc(a.summary)}</div>
+    </div>`).join('');
+  }
+
+  // Contacts
+  const cont=document.getElementById('rightContacts');
+  if(cont){
+    const contacts=[
+      {name:'Dr. Priyantha Kumar',bg:'#6366f1'},
+      {name:'Sanduni Ariyaratne',bg:'#ec4899'},
+      {name:'Tharindu Perera',bg:'#f59e0b'},
+      {name:'Malinda Jayasuriya',bg:'#3b82f6'}
+    ];
+    cont.innerHTML=contacts.map(c=>`<div class="contact-item">
+      <div class="contact-av" style="background:${c.bg}">${c.name.charAt(0)}<div class="online-dot"></div></div>
+      <div class="contact-name">${esc(c.name)}</div>
+    </div>`).join('');
+  }
+}
+
+// ===================== STORIES =====================
+function renderStories(){
+  const row=document.getElementById('storiesRow'); if(!row) return;
+  const createCard=row.querySelector('.create-story');
+  const stories=[
+    {name:'Campus Life',img:'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80',cat:'academic',bg:'#1877f2'},
+    {name:'Sports Glory',img:'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=600&q=80',cat:'sports',bg:'#f7b125'},
+    {name:'Events & Galas',img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',cat:'events',bg:'#a855f7'},
+    {name:'Green NSBM',img:'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80',cat:'sustainability',bg:'#42b72a'},
+    {name:'Edge AI Lab',img:'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80',cat:'computing',bg:'#06b6d4'}
+  ];
+  row.innerHTML='';
+  if(createCard) row.appendChild(createCard);
+  stories.forEach(s=>{
+    const card=document.createElement('div'); card.className='story-card'; card.onclick=()=>filterFeed(s.cat);
+    card.innerHTML=`<img src="${esc(s.img)}" alt="${esc(s.name)}" onerror="this.style.background='${s.bg}';this.style.height='100%'"><div class="story-card-gradient"></div><div class="story-card-av" style="background:${s.bg}">${s.name.charAt(0)}</div><div class="story-card-name">${esc(s.name)}</div>`;
+    row.appendChild(card);
+  });
+}
+
+// ===================== SEARCH =====================
+document.getElementById('globalSearch')?.addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase(); if(!q){renderFeed();return;}
+  const all=getAllPosts('all');
+  const filtered=all.filter(p=>(p.title||'').toLowerCase().includes(q)||(p.text||'').toLowerCase().includes(q)||(p.author||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q));
+  const stream=document.getElementById('postsStream');
+  if(!filtered.length){stream.innerHTML=`<div style="padding:40px;text-align:center;color:var(--text-muted);background:var(--bg-surface);">No posts match "<strong>${esc(q)}</strong>"</div>`;return;}
+  stream.innerHTML=filtered.map(p=>postHtml(p)).join(''); bindEvents(stream);
+});
+
+// ===================== TOAST =====================
+function showToast(msg){
+  const el=document.getElementById('toast'); if(!el) return;
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded',function(){
+  initUser(); renderStories(); renderFeed(); renderRight();
+});
+</script>
+</body>
+</html>

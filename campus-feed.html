@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSBM Campus Buzz — Student & Faculty Social Feed | NSBM NewsDesk</title>
+  <meta name="description" content="Engage with real-time campus dispatches, club announcements, research breakthroughs, and student discussions at NSBM Green University.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/feed.css">
+</head>
+<body class="feed-page-body">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="feed-navbar">
+    <div class="feed-nav-inner">
+      <a href="index.html" class="feed-brand" title="NSBM NewsDesk Homepage">
+        <div class="feed-brand-logo">N</div>
+        <div class="feed-brand-title">
+          <span>NSBM NewsDesk</span>
+          <span class="feed-brand-badge">Buzz Feed</span>
+        </div>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="feed-nav-search">
+        <span class="feed-search-icon" id="navSearchIcon">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" class="feed-search-input" id="feedSearchInput" placeholder="Search campus dispatches, topics, or hashtags...">
+      </div>
+
+      <!-- Navigation & Action Buttons -->
+      <div class="feed-nav-actions">
+        <a href="index.html" class="feed-nav-link" title="Return to Main Portal">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6m-6 4h10"/></svg>
+          <span>Main Portal</span>
+        </a>
+
+        <a href="campus-feed.html" class="feed-nav-link active" title="Campus Social Feed">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          <span>Campus Buzz</span>
+        </a>
+
+        <a href="student-dashboard.html" class="feed-nav-link" title="Student Contributor Portal">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          <span>Student Portal</span>
+        </a>
+
+        <!-- Light/Dark Mode Switcher -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle visual theme" title="Switch theme">
+          <svg class="svg-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="svg-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+
+        <!-- User Chip -->
+        <a href="student-dashboard.html" class="feed-user-chip" title="My Profile & Submissions">
+          <div class="feed-avatar" id="feedNavAvatar">K</div>
+          <span class="feed-user-name" id="feedNavName">Kasun</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN 3-COLUMN SOCIAL FEED -->
+  <main class="feed-layout">
+
+    <!-- LEFT SIDEBAR: PROFILE & QUICK NAVIGATION -->
+    <aside class="feed-sidebar-left">
+      <!-- Profile Snippet Card -->
+      <div class="feed-card feed-profile-snippet">
+        <div class="feed-profile-avatar-lg" id="feedUserAvatar">K</div>
+        <h2 class="feed-profile-name" id="feedUserName">Kasun Perera</h2>
+        <div class="feed-profile-role" id="feedUserRole">Computing Undergrad</div>
+        <div class="feed-profile-faculty" id="feedUserFaculty">Faculty of Computing</div>
+        
+        <div class="feed-profile-stats">
+          <div>
+            <div class="feed-stat-num">12</div>
+            <div class="feed-stat-label">Dispatches</div>
+          </div>
+          <div>
+            <div class="feed-stat-num">348</div>
+            <div class="feed-stat-label">Likes Received</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Navigation Card -->
+      <div class="feed-card">
+        <div class="feed-quick-links">
+          <a href="index.html" class="feed-quick-link-btn">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6m-6 4h10"/></svg>
+            <span>Top Editorial Headlines</span>
+          </a>
+          
+          <a href="student-dashboard.html" class="feed-quick-link-btn">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span>Saved Bookmarks</span>
+            <span class="feed-quick-badge">Read Later</span>
+          </a>
+
+          <a href="student-dashboard.html" class="feed-quick-link-btn">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span>Subscribed Alerts</span>
+          </a>
+
+          <a href="admin-dashboard.html" class="feed-quick-link-btn">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Admin Editorial Desk</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Campus Resources Card -->
+      <div class="feed-card" style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
+        <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">NSBM Green University</div>
+        <div>Faculty of Computing • Pitipana, Homagama</div>
+        <div style="margin-top: 0.5rem; font-size: 0.74rem;">Module: Web and Mobile Application Development (Batch: 26.1 IFSL)</div>
+      </div>
+    </aside>
+
+    <!-- CENTER FEED STREAM -->
+    <section class="feed-stream">
+
+      <!-- Post Composer Bar (Facebook style) -->
+      <div class="feed-composer-box">
+        <div class="feed-composer-top">
+          <div class="feed-avatar" style="width:40px; height:40px; font-size:1rem;">K</div>
+          <button class="feed-composer-trigger" id="openComposerBtn" type="button">
+            What's happening on campus? Share news or club updates...
+          </button>
+        </div>
+        <div class="feed-composer-actions">
+          <button class="feed-composer-btn" type="button" onclick="document.getElementById('openComposerBtn').click()">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo / Media</span>
+          </button>
+          
+          <button class="feed-composer-btn" type="button" onclick="document.getElementById('openComposerBtn').click()">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            <span>Category Tag</span>
+          </button>
+
+          <a href="student-dashboard.html" class="feed-composer-btn accent" title="Full Article Writer">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+            <span>Full Story Draft</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Feed Filter Tabs -->
+      <nav class="feed-filter-bar" aria-label="Social Feed Categories">
+        <button class="feed-filter-pill active" data-category="all" type="button">All Campus Buzz</button>
+        <button class="feed-filter-pill" data-category="academic" type="button">Academic & Research</button>
+        <button class="feed-filter-pill" data-category="events" type="button">Events & Galas</button>
+        <button class="feed-filter-pill" data-category="sports" type="button">Sports & Athletics</button>
+        <button class="feed-filter-pill" data-category="general" type="button">General Directives</button>
+        <button class="feed-filter-pill" data-category="computing" type="button">Computing & AI</button>
+        <button class="feed-filter-pill" data-category="sustainability" type="button">Sustainability</button>
+      </nav>
+
+      <!-- Post Cards Container (Loaded via campus-feed.js) -->
+      <div id="feedPostsContainer" style="display:flex; flex-direction:column; gap:1.25rem;">
+        <!-- Dynamic posts will be rendered here -->
+      </div>
+
+    </section>
+
+    <!-- RIGHT SIDEBAR: BULLETINS, TRENDING, EVENTS -->
+    <aside class="feed-sidebar-right">
+
+      <!-- Urgent Bulletins Widget -->
+      <div class="feed-card">
+        <div class="feed-widget-header">
+          <div class="feed-widget-title">
+            <svg class="svg-icon" style="color: #ef4444;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span>Campus Directives</span>
+          </div>
+          <span style="font-size:0.72rem; color:var(--accent-primary); font-weight:700;">LIVE</span>
+        </div>
+        <div id="feedAnnouncementsList">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Trending Campus Topics Widget -->
+      <div class="feed-card">
+        <div class="feed-widget-header">
+          <div class="feed-widget-title">
+            <svg class="svg-icon" style="color: #f59e0b;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <span>Trending Topics</span>
+          </div>
+        </div>
+
+        <div>
+          <a href="#" class="trending-topic-item" data-tag="#NSBMGreenCup2026">
+            <div>
+              <div class="trending-tag">#NSBMGreenCup2026</div>
+              <div class="trending-count">Western Province Finals</div>
+            </div>
+            <span class="trending-count">1.8k posts</span>
+          </a>
+
+          <a href="#" class="trending-topic-item" data-tag="#EdgeAI_Computing">
+            <div>
+              <div class="trending-tag">#EdgeAI_Computing</div>
+              <div class="trending-count">Undergraduate Patents</div>
+            </div>
+            <span class="trending-count">940 posts</span>
+          </a>
+
+          <a href="#" class="trending-topic-item" data-tag="#HackPulseDawn">
+            <div>
+              <div class="trending-tag">#HackPulseDawn</div>
+              <div class="trending-count">48-Hour Hackathon</div>
+            </div>
+            <span class="trending-count">720 posts</span>
+          </a>
+
+          <a href="#" class="trending-topic-item" data-tag="#ZeroPlastics">
+            <div>
+              <div class="trending-tag">#ZeroPlastics</div>
+              <div class="trending-count">Senate Resolution</div>
+            </div>
+            <span class="trending-count">510 posts</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Upcoming Campus Events Widget -->
+      <div class="feed-card">
+        <div class="feed-widget-header">
+          <div class="feed-widget-title">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
+            <span>Upcoming Calendar</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="event-widget-card">
+            <div class="event-date-box">
+              <span class="event-month">NOV</span>
+              <span class="event-day">02</span>
+            </div>
+            <div class="event-info">
+              <div class="event-title">National AI Hackathon Gala</div>
+              <div class="event-time">Main Recreation Dome • 09:00 AM</div>
+            </div>
+          </div>
+
+          <div class="event-widget-card">
+            <div class="event-date-box">
+              <span class="event-month">NOV</span>
+              <span class="event-day">07</span>
+            </div>
+            <div class="event-info">
+              <div class="event-title">Varsity Green Cup Athletics</div>
+              <div class="event-time">NSBM International Ground • 07:30 AM</div>
+            </div>
+          </div>
+
+          <div class="event-widget-card">
+            <div class="event-date-box">
+              <span class="event-month">NOV</span>
+              <span class="event-day">14</span>
+            </div>
+            <div class="event-info">
+              <div class="event-title">Computing Research Symposium</div>
+              <div class="event-time">Auditorium Wing B • 10:00 AM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- QUICK COMPOSER MODAL (Facebook style popup) -->
+  <div class="feed-modal-backdrop" id="feedComposerModal" role="dialog" aria-modal="true" aria-labelledby="modalComposerTitle">
+    <div class="feed-modal-card">
+      <div class="feed-modal-header">
+        <h3 class="feed-modal-title" id="modalComposerTitle">Create Campus Dispatch / Story</h3>
+        <button type="button" class="post-action-btn" id="closeComposerBtn" aria-label="Close modal" style="padding:4px;">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="feed-modal-body">
+        <textarea class="feed-modal-textarea" id="postContentInput" placeholder="What would you like to broadcast to the NSBM community? Share club results, campus observations, or hackathon progress..."></textarea>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;">
+          <div>
+            <label style="display:block; font-size:0.78rem; font-weight:700; margin-bottom:0.35rem; color:var(--text-secondary);">Category Channel</label>
+            <select id="postCategorySelect" style="width:100%; background:var(--bg-secondary); border:1px solid var(--border-subtle); color:var(--text-primary); border-radius:8px; padding:0.55rem; font-size:0.84rem;">
+              <option value="Academic">Academic & Research</option>
+              <option value="Events">Events & Galas</option>
+              <option value="Sports">Sports & Athletics</option>
+              <option value="General" selected>General Campus Life</option>
+              <option value="Computing & AI">Computing & AI</option>
+              <option value="Sustainability">Sustainability</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display:block; font-size:0.78rem; font-weight:700; margin-bottom:0.35rem; color:var(--text-secondary);">Attached Photography</label>
+            <select id="postImageSelect" style="width:100%; padding:0.65rem 0.85rem; font-size:0.88rem;">
+              <option value="">No Image Attachment</option>
+              <option value="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80">Edge-AI Lab & Diagnostics Sensors</option>
+              <option value="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80">HackPulse Hackathon Coding Dome</option>
+              <option value="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80">Varsity Green Dragons Championship Trophy</option>
+              <option value="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80">Green Wetlands & Native Botanical Reserve</option>
+              <option value="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80">Campus Digital Library & Research Commons</option>
+              <option value="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80">Acoustic Jam Under Campus Palm Canopy</option>
+              <option value="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80">Undergraduate Collab & Student Life</option>
+              <option value="1im/ezgif-frame-045.jpg">Computing Microcontroller Bench (Local)</option>
+              <option value="2im/ezgif-frame-080.jpg">NSBM Recreation Dome (Local)</option>
+              <option value="3im/ezgif-frame-110.jpg">Rugby Squad Match Highlight (Local)</option>
+              <option value="1im/ezgif-frame-090.jpg">Solar Harvesting Field (Local)</option>
+              <option value="2im/ezgif-frame-130.jpg">Senate Council Chambers (Local)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
+          <button type="button" class="post-action-btn" id="cancelComposerBtn" style="border:1px solid var(--border-subtle);">Cancel</button>
+          <button type="button" class="comment-submit-btn" id="submitPostBtn" style="width:auto; height:auto; border-radius:8px; padding:0.6rem 1.25rem; font-weight:700; font-size:0.88rem;">
+            <span>Publish to Feed</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE BOTTOM NAVIGATION DOCK (Facebook/LinkedIn Mobile App Experience) -->
+  <nav class="feed-mobile-bottom-dock">
+    <a href="index.html" class="dock-item" title="Main Portal">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6m-6 4h10"/></svg>
+      <span>Portal</span>
+    </a>
+    <a href="campus-feed.html" class="dock-item active" title="Campus Buzz">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+      <span>Buzz</span>
+    </a>
+    <button type="button" class="dock-item dock-item-highlight" id="mobileComposeTrigger" title="Create Post">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span>Post</span>
+    </button>
+    <a href="student-dashboard.html" class="dock-item" title="Student Portal">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+      <span>Student</span>
+    </a>
+    <button type="button" class="dock-item" id="mobileThemeToggleBtn" title="Toggle Theme">
+      <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <span>Theme</span>
+    </button>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="js/icons.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/data-store.js"></script>
+  <script src="js/campus-feed.js"></script>
+</body>
+</html>

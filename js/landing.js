@@ -1,4 +1,4 @@
-﻿// landing page scripts
+// landing page scripts
 (function(window) {
   'use strict';
 
@@ -6,6 +6,15 @@
   let currentSearchQuery = '';
   let activeModalArticleId = null;
   let searchDebounceTimer = null;
+
+  // Lightbox state
+  let currentLightboxImages = [];
+  let currentLightboxIndex = 0;
+  let currentLightboxCaption = '';
+
+  // Gallery in modal state
+  let modalGalleryCurrentIdx = 0;
+  let modalGalleryImages = [];
 
   // DOM Elements
   const announcementsContainer = document.getElementById('announcements-container');
@@ -25,8 +34,9 @@
   const mobileMenuToggleBtn = document.getElementById('mobile-menu-toggle-btn');
   const mobileNavDrawer = document.getElementById('mobile-nav-drawer');
   const mobileNavCloseBtn = document.getElementById('mobile-nav-close-btn');
-// INITIALIZATION
-function init() {
+
+  // INITIALIZATION
+  function init() {
     renderStaticIcons();
     renderClock();
     renderAnnouncements();
@@ -50,8 +60,9 @@ function init() {
       discussionIcon.innerHTML = window.AppIcons.get('comment', 'svg-icon-sm');
     }
   }
-// REAL-TIME COLOMBO CLOCK
-function renderClock() {
+
+  // REAL-TIME COLOMBO CLOCK
+  function renderClock() {
     if (!clockEl) return;
     function tick() {
       const now = new Date();
@@ -63,25 +74,44 @@ function renderClock() {
     tick();
     setInterval(tick, 1000);
   }
-// USER AUTH STATE IN NAV
-function updateNavAuthButton() {
-    if (!navAuthBtn) return;
+
+  // USER AUTH STATE IN NAV
+  function updateNavAuthButton() {
     const user = window.DataStore ? window.DataStore.getCurrentUser() : null;
-    if (user) {
-      if (user.role === 'admin') {
-        navAuthBtn.innerHTML = `${window.AppIcons ? window.AppIcons.get('shield', 'svg-icon-sm') : ''} Admin Desk`;
-        navAuthBtn.href = 'admin-dashboard.html';
+
+    // ── Primary CTA button (#nav-auth-btn) ──────────────────────────────────
+    if (navAuthBtn) {
+      if (user) {
+        if (user.role === 'admin') {
+          navAuthBtn.innerHTML = `${window.AppIcons ? window.AppIcons.get('shield', 'svg-icon-sm') : ''} Admin Desk`;
+          navAuthBtn.href = 'admin-dashboard.html';
+        } else {
+          navAuthBtn.innerHTML = `${window.AppIcons ? window.AppIcons.get('user', 'svg-icon-sm') : ''} ${escapeHTML(user.name.split(' ')[0])} (Portal)`;
+          navAuthBtn.href = 'student-dashboard.html';
+        }
       } else {
-        navAuthBtn.innerHTML = `${window.AppIcons ? window.AppIcons.get('user', 'svg-icon-sm') : ''} ${escapeHTML(user.name.split(' ')[0])} (Portal)`;
-        navAuthBtn.href = 'student-dashboard.html';
+        navAuthBtn.innerHTML = `${window.AppIcons ? window.AppIcons.get('user', 'svg-icon-sm') : ''} Sign In`;
+        navAuthBtn.href = 'login.html';
       }
-    } else {
-      navAuthBtn.innerHTML = `${window.AppIcons ? window.AppIcons.get('user', 'svg-icon-sm') : ''} Sign In`;
-      navAuthBtn.href = 'login.html';
     }
+
+    // ── Static "Admin Desk" nav link: guard by auth state ───────────────────
+    // Redirect unauthenticated visitors to login.html instead of admin-dashboard.html
+    document.querySelectorAll('a[href="admin-dashboard.html"].nav-link, a[href="admin-dashboard.html"].mobile-nav-link').forEach(link => {
+      if (!user || user.role !== 'admin') {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'login.html';
+        }, { once: false });
+        link.setAttribute('title', 'Admin login required');
+      } else {
+        link.setAttribute('title', 'Open Admin Editorial Desk');
+      }
+    });
   }
-// 1. RENDER FEATURED ANNOUNCEMENTS
-function renderAnnouncements() {
+
+  // 1. RENDER FEATURED ANNOUNCEMENTS
+  function renderAnnouncements() {
     if (!announcementsContainer || !window.DataStore) return;
     const announcements = window.DataStore.getAnnouncements();
 
@@ -116,7 +146,7 @@ function renderAnnouncements() {
           </div>
           <div class="announcement-footer">
             <span class="text-zinc-400 font-mono text-[11px]">${item.category} Bureau</span>
-            <button type="button" class="btn-notice-link" onclick="openAnnouncementModal('${item.id}')">View Notice â†’</button>
+            <button type="button" class="btn-notice-link" onclick="openAnnouncementModal('${item.id}')">View Notice &rarr;</button>
           </div>
         </div>
       `;
@@ -138,8 +168,9 @@ function renderAnnouncements() {
       content: ann.summary + "\n\nFor further queries, scheduling details, or official verification, please contact the University Helpdesk at Student Services Center (Building 01) or email press@nsbm.ac.lk."
     });
   };
-// 2. RENDER CATEGORIES (With Subscription Toggles & SVG Icons)
-function renderCategories() {
+
+  // 2. RENDER CATEGORIES (With Subscription Toggles & SVG Icons)
+  function renderCategories() {
     if (!categoriesContainer || !window.DataStore) return;
     const categories = window.DataStore.getCategories();
     const articles = window.DataStore.getArticles();
@@ -152,7 +183,7 @@ function renderCategories() {
 
       const isSub = window.DataStore.isSubscribed(cat.id);
       const iconSVG = window.AppIcons ? window.AppIcons.get(cat.icon || 'general', 'svg-icon-lg') : '';
-      const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : 'âœ“';
+      const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : '✓';
       const bellSVG = window.AppIcons ? window.AppIcons.get('bell', 'svg-icon-sm') : '+';
 
       return `
@@ -197,14 +228,15 @@ function renderCategories() {
         const catId = btn.getAttribute('data-cat-id');
         const isSubscribed = window.DataStore.toggleSubscription(catId);
         btn.classList.toggle('subscribed', isSubscribed);
-        const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : 'âœ“';
+        const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : '✓';
         const bellSVG = window.AppIcons ? window.AppIcons.get('bell', 'svg-icon-sm') : '+';
         btn.innerHTML = isSubscribed ? `${checkSVG} Subscribed` : `${bellSVG} Subscribe`;
       });
     });
   }
-// 3. RENDER FILTER TABS
-function renderFilterTabs() {
+
+  // 3. RENDER FILTER TABS
+  function renderFilterTabs() {
     if (!filterTabsContainer || !window.DataStore) return;
     const categories = window.DataStore.getCategories();
 
@@ -240,8 +272,9 @@ function renderFilterTabs() {
     }
     renderNewsGrid();
   }
-// 4. RENDER LATEST CAMPUS NEWS GRID
-function renderNewsGrid() {
+
+  // 4. RENDER LATEST CAMPUS NEWS GRID (WITH MULTI-IMAGE SLIDESHOW SUPPORT)
+  function renderNewsGrid() {
     if (!newsGridContainer || !window.DataStore) return;
 
     const filter = {
@@ -277,12 +310,41 @@ function renderNewsGrid() {
 
       const authorInitial = art.author ? art.author.charAt(0).toUpperCase() : 'N';
       const eyeSVG = window.AppIcons ? window.AppIcons.get('eye', 'svg-icon-sm') : '';
-      const bookmarkSVG = window.AppIcons ? (isBookmarked ? window.AppIcons.get('bookmarkFilled') : window.AppIcons.get('bookmark')) : (isBookmarked ? 'â˜…' : 'â˜†');
+      const bookmarkSVG = window.AppIcons ? (isBookmarked ? window.AppIcons.get('bookmarkFilled') : window.AppIcons.get('bookmark')) : (isBookmarked ? '★' : '☆');
+
+      const images = (Array.isArray(art.images) && art.images.length > 0)
+        ? art.images
+        : (art.image ? [art.image] : ['1im/ezgif-frame-001.jpg']);
+
+      const hasMultipleImages = images.length > 1;
+
+      let mediaHTML = '';
+      if (hasMultipleImages) {
+        mediaHTML = `
+          <div class="news-card-slider" data-card-id="${art.id}">
+            <div class="card-slider-track" style="transform: translateX(0%);">
+              ${images.map((img, idx) => `
+                <div class="card-slider-slide">
+                  <img src="${img}" alt="${escapeHTML(art.title)} photo ${idx + 1}" loading="lazy" />
+                </div>
+              `).join('')}
+            </div>
+            <button type="button" class="card-slider-btn prev" data-dir="-1" title="Previous photo" aria-label="Previous photo">&lsaquo;</button>
+            <button type="button" class="card-slider-btn next" data-dir="1" title="Next photo" aria-label="Next photo">&rsaquo;</button>
+            <div class="card-slider-badge"><span class="slider-current-idx">1</span> / ${images.length}</div>
+            <div class="card-slider-dots">
+              ${images.map((_, idx) => `<span class="card-slider-dot ${idx === 0 ? 'active' : ''}" data-idx="${idx}"></span>`).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        mediaHTML = `<img src="${images[0]}" alt="${escapeHTML(art.title)}" loading="lazy" />`;
+      }
 
       return `
         <article class="news-card">
           <div class="news-card-image">
-            <img src="${art.image || '1im/ezgif-frame-001.jpg'}" alt="${escapeHTML(art.title)}" loading="lazy" />
+            ${mediaHTML}
             <div class="news-card-badge-floating">
               <span class="badge-category ${badgeClass}">${escapeHTML(art.category)}</span>
             </div>
@@ -313,13 +375,50 @@ function renderNewsGrid() {
                 <span class="author-name">${escapeHTML(art.author)}</span>
               </div>
               <button class="btn-read-story" data-id="${art.id}">
-                Read Story â†’
+                Read Story &rarr;
               </button>
             </div>
           </div>
         </article>
       `;
     }).join('');
+
+    // Initialize interactive multi-image sliders on news cards
+    newsGridContainer.querySelectorAll('.news-card-slider').forEach(slider => {
+      let curIdx = 0;
+      const track = slider.querySelector('.card-slider-track');
+      const slides = slider.querySelectorAll('.card-slider-slide');
+      const total = slides.length;
+      const badge = slider.querySelector('.slider-current-idx');
+      const dots = slider.querySelectorAll('.card-slider-dot');
+
+      function goToSlide(idx) {
+        if (idx < 0) idx = total - 1;
+        if (idx >= total) idx = 0;
+        curIdx = idx;
+        track.style.transform = `translateX(-${curIdx * 100}%)`;
+        if (badge) badge.textContent = curIdx + 1;
+        dots.forEach((dot, dIdx) => dot.classList.toggle('active', dIdx === curIdx));
+      }
+
+      slider.querySelectorAll('.card-slider-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          const dir = parseInt(btn.getAttribute('data-dir'), 10);
+          goToSlide(curIdx + dir);
+        });
+      });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          const targetIdx = parseInt(dot.getAttribute('data-idx'), 10);
+          goToSlide(targetIdx);
+        });
+      });
+    });
 
     // Attach bookmark handlers
     newsGridContainer.querySelectorAll('.news-card-bookmark-btn').forEach(btn => {
@@ -328,7 +427,7 @@ function renderNewsGrid() {
         const id = parseInt(btn.getAttribute('data-id'), 10);
         const bookmarked = window.DataStore.toggleBookmark(id);
         btn.classList.toggle('bookmarked', bookmarked);
-        btn.innerHTML = window.AppIcons ? (bookmarked ? window.AppIcons.get('bookmarkFilled') : window.AppIcons.get('bookmark')) : (bookmarked ? 'â˜…' : 'â˜†');
+        btn.innerHTML = window.AppIcons ? (bookmarked ? window.AppIcons.get('bookmarkFilled') : window.AppIcons.get('bookmark')) : (bookmarked ? '★' : '☆');
         btn.title = bookmarked ? 'Remove Bookmark' : 'Save Article';
       });
     });
@@ -350,8 +449,9 @@ function renderNewsGrid() {
     renderFilterTabs();
     renderNewsGrid();
   };
-// 5. STORY READER MODAL (WITH COMMENTS)
-function openStoryModal(articleId) {
+
+  // 5. STORY READER MODAL (WITH PARAGRAPH PARSING & FULL MULTI-IMAGE GALLERY)
+  function openStoryModal(articleId) {
     if (!readerModal || !window.DataStore) return;
     const article = window.DataStore.getArticleById(articleId);
     if (!article) return;
@@ -377,10 +477,19 @@ function openStoryModal(articleId) {
     if (authorRole) authorRole.textContent = article.authorRole || 'NSBM Campus Journalist';
     if (date) date.textContent = article.date;
 
+    // Clean, unescape, and parse paragraph breaks
     if (body) {
-      const paragraphs = article.content.split('\n\n').filter(p => p.trim().length > 0);
-      body.innerHTML = paragraphs.map(p => `<p>${escapeHTML(p)}</p>`).join('');
+      const rawContent = String(article.content || '')
+        .replace(/\\r\\n/g, '\n')
+        .replace(/\\n/g, '\n')
+        .replace(/\r\n/g, '\n')
+        .replace(/\r/g, '\n');
+      const paragraphs = rawContent.split(/\n{2,}|\n/).map(p => p.trim()).filter(p => p.length > 0);
+      body.innerHTML = paragraphs.map(p => `<p class="modal-paragraph story-paragraph">${escapeHTML(p)}</p>`).join('');
     }
+
+    // Render interactive multi-image gallery inside modal
+    renderModalGallery(article);
 
     renderModalComments(articleId);
 
@@ -390,11 +499,134 @@ function openStoryModal(articleId) {
 
   window.openStoryModal = openStoryModal;
 
+  function renderModalGallery(article) {
+    const galleryContainer = document.getElementById('modal-gallery-container');
+    if (!galleryContainer) return;
+
+    modalGalleryImages = (Array.isArray(article.images) && article.images.length > 0)
+      ? article.images
+      : (article.image ? [article.image] : []);
+
+    modalGalleryCurrentIdx = 0;
+
+    if (modalGalleryImages.length === 0) {
+      galleryContainer.innerHTML = '';
+      galleryContainer.style.display = 'none';
+      return;
+    }
+
+    galleryContainer.style.display = 'block';
+
+    if (modalGalleryImages.length === 1) {
+      galleryContainer.innerHTML = `
+        <div class="modal-gallery-hero-wrap" title="Click to view full screen">
+          <img id="modal-gallery-hero-img" src="${modalGalleryImages[0]}" alt="${escapeHTML(article.title)}" loading="lazy" />
+          <div class="modal-gallery-badge">1 Photo &bull; Click to Expand</div>
+        </div>
+      `;
+      const hero = galleryContainer.querySelector('.modal-gallery-hero-wrap');
+      if (hero) {
+        hero.addEventListener('click', () => {
+          openLandingLightbox(modalGalleryImages, 0, article.title);
+        });
+      }
+      return;
+    }
+
+    // Multiple high-resolution images
+    galleryContainer.innerHTML = `
+      <div class="modal-gallery-hero-wrap" title="Click to open fullscreen lightbox">
+        <img id="modal-gallery-hero-img" src="${modalGalleryImages[0]}" alt="${escapeHTML(article.title)}" loading="lazy" />
+        <button type="button" class="modal-gallery-btn modal-gallery-prev prev" id="modal-gallery-prev" title="Previous photo" aria-label="Previous photo">&lsaquo;</button>
+        <button type="button" class="modal-gallery-btn modal-gallery-next next" id="modal-gallery-next" title="Next photo" aria-label="Next photo">&rsaquo;</button>
+        <div class="modal-gallery-badge" id="modal-gallery-badge">
+          <span id="modal-gallery-counter">1</span> / ${modalGalleryImages.length} Photos &bull; Click to Expand
+        </div>
+        <div class="modal-gallery-dots" id="modal-gallery-dots">
+          ${modalGalleryImages.map((_, idx) => `<span class="modal-gallery-dot ${idx === 0 ? 'active' : ''}" data-idx="${idx}"></span>`).join('')}
+        </div>
+      </div>
+      <div class="modal-gallery-thumbs" id="modal-gallery-thumbs">
+        ${modalGalleryImages.map((img, idx) => `
+          <button type="button" class="modal-gallery-thumb ${idx === 0 ? 'active' : ''}" data-idx="${idx}" title="View photo ${idx + 1}">
+            <img src="${img}" alt="Thumbnail ${idx + 1}" loading="lazy" />
+          </button>
+        `).join('')}
+      </div>
+      <div class="modal-gallery-caption">
+        Photo dispatch from ${escapeHTML(article.category || 'Campus')} desk &bull; ${modalGalleryImages.length} high-resolution captures
+      </div>
+    `;
+
+    function updateModalHero(idx) {
+      if (idx < 0) idx = modalGalleryImages.length - 1;
+      if (idx >= modalGalleryImages.length) idx = 0;
+      modalGalleryCurrentIdx = idx;
+
+      const heroImg = document.getElementById('modal-gallery-hero-img');
+      const counter = document.getElementById('modal-gallery-counter');
+      if (heroImg) heroImg.src = modalGalleryImages[modalGalleryCurrentIdx];
+      if (counter) counter.textContent = modalGalleryCurrentIdx + 1;
+
+      galleryContainer.querySelectorAll('.modal-gallery-thumb').forEach((thumb, tIdx) => {
+        thumb.classList.toggle('active', tIdx === modalGalleryCurrentIdx);
+      });
+      galleryContainer.querySelectorAll('.modal-gallery-dot').forEach((dot, dIdx) => {
+        dot.classList.toggle('active', dIdx === modalGalleryCurrentIdx);
+      });
+    }
+
+    const heroWrap = galleryContainer.querySelector('.modal-gallery-hero-wrap');
+    if (heroWrap) {
+      heroWrap.addEventListener('click', (e) => {
+        if (e.target.closest('.modal-gallery-btn') || e.target.closest('.modal-gallery-dots')) return;
+        openLandingLightbox(modalGalleryImages, modalGalleryCurrentIdx, article.title);
+      });
+    }
+
+    const prevBtn = document.getElementById('modal-gallery-prev');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        updateModalHero(modalGalleryCurrentIdx - 1);
+      });
+    }
+
+    const nextBtn = document.getElementById('modal-gallery-next');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        updateModalHero(modalGalleryCurrentIdx + 1);
+      });
+    }
+
+    galleryContainer.querySelectorAll('.modal-gallery-thumb').forEach(thumb => {
+      thumb.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const idx = parseInt(thumb.getAttribute('data-idx'), 10);
+        updateModalHero(idx);
+      });
+    });
+
+    galleryContainer.querySelectorAll('.modal-gallery-dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const idx = parseInt(dot.getAttribute('data-idx'), 10);
+        updateModalHero(idx);
+      });
+    });
+  }
+
   function closeStoryModal() {
     if (!readerModal) return;
     readerModal.classList.remove('open');
     document.body.style.overflow = '';
     activeModalArticleId = null;
+    closeLandingLightbox();
   }
 
   function openStoryModalMock(data) {
@@ -407,12 +639,85 @@ function openStoryModal(articleId) {
     document.getElementById('modal-date').textContent = data.date;
 
     const body = document.getElementById('modal-body-content');
-    body.innerHTML = data.content.split('\n\n').map(p => `<p>${escapeHTML(p)}</p>`).join('');
+    if (body) {
+      const rawContent = String(data.content || '')
+        .replace(/\\r\\n/g, '\n')
+        .replace(/\\n/g, '\n')
+        .replace(/\r\n/g, '\n')
+        .replace(/\r/g, '\n');
+      const paragraphs = rawContent.split(/\n{2,}|\n/).map(p => p.trim()).filter(p => p.length > 0);
+      body.innerHTML = paragraphs.map(p => `<p class="modal-paragraph story-paragraph">${escapeHTML(p)}</p>`).join('');
+    }
+
+    const modalGallery = document.getElementById('modal-gallery-container');
+    if (modalGallery) {
+      modalGallery.innerHTML = '';
+      modalGallery.style.display = 'none';
+    }
 
     if (commentsList) commentsList.innerHTML = '<div class="text-zinc-400 text-xs py-2 font-mono">Official Campus Directive. Public comments are archived.</div>';
 
     readerModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+  }
+
+  // 6. LIGHTBOX VIEWER CONTROLLER
+  function openLandingLightbox(images, startIndex, caption) {
+    if (!images || images.length === 0) return;
+    currentLightboxImages = images;
+    currentLightboxIndex = (startIndex >= 0 && startIndex < images.length) ? startIndex : 0;
+    currentLightboxCaption = caption || '';
+
+    const lightboxModal = document.getElementById('lightbox-modal');
+    if (!lightboxModal) return;
+
+    updateLandingLightboxUI();
+    lightboxModal.style.display = 'flex';
+    lightboxModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateLandingLightboxUI() {
+    const img = document.getElementById('landing-lightbox-img');
+    const cap = document.getElementById('landing-lightbox-caption');
+    const counter = document.getElementById('landing-lightbox-counter');
+    const prevBtn = document.getElementById('landing-lightbox-prev');
+    const nextBtn = document.getElementById('landing-lightbox-next');
+
+    if (img && currentLightboxImages[currentLightboxIndex]) {
+      img.src = currentLightboxImages[currentLightboxIndex];
+    }
+    if (cap) {
+      cap.textContent = currentLightboxCaption
+        ? `${currentLightboxCaption} (Photo ${currentLightboxIndex + 1} of ${currentLightboxImages.length})`
+        : `Photo ${currentLightboxIndex + 1} of ${currentLightboxImages.length}`;
+    }
+    if (counter) {
+      counter.textContent = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+    }
+    if (prevBtn && nextBtn) {
+      prevBtn.style.display = currentLightboxImages.length > 1 ? 'flex' : 'none';
+      nextBtn.style.display = currentLightboxImages.length > 1 ? 'flex' : 'none';
+    }
+  }
+
+  function stepLandingLightbox(delta) {
+    if (currentLightboxImages.length <= 1) return;
+    currentLightboxIndex = (currentLightboxIndex + delta + currentLightboxImages.length) % currentLightboxImages.length;
+    updateLandingLightboxUI();
+  }
+
+  function closeLandingLightbox() {
+    const lightboxModal = document.getElementById('lightbox-modal');
+    if (lightboxModal) {
+      lightboxModal.style.display = 'none';
+      lightboxModal.classList.remove('open');
+    }
+    // If reader modal isn't open, unlock body scrolling
+    if (!readerModal || !readerModal.classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
+    currentLightboxImages = [];
   }
 
   function renderModalComments(articleId) {
@@ -441,8 +746,9 @@ function openStoryModal(articleId) {
       </div>
     `).join('');
   }
-// 6. EVENT LISTENERS
-function setupEventListeners() {
+
+  // 7. EVENT LISTENERS
+  function setupEventListeners() {
     // Search with Debounce & Clear Button
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
@@ -475,6 +781,19 @@ function setupEventListeners() {
       modalCloseBtn.addEventListener('click', closeStoryModal);
     }
 
+    // Admin Desk Nav Guards
+    document.querySelectorAll('a[href*="admin-dashboard.html"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const user = window.DataStore ? window.DataStore.getCurrentUser() : null;
+        if (user && user.role === 'admin') {
+          window.location.href = 'admin-dashboard.html';
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+    });
+
     if (readerModal) {
       readerModal.addEventListener('click', (e) => {
         if (e.target === readerModal) {
@@ -483,16 +802,71 @@ function setupEventListeners() {
       });
     }
 
+    // Lightbox Controls
+    const lbClose = document.getElementById('landing-lightbox-close');
+    if (lbClose) {
+      lbClose.addEventListener('click', closeLandingLightbox);
+    }
+    const lbBackdrop = document.getElementById('landing-lightbox-backdrop');
+    if (lbBackdrop) {
+      lbBackdrop.addEventListener('click', closeLandingLightbox);
+    }
+    const lbPrev = document.getElementById('landing-lightbox-prev');
+    if (lbPrev) {
+      lbPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        stepLandingLightbox(-1);
+      });
+    }
+    const lbNext = document.getElementById('landing-lightbox-next');
+    if (lbNext) {
+      lbNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        stepLandingLightbox(1);
+      });
+    }
+
+    // Keyboard Navigation (ESC & Arrow keys)
+    window.addEventListener('keydown', (e) => {
+      const lbModal = document.getElementById('lightbox-modal');
+      const isLbActive = lbModal && (lbModal.classList.contains('open') || lbModal.style.display === 'flex');
+
+      if (e.key === 'Escape') {
+        if (isLbActive) {
+          closeLandingLightbox();
+          return;
+        }
+        if (readerModal && readerModal.classList.contains('open')) {
+          closeStoryModal();
+          return;
+        }
+      }
+
+      if (isLbActive) {
+        if (e.key === 'ArrowLeft') {
+          stepLandingLightbox(-1);
+        } else if (e.key === 'ArrowRight') {
+          stepLandingLightbox(1);
+        }
+      }
+    });
+
     // Mobile Menu Toggle
     if (mobileMenuToggleBtn && mobileNavDrawer) {
-      mobileMenuToggleBtn.addEventListener('click', () => {
-        mobileNavDrawer.classList.toggle('open');
+      mobileMenuToggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = mobileNavDrawer.classList.toggle('open');
+        document.body.classList.toggle('drawer-open', isOpen);
       });
     }
 
     if (mobileNavCloseBtn && mobileNavDrawer) {
-      mobileNavCloseBtn.addEventListener('click', () => {
+      mobileNavCloseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         mobileNavDrawer.classList.remove('open');
+        document.body.classList.remove('drawer-open');
       });
     }
 
@@ -501,7 +875,16 @@ function setupEventListeners() {
       mobileNavDrawer.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', () => {
           mobileNavDrawer.classList.remove('open');
+          document.body.classList.remove('drawer-open');
         });
+      });
+
+      // Close when clicking outside drawer content
+      mobileNavDrawer.addEventListener('click', (e) => {
+        if (e.target === mobileNavDrawer) {
+          mobileNavDrawer.classList.remove('open');
+          document.body.classList.remove('drawer-open');
+        }
       });
     }
 
@@ -526,19 +909,12 @@ function setupEventListeners() {
         if (navigator.clipboard) {
           navigator.clipboard.writeText(window.location.href);
           const original = shareBtn.innerHTML;
-          const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : 'âœ“';
+          const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : '✓';
           shareBtn.innerHTML = `${checkSVG} Link Copied!`;
           setTimeout(() => { shareBtn.innerHTML = original; }, 2000);
         }
       });
     }
-
-    // ESC to close modal
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && readerModal && readerModal.classList.contains('open')) {
-        closeStoryModal();
-      }
-    });
 
     // Newsletter mock
     const newsletterForm = document.getElementById('newsletter-form');
@@ -550,7 +926,7 @@ function setupEventListeners() {
         if (input) input.value = '';
         if (msg) {
           msg.classList.remove('hidden');
-          const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : 'âœ“';
+          const checkSVG = window.AppIcons ? window.AppIcons.get('check', 'svg-icon-sm') : '✓';
           msg.innerHTML = `${checkSVG} Subscribed! You will receive weekly official university dispatches.`;
         }
       });
@@ -574,5 +950,3 @@ function setupEventListeners() {
   }
 
 })(window);
-
-

@@ -6,6 +6,9 @@
   <title>NSBM NewsDesk — Campus News Management System</title>
   <meta name="description" content="Official NSBM NewsDesk: University Campus News Management System featuring campus announcements, category beats, investigative student journalism, and admin editorial desk." />
 
+  <!-- Favicon -->
+  <link rel="icon" href="nsbm-logo.jpg" type="image/jpeg" />
+
   <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -78,12 +81,12 @@
       </div>
       <div class="ticker-wrapper">
         <div class="ticker-track">
-          <span class="ticker-item">★ NSBM GREEN UNIVERSITY INAUGURATES 2026 ACADEMIC YEAR</span>
-          <span class="ticker-item text-brand-accent">★ FACULTY OF COMPUTING BREAKTHROUGH: ZERO-CLOUD EDGE AI DIAGNOSTICS</span>
-          <span class="ticker-item text-emerald-300">★ SUSTAINABILITY AUDIT: CAMPUS ACHIEVES 85% CARBON REDUCTION</span>
-          <span class="ticker-item">★ STUDENT SENATE ELECTIONS SCHEDULED FOR NEXT WEEK</span>
-          <span class="ticker-item text-amber-400">★ VARSITY GREEN DRAGONS CLINCH WESTERN PROVINCE RUGBY CHAMPIONSHIP</span>
-          <span class="ticker-item">★ UNDERGRADUATE RESEARCH SEED GRANTS NOW OPEN FOR REGISTRATION</span>
+          <span class="ticker-item">★ NSBM OPENS RS. 720 MILLION CIVIL ENGINEERING LABORATORY COMPLEX</span>
+          <span class="ticker-item text-brand-accent">★ GREEN BUILDING COUNCIL AWARDS PLATINUM RATING TO NSBM PHASE II</span>
+          <span class="ticker-item text-emerald-300">★ NSBM & SOUTHERN CROSS UNIVERSITY AUSTRALIA SIGN DUAL DEGREE MOU</span>
+          <span class="ticker-item">★ DR. HANS WIJAYASURIYA ADDRESSES SRI LANKA'S DIGITAL FUTURE AT NSBM</span>
+          <span class="ticker-item text-amber-400">★ NSBM DELEGATION REPRESENTS SRI LANKA AT 88TH SAARC CCI IN MALDIVES</span>
+          <span class="ticker-item">★ NSBM CELEBRATES NURSING PLEDGE CEREMONY 2026 FOR UNDERGRADUATES</span>
         </div>
       </div>
     </div>
@@ -522,6 +525,11 @@
         <div id="modal-date" class="text-xs text-zinc-400 font-mono">Date</div>
       </div>
 
+      <!-- High-Resolution Image Gallery / Carousel -->
+      <div id="modal-gallery-container" class="modal-gallery-container mb-6">
+        <!-- Injected via JS -->
+      </div>
+
       <!-- Full Body Content -->
       <div id="modal-body-content" class="modal-body">
         <!-- Injected via JS -->
@@ -609,6 +617,21 @@
       </div>
     </div>
   </footer>
+
+  <!-- FULLSCREEN LIGHTBOX MODAL -->
+  <div id="lightbox-modal" class="landing-lightbox-modal" style="display:none;" role="dialog" aria-modal="true" aria-label="Fullscreen Photo View">
+    <div class="landing-lightbox-backdrop" id="landing-lightbox-backdrop"></div>
+    <div class="landing-lightbox-container">
+      <button type="button" class="landing-lightbox-close" id="landing-lightbox-close" title="Close Lightbox" aria-label="Close">&times;</button>
+      <button type="button" class="landing-lightbox-prev" id="landing-lightbox-prev" title="Previous Image" aria-label="Previous">&#10094;</button>
+      <div class="landing-lightbox-stage">
+        <img id="landing-lightbox-img" src="" alt="Fullscreen campus photo" />
+        <div id="landing-lightbox-caption" class="landing-lightbox-caption"></div>
+      </div>
+      <button type="button" class="landing-lightbox-next" id="landing-lightbox-next" title="Next Image" aria-label="Next">&#10095;</button>
+      <div id="landing-lightbox-counter" class="landing-lightbox-counter">1 / 1</div>
+    </div>
+  </div>
 
   <!-- Modular Scripts -->
   <script src="js/icons.js"></script>

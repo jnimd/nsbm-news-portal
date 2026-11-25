@@ -822,42 +822,63 @@
   }
 }
 
+/* Prevent page shift when mobile nav drawer is open */
+body.drawer-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 .mobile-nav-drawer {
   position: fixed;
-  inset: 0;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(3, 3, 6, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+  transform: translateY(-8px);
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .mobile-nav-drawer.open {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transform: translateY(0);
 }
 
 .mobile-nav-inner {
   width: 100%;
-  max-width: 20rem;
-  height: 100%;
-  background: var(--bg-card);
-  border-left: 1px solid var(--border-light);
+  max-width: 100%;
+  min-height: 100%;
+  background: transparent;
+  border-left: none;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
+[data-theme="light"] .mobile-nav-drawer {
+  background: rgba(255, 255, 255, 0.98);
+  border-top: 1px solid #e4e6eb;
 }
 
 [data-theme="light"] .mobile-nav-inner {
-  background: #ffffff;
-  border-left-color: #ced0d4;
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border-left: none;
+  box-shadow: none;
 }
 
 .mobile-nav-link {
@@ -1007,3 +1028,410 @@
 }
 
 
+
+/* ==========================================================================
+   MULTI-IMAGE CARD SLIDESHOW, MODAL GALLERY & LIGHTBOX
+   ========================================================================== */
+
+/* 1. Main Page News Card Multi-Image Slideshow */
+.news-card-slider {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 12rem;
+  background: #12131c;
+}
+.card-slider-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+.card-slider-slide {
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+.card-slider-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card-slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s, transform 0.15s;
+}
+.news-card:hover .card-slider-btn {
+  opacity: 1;
+}
+.card-slider-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+.card-slider-btn.prev {
+  left: 8px;
+}
+.card-slider-btn.next {
+  right: 8px;
+}
+.card-slider-badge {
+  position: absolute;
+  top: 0.85rem;
+  right: 3.5rem;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--font-mono, monospace);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 2;
+}
+.card-slider-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  z-index: 3;
+}
+.card-slider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.card-slider-dot.active {
+  background: #ffffff;
+  width: 16px;
+  border-radius: 3px;
+}
+
+/* 2. Story Reader Modal Gallery / Carousel */
+.modal-gallery-container {
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #090a0f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.modal-gallery-hero-wrap {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+}
+@media (max-width: 640px) {
+  .modal-gallery-hero-wrap {
+    height: 240px;
+  }
+}
+.modal-gallery-hero-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.modal-gallery-hero-wrap:hover img {
+  transform: scale(1.02);
+}
+.modal-gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.2s ease;
+}
+.modal-gallery-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+.modal-gallery-prev,
+.modal-gallery-btn.prev {
+  left: 12px;
+}
+.modal-gallery-next,
+.modal-gallery-btn.next {
+  right: 12px;
+}
+.modal-gallery-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 6;
+}
+.modal-gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.modal-gallery-dot.active {
+  background: #ffffff;
+  width: 20px;
+  border-radius: 4px;
+}
+.modal-gallery-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 5;
+}
+.modal-gallery-hint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  z-index: 5;
+}
+.modal-gallery-thumbs {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  overflow-x: auto;
+  background: rgba(18, 19, 28, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.modal-gallery-thumbs::-webkit-scrollbar {
+  height: 6px;
+}
+.modal-gallery-thumbs::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+.modal-gallery-thumb {
+  width: 72px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+.modal-gallery-thumb:hover {
+  opacity: 0.9;
+}
+.modal-gallery-thumb.active {
+  border-color: var(--brand-primary, #2563eb);
+  opacity: 1;
+  transform: scale(1.05);
+}
+.modal-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal-gallery-caption {
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  color: #a1a1aa;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(10, 11, 18, 0.98);
+}
+
+/* 3. Story Paragraph Formatting */
+.modal-paragraph,
+.story-paragraph {
+  margin-bottom: 1.35rem;
+  line-height: 1.85;
+  font-size: 1.025rem;
+  color: #e4e4e7;
+  letter-spacing: 0.01em;
+}
+.modal-paragraph:last-child,
+.story-paragraph:last-child {
+  margin-bottom: 0;
+}
+[data-theme="light"] .modal-paragraph,
+[data-theme="light"] .story-paragraph {
+  color: #1f2937;
+}
+
+/* 4. Fullscreen Lightbox Modal */
+.landing-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(10px);
+}
+.landing-lightbox-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 96vw;
+  height: 96vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.landing-lightbox-stage {
+  max-width: 92vw;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.landing-lightbox-stage img {
+  max-width: 90vw;
+  max-height: 75vh;
+  object-fit: contain !important;
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+  user-select: none;
+}
+.landing-lightbox-caption {
+  margin-top: 14px;
+  color: #e4e6eb;
+  font-size: 0.92rem;
+  text-align: center;
+  max-width: 800px;
+  line-height: 1.4;
+}
+.landing-lightbox-close,
+.landing-lightbox-prev,
+.landing-lightbox-next {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+.landing-lightbox-close:hover,
+.landing-lightbox-prev:hover,
+.landing-lightbox-next:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.1);
+}
+.landing-lightbox-close {
+  top: 18px;
+  right: 24px;
+  font-size: 1.75rem;
+}
+.landing-lightbox-prev {
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.landing-lightbox-next {
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.landing-lightbox-counter {
+  position: absolute;
+  top: 24px;
+  left: 30px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+@media (max-width: 768px) {
+  .landing-lightbox-prev {
+    left: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  .landing-lightbox-next {
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  .landing-lightbox-close {
+    top: 12px;
+    right: 12px;
+  }
+  .landing-lightbox-counter {
+    top: 14px;
+    left: 14px;
+    font-size: 0.8rem;
+  }
+}

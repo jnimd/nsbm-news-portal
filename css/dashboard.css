@@ -28,9 +28,25 @@
   transition: transform 0.3s ease, background-color 0.25s ease, border-color 0.25s ease;
 }
 
+/* Prevent layout shifting on mobile drawer toggle */
+body.drawer-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 @media (max-width: 1024px) {
   .dashboard-sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    max-width: 18.5rem;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 9999;
     transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
   }
   .dashboard-sidebar.mobile-open {
     transform: translateX(0);

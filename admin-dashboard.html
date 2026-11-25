@@ -6,6 +6,29 @@
   <title>Admin Editorial Suite — NSBM NewsDesk Campus Management System</title>
   <meta name="description" content="Administrative control center for full CRUD article management, student submission approval queue, announcements manager, category beats, comment moderation, and readership analytics." />
 
+  <!-- Favicon -->
+  <link rel="icon" href="nsbm-logo.jpg" type="image/jpeg" />
+
+  <!-- Auth Protection Guard -->
+  <script>
+    (function() {
+      try {
+        var user = JSON.parse(
+          localStorage.getItem('nsbm_newsdesk_current_user_v7') ||
+          sessionStorage.getItem('nsbm_newsdesk_session_user') ||
+          localStorage.getItem('nsbm_newsdesk_current_user_v6') ||
+          localStorage.getItem('nsbm_newsdesk_current_user_v5') ||
+          localStorage.getItem('nsbm_newsdesk_current_user_v4')
+        );
+        if (!user || user.role !== 'admin') {
+          window.location.replace('login.html?error=unauthorized');
+        }
+      } catch(e) {
+        window.location.replace('login.html?error=unauthorized');
+      }
+    })();
+  </script>
+
   <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

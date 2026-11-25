@@ -1,22 +1,22 @@
-# Member_02_Authentication_Security
+# Member_03_Admin_Dashboard_CRUD
 
 **Assigned Role & Responsibilities:**
-Security & Authentication Engineer (Auth pages, registration, login scripts, security APIs)
+Admin Panel & CRUD Specialist (Admin panels, article editor scripts, CRUD APIs)
 
 ## Distributed Active Project Deliverables (Day 04 Final):
-- `login.html`
-- `register.html`
+- `admin-dashboard.html`
 - `nsbm-logo.jpg`
 - `css/global.css`
-- `css/auth.css`
-- `js/auth.js`
+- `css/dashboard.css`
+- `js/admin-dashboard.js`
 - `js/theme.js`
 - `js/icons.js`
-- `api/auth.php`
+- `api/articles.php`
+- `api/categories.php`
 - `config/db.php`
 
 - **Total Files Allocated**: 10
-- **Total Volume**: 0.34 MB
+- **Total Volume**: 0.37 MB
 
 ## Instructions for Member GitHub Commit:
 1. Stage and commit the files allocated in this folder directly into your branch or assigned repository section.

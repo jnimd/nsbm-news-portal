@@ -5,6 +5,7 @@ require_once __DIR__ . '/../config/db.php';
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Content-Type: application/json; charset=UTF-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
@@ -69,32 +70,32 @@ if ($method === 'POST') {
     }
 
     if ($action === 'login' || empty($action)) {
-        if (empty($data['email']) || empty($data['password'])) {
+        $identifier = !empty($data['email']) ? strtolower(trim($data['email'])) : (!empty($data['username']) ? strtolower(trim($data['username'])) : '');
+        $password = !empty($data['password']) ? $data['password'] : '';
+
+        if (empty($identifier) || empty($password)) {
             http_response_code(400);
-            echo json_encode(['status' => 'error', 'message' => 'Email and password are required.']);
+            echo json_encode(['status' => 'error', 'message' => 'Username/email and password are required.']);
             exit;
         }
 
-        $email = strtolower(trim($data['email']));
-        $password = $data['password'];
-
         try {
-            $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
-            $stmt->execute([$email]);
+            $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? OR username = ?');
+            $stmt->execute([$identifier, $identifier]);
             $user = $stmt->fetch();
 
             if (!$user) {
                 http_response_code(401);
-                echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
+                echo json_encode(['status' => 'error', 'message' => 'Invalid username/email or password.']);
                 exit;
             }
 
-            // Verify password hash or fallback seed demo password 'nsbm2026'
-            $passValid = password_verify($password, $user['password_hash']) || ($password === 'nsbm2026');
+            // Strictly verify password using secure bcrypt hash
+            $passValid = password_verify($password, $user['password_hash']);
 
             if (!$passValid) {
                 http_response_code(401);
-                echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
+                echo json_encode(['status' => 'error', 'message' => 'Invalid username/email or password.']);
                 exit;
             }
 
@@ -133,3 +134,4 @@ if ($method === 'GET') {
 
 http_response_code(405);
 echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
+

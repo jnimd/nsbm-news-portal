@@ -456,3 +456,33 @@
   border: 1px solid rgba(66, 183, 42, 0.3);
   color: #42b72a;
 }
+
+/* Explicit Red Input Error & Validation Feedback */
+.input-error {
+  border: 1px solid #ff4d4d !important;
+  box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.22) !important;
+  background-color: rgba(255, 77, 77, 0.05) !important;
+}
+
+.login-error-feedback {
+  margin-top: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(255, 77, 77, 0.12);
+  border: 1px solid #ff4d4d;
+  color: #ff4d4d;
+  font-size: 0.84rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.4;
+  animation: authShake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes authShake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+  40%, 60% { transform: translate3d(3px, 0, 0); }
+}

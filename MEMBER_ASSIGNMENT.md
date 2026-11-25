@@ -1,24 +1,22 @@
-# Member_01_Frontend_Lead
+# Member_02_Authentication_Security
 
 **Assigned Role & Responsibilities:**
-Team Leader & Frontend Lead (Core layout, home interface, assets, main CSS/JS bundles)
+Security & Authentication Engineer (Auth pages, registration, login scripts, security APIs)
 
 ## Distributed Active Project Deliverables (Day 04 Final):
-- `index.html`
+- `login.html`
+- `register.html`
 - `nsbm-logo.jpg`
 - `css/global.css`
-- `css/landing.css`
-- `css/scrolly.css`
-- `js/landing.js`
-- `js/scrolly.js`
+- `css/auth.css`
+- `js/auth.js`
 - `js/theme.js`
 - `js/icons.js`
-- `1im`
-- `2im`
-- `3im`
+- `api/auth.php`
+- `config/db.php`
 
-- **Total Files Allocated**: 489
-- **Total Volume**: 28.38 MB
+- **Total Files Allocated**: 10
+- **Total Volume**: 0.34 MB
 
 ## Instructions for Member GitHub Commit:
 1. Stage and commit the files allocated in this folder directly into your branch or assigned repository section.

@@ -6,6 +6,9 @@
   <title>Sign In — NSBM NewsDesk Campus Management System</title>
   <meta name="description" content="Secure portal login for students, faculty journalists, and editors at NSBM Green University NewsDesk." />
 
+  <!-- Favicon -->
+  <link rel="icon" href="nsbm-logo.jpg" type="image/jpeg" />
+
   <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -101,16 +104,16 @@
         <!-- Login Form -->
         <form id="login-form">
           <div class="form-group">
-            <label for="login-email" class="form-label">Campus Email Address</label>
+            <label for="login-email" class="form-label">Campus Username or Email Address</label>
             <div class="input-wrapper">
               <span class="input-icon">
                 <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               </span>
               <input 
-                type="email" 
+                type="text" 
                 id="login-email" 
                 class="form-input" 
-                placeholder="student@students.nsbm.ac.lk" 
+                placeholder="admin or student@students.nsbm.ac.lk" 
                 required 
               />
             </div>
@@ -138,6 +141,11 @@
                 </span>
               </button>
             </div>
+            <!-- Explicit Red Error Feedback Slot Directly Below Password Box -->
+            <div id="login-error-feedback" class="login-error-feedback" style="display: none; margin-top: 0.5rem;">
+              <svg class="svg-icon-sm" style="flex-shrink: 0; width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span id="login-error-text">Incorrect username or password. Please try again.</span>
+            </div>
           </div>
 
           <!-- Prominent Facebook Blue Submit Button -->
@@ -158,21 +166,6 @@
             <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
             <span>Create New Account</span>
           </a>
-        </div>
-
-        <!-- Quick Demo Login for Instant Testing -->
-        <div class="demo-quick-box">
-          <div class="demo-quick-title">Quick Demo Login (One-Click)</div>
-          <div class="demo-btn-row">
-            <button type="button" id="demo-student-btn" class="btn-demo">
-              <svg class="svg-icon-sm text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-              <span>Student Demo</span>
-            </button>
-            <button type="button" id="demo-admin-btn" class="btn-demo">
-              <svg class="svg-icon-sm text-brand-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>Admin Demo</span>
-            </button>
-          </div>
         </div>
 
       </section>

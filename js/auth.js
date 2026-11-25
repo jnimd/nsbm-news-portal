@@ -1,4 +1,4 @@
-﻿// login and registration logic
+// login and registration logic
 (function(window) {
   'use strict';
 
@@ -9,7 +9,6 @@
     setupPasswordToggles();
     setupLoginForm();
     setupRegisterForm();
-    setupDemoButtons();
   }
 // ROLE SELECTOR TABS
 function setupRoleSelector() {
@@ -56,57 +55,136 @@ function setupPasswordToggles() {
       });
     });
   }
-// LOGIN FORM SUBMISSION
+// LOGIN FORM SUBMISSION (STRICT CREDENTIAL VALIDATION)
 function setupLoginForm() {
     const form = document.getElementById('login-form');
     if (!form) return;
 
+    const emailInput = document.getElementById('login-email');
+    const passInput = document.getElementById('login-password');
+    const alertBox = document.getElementById('auth-alert');
+    const errorFeedback = document.getElementById('login-error-feedback');
+    const errorText = document.getElementById('login-error-text');
+
+    function showLoginError(msg) {
+      if (emailInput) {
+        emailInput.classList.add('input-error');
+        emailInput.style.border = '1px solid #ff4d4d';
+      }
+      if (passInput) {
+        passInput.classList.add('input-error');
+        passInput.style.border = '1px solid #ff4d4d';
+        passInput.value = '';
+        passInput.focus();
+      }
+      const message = msg || 'Incorrect username or password. Please try again.';
+      if (errorFeedback && errorText) {
+        errorText.textContent = message;
+        errorFeedback.style.display = 'flex';
+      }
+      if (alertBox) {
+        showAlert(alertBox, message, 'error');
+      }
+    }
+
+    function clearErrors() {
+      if (emailInput) {
+        emailInput.classList.remove('input-error');
+        emailInput.style.border = '';
+      }
+      if (passInput) {
+        passInput.classList.remove('input-error');
+        passInput.style.border = '';
+      }
+      if (errorFeedback) errorFeedback.style.display = 'none';
+      if (alertBox) alertBox.style.display = 'none';
+    }
+
+    if (emailInput) emailInput.addEventListener('input', clearErrors);
+    if (passInput) passInput.addEventListener('input', clearErrors);
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const pass = document.getElementById('login-password').value;
-      const alertBox = document.getElementById('auth-alert');
+      clearErrors();
 
-      if (!email || !pass) {
-        showAlert(alertBox, 'Please enter both your email address and password.', 'error');
+      const identifier = emailInput ? emailInput.value.trim() : '';
+      const pass = passInput ? passInput.value : '';
+
+      if (!identifier || !pass) {
+        showLoginError('Incorrect username or password. Please try again.');
         return;
       }
 
-      // Authenticate
       let user = null;
-      if (selectedRole === 'admin') {
+      const cleanId = identifier.toLowerCase();
+
+      // Check Administrator Account (Username: admin, Password: NsbmAdmin@2026!)
+      if ((cleanId === 'admin' || cleanId === 'admin@nsbm.ac.lk') && pass === 'NsbmAdmin@2026!') {
         user = {
-          name: email.split('@')[0].toUpperCase(),
-          email: email,
+          id: 1,
+          username: 'admin',
+          name: 'NSBM Editorial Administrator',
+          email: 'admin@nsbm.ac.lk',
           role: 'admin',
-          adminId: 'ADMIN-PRESS-01',
-          title: 'Senior Newsdesk Administrator'
+          adminId: 'NSBM-ADM-001',
+          title: 'Chief Newsdesk Administrator',
+          faculty: 'University Media Bureau'
         };
+      } else if (cleanId === 'student' || cleanId === 'student@students.nsbm.ac.lk') {
+        if (pass === 'NsbmAdmin@2026!' || pass === 'NsbmStudent@2026!' || pass === 'nsbm2026') {
+          user = {
+            id: 2,
+            username: 'student',
+            name: 'NSBM Student Contributor',
+            email: 'student@students.nsbm.ac.lk',
+            role: 'student',
+            studentId: 'NSBM-IT-24-9021',
+            faculty: 'Faculty of Computing',
+            title: 'Student Reporter'
+          };
+        } else {
+          showLoginError('Incorrect username or password. Please try again.');
+          return;
+        }
       } else {
-        user = {
-          name: email.split('@')[0].replace('.', ' ').toUpperCase(),
-          email: email,
-          role: 'student',
-          studentId: 'NSBM-STU-2026',
-          faculty: 'Faculty of Computing'
-        };
+        // Check dynamically registered user accounts
+        let registeredUsers = [];
+        try {
+          registeredUsers = JSON.parse(localStorage.getItem('nsbm_newsdesk_registered_users') || '[]');
+        } catch(err) {}
+        const found = registeredUsers.find(u => 
+          (u.email && u.email.toLowerCase() === cleanId || 
+           (u.studentId && u.studentId.toLowerCase() === cleanId) || 
+           (u.username && u.username.toLowerCase() === cleanId)) && 
+          u.password === pass
+        );
+        if (found) {
+          user = found;
+        } else {
+          showLoginError('Incorrect username or password. Please try again.');
+          return;
+        }
       }
+
+      // Save user session into BOTH localStorage and sessionStorage
+      const userJson = JSON.stringify(user);
+      try {
+        localStorage.setItem('nsbm_newsdesk_current_user_v7', userJson);
+        sessionStorage.setItem('nsbm_newsdesk_session_user', userJson);
+      } catch(e) {}
 
       if (window.DataStore) {
         window.DataStore.setCurrentUser(user);
       }
 
-      showAlert(alertBox, 'Authentication successful! Redirecting to dashboard...', 'success');
+      if (errorFeedback) errorFeedback.style.display = 'none';
 
-      setTimeout(() => {
-        if (selectedRole === 'admin') {
-          window.location.href = 'admin-dashboard.html';
-        } else {
-          window.location.href = 'student-dashboard.html';
-        }
-      }, 700);
+      // IMMEDIATELY execute window.location.href
+      const targetUrl = user.role === 'admin' ? 'admin-dashboard.html' : 'index.html';
+      window.location.href = targetUrl;
     });
   }
+
 // REGISTRATION FORM SUBMISSION
 function setupRegisterForm() {
     const form = document.getElementById('register-form');
@@ -141,12 +219,25 @@ function setupRegisterForm() {
         email: email,
         role: selectedRole,
         studentId: idNumber,
-        faculty: selectedRole === 'student' ? 'Faculty of Computing' : 'Administrative Bureau'
+        faculty: selectedRole === 'student' ? 'Faculty of Computing' : 'Administrative Bureau',
+        password: pass
       };
+
+      try {
+        const storedUsers = JSON.parse(localStorage.getItem('nsbm_newsdesk_registered_users') || '[]');
+        storedUsers.push(user);
+        localStorage.setItem('nsbm_newsdesk_registered_users', JSON.stringify(storedUsers));
+      } catch(e) {}
 
       if (window.DataStore) {
         window.DataStore.setCurrentUser(user);
       }
+      // Explicit fallback: persist in localStorage + sessionStorage
+      try {
+        const userJson = JSON.stringify(user);
+        localStorage.setItem('nsbm_newsdesk_current_user_v7', userJson);
+        sessionStorage.setItem('nsbm_newsdesk_session_user', userJson);
+      } catch(e) {}
 
       showAlert(alertBox, 'Account created successfully! Launching your portal...', 'success');
 
@@ -154,33 +245,10 @@ function setupRegisterForm() {
         if (selectedRole === 'admin') {
           window.location.href = 'admin-dashboard.html';
         } else {
-          window.location.href = 'student-dashboard.html';
+          window.location.href = 'campus-feed.html';
         }
       }, 800);
     });
-  }
-// DEMO QUICK LOGIN BUTTONS
-function setupDemoButtons() {
-    const demoStudentBtn = document.getElementById('demo-student-btn');
-    const demoAdminBtn = document.getElementById('demo-admin-btn');
-
-    if (demoStudentBtn) {
-      demoStudentBtn.addEventListener('click', () => {
-        if (window.DataStore) {
-          window.DataStore.loginAsDemo('student');
-        }
-        window.location.href = 'student-dashboard.html';
-      });
-    }
-
-    if (demoAdminBtn) {
-      demoAdminBtn.addEventListener('click', () => {
-        if (window.DataStore) {
-          window.DataStore.loginAsDemo('admin');
-        }
-        window.location.href = 'admin-dashboard.html';
-      });
-    }
   }
 
   function showAlert(alertEl, msg, type) {

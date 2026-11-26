@@ -1,21 +1,21 @@
-# Member_04_Student_Submissions
+# Member_05_Campus_Buzz_Social_Feed
 
 **Assigned Role & Responsibilities:**
-Student Contributor Portal Lead (Student portal views, submission handlers, submission storage JS)
+Social Wall & Media Engineer (Campus feed, social pages, full news media assets folder)
 
 ## Distributed Active Project Deliverables (Day 04 Final):
-- `student-dashboard.html`
+- `campus-feed.html`
+- `nsbm-social.html`
 - `nsbm-logo.jpg`
 - `css/global.css`
-- `css/dashboard.css`
-- `js/student-dashboard.js`
+- `css/feed.css`
+- `js/campus-feed.js`
 - `js/theme.js`
 - `js/icons.js`
-- `api/submissions.php`
-- `config/db.php`
+- `news`
 
-- **Total Files Allocated**: 9
-- **Total Volume**: 0.36 MB
+- **Total Files Allocated**: 71
+- **Total Volume**: 6.74 MB
 
 ## Instructions for Member GitHub Commit:
 1. Stage and commit the files allocated in this folder directly into your branch or assigned repository section.

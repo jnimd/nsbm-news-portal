@@ -6,6 +6,9 @@
   <title>NSBM Campus Buzz — Student & Faculty Social Feed | NSBM NewsDesk</title>
   <meta name="description" content="Engage with real-time campus dispatches, club announcements, research breakthroughs, and student discussions at NSBM Green University.">
   
+  <!-- Favicon -->
+  <link rel="icon" href="nsbm-logo.jpg" type="image/jpeg">
+  
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +17,60 @@
   <!-- Core Stylesheets -->
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/feed.css">
+
+  <style>
+    /* Strict Mobile Viewport & Horizontal Overflow Lock */
+    html, body {
+      width: 100% !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box !important;
+    }
+    @media (max-width: 768px) {
+      .feed-navbar {
+        width: 100% !important;
+        max-width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+        padding: 0 12px !important;
+        box-sizing: border-box !important;
+      }
+      .feed-layout, .feed-main, .social-main-wrapper, .feed-container, .main-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+      }
+      .feed-composer-box, .feed-filter-bar, .social-post-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .post-headline, .post-body, .post-author-name, .post-text {
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+        white-space: normal !important;
+      }
+      .post-media, .post-media img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        display: block !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+      }
+    }
+  </style>
 </head>
 <body class="feed-page-body">
 
@@ -59,10 +116,10 @@
           <svg class="svg-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
-        <!-- User Chip -->
-        <a href="student-dashboard.html" class="feed-user-chip" title="My Profile & Submissions">
-          <div class="feed-avatar" id="feedNavAvatar">K</div>
-          <span class="feed-user-name" id="feedNavName">Kasun</span>
+        <!-- User Chip / Auth Status -->
+        <a href="login.html" class="feed-user-chip" id="feedNavUserLink" title="User Account">
+          <div class="feed-avatar" id="feedNavAvatar">G</div>
+          <span class="feed-user-name" id="feedNavName">Guest</span>
         </a>
       </div>
     </div>
@@ -74,21 +131,24 @@
     <!-- LEFT SIDEBAR: PROFILE & QUICK NAVIGATION -->
     <aside class="feed-sidebar-left">
       <!-- Profile Snippet Card -->
-      <div class="feed-card feed-profile-snippet">
-        <div class="feed-profile-avatar-lg" id="feedUserAvatar">K</div>
-        <h2 class="feed-profile-name" id="feedUserName">Kasun Perera</h2>
-        <div class="feed-profile-role" id="feedUserRole">Computing Undergrad</div>
-        <div class="feed-profile-faculty" id="feedUserFaculty">Faculty of Computing</div>
+      <div class="feed-card feed-profile-snippet" id="feedProfileSnippetCard">
+        <div class="feed-profile-avatar-lg" id="feedUserAvatar">G</div>
+        <h2 class="feed-profile-name" id="feedUserName">Guest User</h2>
+        <div class="feed-profile-role" id="feedUserRole">Public Visitor</div>
+        <div class="feed-profile-faculty" id="feedUserFaculty">NSBM Green University</div>
         
-        <div class="feed-profile-stats">
+        <div class="feed-profile-stats" id="feedProfileStats" style="display:none;">
           <div>
-            <div class="feed-stat-num">12</div>
+            <div class="feed-stat-num" id="feedStatDispatches">0</div>
             <div class="feed-stat-label">Dispatches</div>
           </div>
           <div>
-            <div class="feed-stat-num">348</div>
-            <div class="feed-stat-label">Likes Received</div>
+            <div class="feed-stat-num" id="feedStatLikes">0</div>
+            <div class="feed-stat-label">Likes</div>
           </div>
+        </div>
+        <div id="feedProfileAuthAction" style="margin-top:0.75rem; width:100%;">
+          <a href="login.html" class="feed-guest-login-btn" style="width:100%;">Sign In to Post</a>
         </div>
       </div>
 
@@ -132,7 +192,7 @@
       <!-- Post Composer Bar (Facebook style) -->
       <div class="feed-composer-box">
         <div class="feed-composer-top">
-          <div class="feed-avatar" style="width:40px; height:40px; font-size:1rem;">K</div>
+          <div class="feed-avatar" id="composerAvatarInitial" style="width:40px; height:40px; font-size:1rem;">G</div>
           <button class="feed-composer-trigger" id="openComposerBtn" type="button">
             What's happening on campus? Share news or club updates...
           </button>
@@ -208,28 +268,36 @@
             <span class="trending-count">1.8k posts</span>
           </a>
 
-          <a href="#" class="trending-topic-item" data-tag="#EdgeAI_Computing">
+          <a href="#" class="trending-topic-item" data-tag="#CivilEngLabComplex">
             <div>
-              <div class="trending-tag">#EdgeAI_Computing</div>
-              <div class="trending-count">Undergraduate Patents</div>
+              <div class="trending-tag">#CivilEngLabComplex</div>
+              <div class="trending-count">Rs. 720M Lab Inauguration</div>
             </div>
-            <span class="trending-count">940 posts</span>
+            <span class="trending-count">2.1k posts</span>
           </a>
 
-          <a href="#" class="trending-topic-item" data-tag="#HackPulseDawn">
+          <a href="#" class="trending-topic-item" data-tag="#PlatinumGreenRating">
             <div>
-              <div class="trending-tag">#HackPulseDawn</div>
-              <div class="trending-count">48-Hour Hackathon</div>
+              <div class="trending-tag">#PlatinumGreenRating</div>
+              <div class="trending-count">Green Building Council</div>
             </div>
-            <span class="trending-count">720 posts</span>
+            <span class="trending-count">1.4k posts</span>
           </a>
 
-          <a href="#" class="trending-topic-item" data-tag="#ZeroPlastics">
+          <a href="#" class="trending-topic-item" data-tag="#SouthernCrossUni">
             <div>
-              <div class="trending-tag">#ZeroPlastics</div>
-              <div class="trending-count">Senate Resolution</div>
+              <div class="trending-tag">#SouthernCrossUni</div>
+              <div class="trending-count">Australia Double Degree MoU</div>
             </div>
-            <span class="trending-count">510 posts</span>
+            <span class="trending-count">980 posts</span>
+          </a>
+
+          <a href="#" class="trending-topic-item" data-tag="#DigitalEconomySession">
+            <div>
+              <div class="trending-tag">#DigitalEconomySession</div>
+              <div class="trending-count">Dr. Hans Wijayasuriya</div>
+            </div>
+            <span class="trending-count">760 posts</span>
           </a>
         </div>
       </div>
@@ -284,11 +352,11 @@
   </main>
 
   <!-- QUICK COMPOSER MODAL (Facebook style popup) -->
-  <div class="feed-modal-backdrop" id="feedComposerModal" role="dialog" aria-modal="true" aria-labelledby="modalComposerTitle">
+  <div class="feed-modal-backdrop modal-overlay" id="feedComposerModal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modalComposerTitle">
     <div class="feed-modal-card">
       <div class="feed-modal-header">
         <h3 class="feed-modal-title" id="modalComposerTitle">Create Campus Dispatch / Story</h3>
-        <button type="button" class="post-action-btn" id="closeComposerBtn" aria-label="Close modal" style="padding:4px;">
+        <button type="button" class="post-action-btn modal-close" id="closeComposerBtn" aria-label="Close modal" style="padding:4px;">
           <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
@@ -296,7 +364,7 @@
       <div class="feed-modal-body">
         <textarea class="feed-modal-textarea" id="postContentInput" placeholder="What would you like to broadcast to the NSBM community? Share club results, campus observations, or hackathon progress..."></textarea>
         
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.75rem;">
+        <div style="display:grid; grid-template-columns: 1fr; gap:0.75rem;">
           <div>
             <label style="display:block; font-size:0.78rem; font-weight:700; margin-bottom:0.35rem; color:var(--text-secondary);">Category Channel</label>
             <select id="postCategorySelect" style="width:100%; background:var(--bg-secondary); border:1px solid var(--border-subtle); color:var(--text-primary); border-radius:8px; padding:0.55rem; font-size:0.84rem;">
@@ -309,28 +377,57 @@
             </select>
           </div>
 
+          <!-- Real Local PC Image Uploader -->
           <div>
-            <label style="display:block; font-size:0.78rem; font-weight:700; margin-bottom:0.35rem; color:var(--text-secondary);">Attached Photography</label>
-            <select id="postImageSelect" style="width:100%; padding:0.65rem 0.85rem; font-size:0.88rem;">
-              <option value="">No Image Attachment</option>
-              <option value="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80">Edge-AI Lab & Diagnostics Sensors</option>
-              <option value="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80">HackPulse Hackathon Coding Dome</option>
-              <option value="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80">Varsity Green Dragons Championship Trophy</option>
-              <option value="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80">Green Wetlands & Native Botanical Reserve</option>
-              <option value="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80">Campus Digital Library & Research Commons</option>
-              <option value="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80">Acoustic Jam Under Campus Palm Canopy</option>
-              <option value="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80">Undergraduate Collab & Student Life</option>
-              <option value="1im/ezgif-frame-045.jpg">Computing Microcontroller Bench (Local)</option>
-              <option value="2im/ezgif-frame-080.jpg">NSBM Recreation Dome (Local)</option>
-              <option value="3im/ezgif-frame-110.jpg">Rugby Squad Match Highlight (Local)</option>
-              <option value="1im/ezgif-frame-090.jpg">Solar Harvesting Field (Local)</option>
-              <option value="2im/ezgif-frame-130.jpg">Senate Council Chambers (Local)</option>
-            </select>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+              <label style="font-size:0.78rem; font-weight:700; color:var(--text-secondary);">Attached Photography (Upload from PC / Device)</label>
+              <button type="button" id="dispatchUploadBtn" class="dispatch-upload-btn">
+                <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px; height:14px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span>Upload Photos from PC</span>
+              </button>
+            </div>
+
+            <!-- Hidden File Input for Local Files -->
+            <input type="file" id="dispatchFileInput" accept="image/*" multiple style="display:none;">
+
+            <!-- Drag and Drop Dropzone -->
+            <div class="dispatch-dropzone" id="dispatchDropzone">
+              <svg class="svg-icon" style="width:26px; height:26px; color:var(--accent-primary, #2563eb); margin-bottom:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div style="font-size:0.84rem; font-weight:600; color:var(--text-primary);">
+                Drag &amp; drop photos here, or <span style="color:var(--accent-primary, #2563eb); text-decoration:underline; cursor:pointer;" id="dropzoneBrowseTrigger">browse local files</span>
+              </div>
+              <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">
+                Supports JPG, PNG, WEBP (multiple photos will create a carousel)
+              </div>
+            </div>
+
+            <!-- Live Thumbnail Preview Container -->
+            <div id="dispatchPreviewContainer" class="dispatch-preview-container" style="display:none;"></div>
+
+            <!-- Optional Preset Selection fallback -->
+            <div style="margin-top:0.6rem; display:flex; align-items:center; gap:0.5rem;">
+              <span style="font-size:0.74rem; color:var(--text-muted); white-space:nowrap;">Or select campus archive photo:</span>
+              <select id="postImageSelect" style="flex:1; padding:0.35rem 0.5rem; font-size:0.76rem; background:var(--bg-secondary); border:1px solid var(--border-subtle); color:var(--text-primary); border-radius:6px;">
+                <option value="">None (Use uploaded local photos above)</option>
+                <option value="news/news 1/news 1.jpeg">Rs. 720M Civil Engineering Lab Complex</option>
+                <option value="news/news 11/WhatsApp Image 2026-11-23 at 23.22.05.jpeg">Green Building Platinum Award 2026</option>
+                <option value="news/news 7/WhatsApp Image 2026-11-23 at 19.36.12.jpeg">Dr. Hans Wijayasuriya Keynote Session</option>
+                <option value="news/news 4/WhatsApp Image 2026-11-23 at 19.25.33 (1).jpeg">ECONOMICA 2026 & NEXsurge Launch</option>
+                <option value="news/news 10/WhatsApp Image 2026-11-23 at 23.13.12.jpeg">Southern Cross University Dual Degree MoU</option>
+                <option value="news/news 9/WhatsApp Image 2026-11-23 at 22.47.37 (1).jpeg">Nursing Pledge Ceremony 2026</option>
+                <option value="news/news 2/WhatsApp Image 2026-11-23 at 18.54.33.jpeg">10th Anniversary Religious Observances</option>
+                <option value="news/news 3/WhatsApp Image 2026-11-23 at 19.23.05 (1).jpeg">CPD Entrepreneurship Academic Session</option>
+                <option value="news/news 5/WhatsApp Image 2026-11-23 at 19.27.43.jpeg">Psychology Theory Creative Exhibit</option>
+                <option value="news/news 6/WhatsApp Image 2026-11-23 at 19.29.11 (1).jpeg">St. Joseph's College India Academic Ties</option>
+                <option value="news/news 8/WhatsApp Image 2026-11-23 at 22.47.35 (1).jpeg">SAARC CCI 88th Meeting in Maldives</option>
+              </select>
+            </div>
           </div>
         </div>
 
         <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
-          <button type="button" class="post-action-btn" id="cancelComposerBtn" style="border:1px solid var(--border-subtle);">Cancel</button>
+          <button type="button" class="post-action-btn modal-close" id="cancelComposerBtn" style="border:1px solid var(--border-subtle);">Cancel</button>
+          <button type="button" class="post-action-btn modal-close" id="cancelDispatchBtn" style="display:none;">Cancel</button>
           <button type="button" class="comment-submit-btn" id="submitPostBtn" style="width:auto; height:auto; border-radius:8px; padding:0.6rem 1.25rem; font-weight:700; font-size:0.88rem;">
             <span>Publish to Feed</span>
           </button>
@@ -362,6 +459,55 @@
       <span>Theme</span>
     </button>
   </nav>
+
+  <!-- FULLSCREEN LIGHTBOX MODAL -->
+  <div id="lightboxModal" class="lightbox-modal" style="display:none;" role="dialog" aria-modal="true" aria-label="Campus News Lightbox">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-container">
+      <button class="lightbox-btn lightbox-close" id="lightboxCloseBtn" title="Close Lightbox" aria-label="Close">&times;</button>
+      <button class="lightbox-btn lightbox-prev" id="lightboxPrevBtn" title="Previous Image" aria-label="Previous">&#10094;</button>
+      <div class="lightbox-stage">
+        <img id="lightboxImg" class="lightbox-image" src="" alt="Campus News Lightbox View">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+      </div>
+      <button class="lightbox-btn lightbox-next" id="lightboxNextBtn" title="Next Image" aria-label="Next">&#10095;</button>
+      <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION REQUIRED PROMPT MODAL -->
+  <div id="authPromptModal" class="feed-modal-backdrop" style="display:none;" role="dialog" aria-modal="true">
+    <div class="feed-modal-card" style="max-width: 440px; text-align: center; padding: 2.25rem 1.75rem;">
+      <div style="width: 56px; height: 56px; margin: 0 auto 1.25rem; border-radius: 50%; background: rgba(37,99,235,0.15); display: flex; align-items: center; justify-content: center; color: var(--accent-primary);">
+        <svg class="svg-icon" style="width: 28px; height: 28px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      </div>
+      <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-primary);">Sign In Required</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem;">
+        Please sign in with your official NSBM Student or Faculty account to like dispatches, join discussions, or submit campus news.
+      </p>
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <button type="button" class="post-action-btn" id="closeAuthPromptBtn" style="border: 1px solid var(--border-subtle); padding: 0.65rem 1.25rem; font-weight: 600;">Continue as Guest</button>
+        <a href="login.html" class="comment-submit-btn" style="text-decoration: none; padding: 0.65rem 1.5rem; font-weight: 700; font-size: 0.92rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;">Sign In Now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL ARTICLE READER MODAL -->
+  <div id="articleReaderModal" class="feed-modal-backdrop" style="display:none;" role="dialog" aria-modal="true">
+    <div class="feed-modal-card article-reader-modal" style="max-width: 780px; max-height: 90vh; overflow-y: auto; padding: 2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <span class="post-category-tag" id="readerCategory" style="font-size:0.8rem;">Category</span>
+        <button type="button" class="post-action-btn" id="closeReaderBtn" style="padding:4px 8px; font-size:1.25rem;">&times;</button>
+      </div>
+      <h2 id="readerTitle" style="font-size:1.5rem; font-weight:800; line-height:1.3; margin-bottom:0.75rem; color:var(--text-primary);"></h2>
+      <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1.25rem;" id="readerMeta"></div>
+      
+      <!-- Prominent High-Resolution Hero Banner & Multi-Image Gallery -->
+      <div id="readerMediaContainer" class="modal-gallery-container" style="margin-bottom:1.5rem;"></div>
+
+      <div id="readerBody" style="font-size:0.95rem; line-height:1.7; color:var(--text-primary);"></div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="js/icons.js"></script>

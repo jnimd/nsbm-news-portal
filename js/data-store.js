@@ -3,239 +3,373 @@
   'use strict';
 
   const STORAGE_KEYS = {
-    ARTICLES: 'nsbm_newsdesk_articles_v4',
-    CATEGORIES: 'nsbm_newsdesk_categories_v4',
-    ANNOUNCEMENTS: 'nsbm_newsdesk_announcements_v4',
-    SUBMISSIONS: 'nsbm_newsdesk_submissions_v4',
-    COMMENTS: 'nsbm_newsdesk_comments_v4',
-    BOOKMARKS: 'nsbm_newsdesk_bookmarks_v4',
-    SUBSCRIPTIONS: 'nsbm_newsdesk_subscriptions_v4',
-    LIKES: 'nsbm_newsdesk_likes_v4',
-    SOCIAL_POSTS: 'nsbm_newsdesk_social_posts_v4',
-    CURRENT_USER: 'nsbm_newsdesk_current_user_v4'
+    ARTICLES: 'nsbm_newsdesk_articles_v7',
+    CATEGORIES: 'nsbm_newsdesk_categories_v7',
+    ANNOUNCEMENTS: 'nsbm_newsdesk_announcements_v7',
+    SUBMISSIONS: 'nsbm_newsdesk_submissions_v7',
+    COMMENTS: 'nsbm_newsdesk_comments_v7',
+    BOOKMARKS: 'nsbm_newsdesk_bookmarks_v7',
+    SUBSCRIPTIONS: 'nsbm_newsdesk_subscriptions_v7',
+    LIKES: 'nsbm_newsdesk_likes_v7',
+    SOCIAL_POSTS: 'nsbm_newsdesk_social_posts_v7',
+    CURRENT_USER: 'nsbm_newsdesk_current_user_v7'
   };
 
   // Seed Categories: Strictly matches Topic 1 (Academic, Events, Sports, General) + Computing, Sustainability
   const DEFAULT_CATEGORIES = [
-    { id: 'academic', name: 'Academic', icon: 'academic', color: '#6366f1', description: 'Curriculum updates, research publications, faculty notices, and exam timetables.' },
-    { id: 'events', name: 'Events', icon: 'events', color: '#ec4899', description: 'Campus galas, hackathons, club exhibitions, convocations, and guest lectures.' },
-    { id: 'sports', name: 'Sports', icon: 'sports', color: '#f59e0b', description: 'Inter-university rugby, cricket, swimming, athletics, and intramural tournaments.' },
-    { id: 'general', name: 'General', icon: 'general', color: '#3b82f6', description: 'Official university directives, campus safety, shuttle schedules, and student notices.' },
-    { id: 'computing', name: 'Computing & AI', icon: 'computing', color: '#06b6d4', description: 'Faculty of Computing breakthroughs, software summits, robotics, and tech demos.' },
-    { id: 'sustainability', name: 'Sustainability', icon: 'sustainability', color: '#10b981', description: 'South Asia\'s 1st Green University eco-audits, solar microgrid, and biodiversity.' }
+    { id: 'academic', name: 'Academic', icon: 'academic', color: '#6366f1', description: 'Curriculum updates, research publications, faculty notices, and international double degree MoUs.' },
+    { id: 'events', name: 'Events', icon: 'events', color: '#ec4899', description: 'Campus celebrations, gala ceremonies, academic symposiums, and convocations.' },
+    { id: 'sports', name: 'Sports', icon: 'sports', color: '#f59e0b', description: 'Inter-university sports, athletics, swimming meets, and varsity trials.' },
+    { id: 'general', name: 'General', icon: 'general', color: '#3b82f6', description: 'Official university directives, SAARC delegations, shuttle updates, and executive notices.' },
+    { id: 'computing', name: 'Computing & AI', icon: 'computing', color: '#06b6d4', description: 'Faculty of Computing breakthroughs, national digital economy summits, and ICT lectures.' },
+    { id: 'sustainability', name: 'Sustainability', icon: 'sustainability', color: '#10b981', description: 'South Asia\'s 1st Green University awards, green building ratings, solar microgrids, and eco initiatives.' }
   ];
 
   // Seed Announcements: Administrative directives & breaking bulletins
   const DEFAULT_ANNOUNCEMENTS = [
     {
       id: 'ann-1',
-      title: 'Inauguration Ceremony for the 2026 Academic Year',
+      title: 'Inauguration of Rs. 720M Civil Engineering Laboratory Complex',
       category: 'Academic',
-      date: 'October 24, 2026',
+      date: 'October 26, 2026',
       badge: 'URGENT',
-      summary: 'All first-year undergraduates are requested to report to the Main Auditorium by 8:30 AM with their admission credentials.',
+      summary: 'Ceremonially declared open by Attorney General Hon. K. A. Parinda Ranasinghe Jr., PC, as part of NSBM 10th anniversary milestones.',
       pinned: true
     },
     {
       id: 'ann-2',
-      title: 'National Inter-University AI Hackathon 2026 Registrations Open',
-      category: 'Events',
-      date: 'October 23, 2026',
+      title: 'NSBM Phase II Awarded Platinum Rating by Green Building Council',
+      category: 'Sustainability',
+      date: 'November 20, 2026',
       badge: 'FEATURED',
-      summary: 'Over LKR 1.5 Million in prize pools. Teams of 4 from any recognised higher education institute can register via the portal before November 2.',
+      summary: 'South Asia\'s premier green university campus receives highest environmental certification at the Annual Green Building Awards 2026.',
       pinned: true
     },
     {
       id: 'ann-3',
-      title: 'Annual Varsity Green Cup: Rugby & Track Trials This Saturday',
-      category: 'Sports',
-      date: 'October 21, 2026',
-      badge: 'SPORTS',
-      summary: 'Open selection trials for freshmen and seniors at the NSBM International Ground from 7:00 AM with Varsity Head Coach.',
+      title: 'Southern Cross University Australia Dual Degree Applications Open',
+      category: 'Academic',
+      date: 'October 28, 2026',
+      badge: 'ACADEMIC',
+      summary: 'Undergraduates can register for the double degree combining Bachelor of Business and Bachelor of Information Technology starting 2027.',
       pinned: false
     },
     {
       id: 'ann-4',
-      title: 'Campus Shuttle Service Timetable Update for Semester 1',
-      category: 'General',
-      date: 'October 19, 2026',
-      badge: 'GENERAL',
-      summary: 'Additional express shuttles between Makumbura Multimodal Transport Hub and NSBM Green Campus added every 15 minutes during peak hours.',
+      title: 'Executive Session on Sri Lanka\'s Digital Economy by Dr. Hans Wijayasuriya',
+      category: 'Computing & AI',
+      date: 'November 10, 2026',
+      badge: 'TECH',
+      summary: 'Keynote address by Chief Advisor to the President on Digital Economy on digital transformation competencies and AI governance.',
       pinned: false
     }
   ];
 
-  // Seed Articles
+  // Seed Articles (11 REAL NEWS ARTICLES)
   const DEFAULT_ARTICLES = [
-    {
-      id: 1,
-      title: 'Faculty of Computing Unveils Edge-AI Diagnostics for Rural Agriculture',
-      category: 'Academic',
-      categorySlug: 'academic',
-      author: 'Kanishka Senanayake',
-      authorRole: 'Senior Student Researcher',
-      date: 'Oct 22, 2026',
-      readTime: '6 min read',
-      views: 1420,
-      featured: true,
-      image: '1im/ezgif-frame-045.jpg',
-      imageCaption: 'Faculty of Computing Edge-AI Lab & Diagnostics Bench',
-      excerpt: 'Undergraduate coders deploy a zero-cloud convolutional neural network on edge microcontrollers detecting crop blight with 98.4% accuracy.',
-      content: `Tucked away in the third-floor research wing of the Faculty of Computing, a team of undergraduate innovators is quietly pioneering an edge-deployed convolutional neural network designed to diagnose early-stage crop and plant disease without requiring an active internet link.
-
-Under the mentorship of leading faculty and in partnership with regional agricultural centers, the model runs directly on low-power microcontrollers equipped with miniature CMOS image sensors.
-
-"Our primary goal was zero-cloud latency," explains project lead Sanduni Ariyaratne. "In rural tea and rubber plantations where cellular bandwidth is intermittent, our system analyzes leaf histology and skin lesions in under 38 milliseconds with 98.4% verified diagnostic accuracy."
-
-The lab has already filed two provisional intellectual property patents through the NSBM Center for Research and Commercialization, signaling a powerful paradigm shift in student-led technological sovereignty.`
-    },
-    {
-      id: 2,
-      title: 'Annual Green Conclave 2026: 48 Hours of Restless Innovation at the Recreation Dome',
-      category: 'Events',
-      categorySlug: 'events',
-      author: 'Tharindu Perera',
-      authorRole: 'Campus Bureau Chief',
-      date: 'Oct 20, 2026',
-      readTime: '4 min read',
-      views: 980,
-      featured: true,
-      image: '2im/ezgif-frame-080.jpg',
-      imageCaption: 'NSBM Recreation Dome during HackPulse 2026',
-      excerpt: 'Energy drinks, algorithmic breakthroughs, and dawn pitches. We spent 48 sleepless hours documenting 120 teams competing for the Innovation Cup.',
-      content: `At 3:15 AM on Saturday, the glowing blue hue of hundreds of laptop displays reflected off the geodesic arches of the NSBM Recreation Dome.
-
-Over 120 teams from 18 universities across Sri Lanka had gathered for HackPulse 2026, challenged to deliver functional decentralized disaster-management systems within 48 unbroken hours.
-
-Between algorithmic breakthroughs and whiteboard sprints, students traded debugging strategies over steaming mugs of Ceylon ginger tea. When final pitch time arrived at Sunday dawn, three projects were immediately awarded incubation offers by Colombo angel syndicates.
-
-"The energy at NSBM during hackathon season is incomparable," remarked participant Nuwantha Bandara. "Nobody sleeps, but everyone builds."`
-    },
-    {
-      id: 3,
-      title: 'Varsity Green Dragons Clinch Western Province Inter-Uni Rugby Championship',
-      category: 'Sports',
-      categorySlug: 'sports',
-      author: 'Malinda Jayasuriya',
-      authorRole: 'Sports Editor',
-      date: 'Oct 19, 2026',
-      readTime: '5 min read',
-      views: 1850,
-      featured: true,
-      image: '3im/ezgif-frame-110.jpg',
-      imageCaption: 'Green Dragons lifting the Western Province Championship Trophy',
-      excerpt: 'In a thrilling 28-24 final against Colombo University, the Green Dragons staged a second-half comeback to lift the coveted provincial trophy.',
-      content: `A deafening roar echoed across the Pitipana sports complex as fly-half Shenal De Silva pierced through the defensive line in the 78th minute to seal an unforgettable 28-24 victory.
-
-The championship win crowns an undefeated season for the NSBM varsity rugby squad, which dominated scrums and demonstrated surgical tactical kicking under head coach Ruwan Gunasekara.
-
-"This trophy is the result of 5:00 AM gym sessions and tireless discipline," said team captain Thisara Alwis during the post-match celebration. The team now sets its sights on the All-Island University Games scheduled for December.`
-    },
-    {
-      id: 4,
-      title: 'Campus Sustainability Audit: 85% Carbon Reduction Milestone Achieved',
-      category: 'Sustainability',
-      categorySlug: 'sustainability',
-      author: 'Dilini Rajapakse',
-      authorRole: 'Environmental Desk',
-      date: 'Oct 18, 2026',
-      readTime: '7 min read',
-      views: 730,
-      featured: false,
-      image: '1im/ezgif-frame-090.jpg',
-      imageCaption: 'Wetlands and Solar Harvesting Array at NSBM Green Campus',
-      excerpt: 'New independent audit confirms South Asia\'s First Green University has transformed over 15 metric tons of monthly organic waste into bio-energy.',
-      content: `At 6:00 AM every morning, before lecture halls open their doors, NSBMâ€™s automated ecological transit carts make their daily rounds across four university dining halls.
-
-Every scrap of organic prep material, coffee grounds, and dining byproduct is diverted from landfills directly to the university's twin anaerobic biodigesters located on the campus periphery.
-
-Over a 21-day mesophilic processing cycle, microbes transform over 15 metric tons of monthly organic waste into rich organic digestate and compressed methane gas that fuels the culinary academy's test kitchens.`
-    },
-    {
-      id: 5,
-      title: 'Vice Chancellor Bureau Announces New Guidelines on Academic Research Grants',
-      category: 'General',
-      categorySlug: 'general',
-      author: 'Editorial Desk',
-      authorRole: 'University Press Bureau',
-      date: 'Oct 17, 2026',
-      readTime: '4 min read',
-      views: 1120,
-      featured: false,
-      image: '2im/ezgif-frame-130.jpg',
-      imageCaption: 'Administrative Council & Faculty Board Chambers',
-      excerpt: 'Undergraduate student researchers are now eligible for up to LKR 500,000 in seed research funding for green technology and robotics projects.',
-      content: `The NSBM Academic Council has announced an expansion of the Undergraduate Research Incentive Scheme (URIS) for the 2026/2027 academic cycle.
-
-Under the revised directive, students across all four faculties (Computing, Business, Engineering, and Science) can apply for peer-reviewed seed funding for research that addresses sustainable national economic priorities.
-
-Applications open on November 1st through the university research portal, with initial disbursement ceremonies scheduled for early next year.`
-    },
-    {
-      id: 6,
-      title: 'Under the Green Canopy: Acoustic Jam Sessions Return to Campus Amphitheatre',
-      category: 'Events',
-      categorySlug: 'events',
-      author: 'Chamod Jayawardena',
-      authorRole: 'Arts & Culture Desk',
-      date: 'Oct 15, 2026',
-      readTime: '3 min read',
-      views: 890,
-      featured: false,
-      image: '3im/ezgif-frame-020.jpg',
-      imageCaption: 'Acoustic evenings at the open-air campus amphitheatre',
-      excerpt: 'How acoustic Friday evenings under the Pitipana stars became the spiritual heartbeat of NSBM\'s creative underground.',
-      content: `As dusk falls over Pitipana, acoustic guitars, flutes, and spoken-word poetry echo through NSBM's open-air amphitheatre nestled beneath the palm canopy.
-
-What began as an informal jam session among architecture and software engineering students has blossomed into a beloved bi-weekly tradition, capturing the multilingual, cosmopolitan camaraderie that defines campus life.`
-    }
-  ];
+  {
+    "id": 1,
+    "title": "NSBM Opens Rs. 720 Million Civil Engineering Laboratory Complex",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "author": "Prof. E. A. Weerasinghe & Media Bureau",
+    "authorRole": "University Infrastructure Bureau",
+    "readTime": "5 min read",
+    "views": 2150,
+    "featured": true,
+    "image": "news/news 1/news 1.jpeg",
+    "imageCaption": "Ceremonial opening of the Rs. 720M Civil Engineering Laboratory Complex by Attorney General Hon. K. A. Parinda Ranasinghe Jr.",
+    "images": [
+      "news/news 1/news 1.jpeg"
+    ],
+    "excerpt": "NSBM Green University ceremonially opened its state-of-the-art Civil Engineering Laboratory Complex, representing a significant Rs. 720 million self-financed investment in engineering education as part of its 10th anniversary celebrations.",
+    "content": "NSBM Green University ceremonially opened its state-of-the-art Civil Engineering Laboratory Complex, representing a significant Rs. 720 million self-financed investment in engineering education, on 26 October 2026 as part of its 10th anniversary celebrations.\n\nLocated within the university’s Phase II development at Pitipana, Homagama, the new complex marks an important milestone in NSBM’s continued investment in modern academic infrastructure and practical engineering education. Equipped with modern infrastructure, high-tech laboratories and advanced learning facilities, the complex is designed to strengthen students’ practical learning experiences and support the development of industry-relevant engineering skills.\n\nThe complex was ceremonially declared open by the Attorney General of Sri Lanka, Hon. K. A. Parinda Ranasinghe Jr., PC, in the distinguished presence of NSBM Founder and Vice-Chancellor Prof. E. A. Weerasinghe; Prof. Richard Davies, Vice-Chancellor and CEO of the University of Plymouth, United Kingdom; Prof. Tyrone Carlin, Vice-Chancellor and President of Southern Cross University, Australia; and Prof. Li Lu, Vice-Chancellor and President of Zhejiang Shuren University, China.\n\nThe Rs. 720 million investment reflects NSBM’s commitment to providing students with an academic environment that connects theoretical knowledge with practical application. By strengthening its engineering facilities, the university aims to equip future engineers with the technical knowledge, practical experience and competencies required to meet the evolving demands of the profession.\n\nThe opening of the complex also forms part of NSBM’s broader campus expansion programme, which seeks to enhance its academic capabilities and create opportunities for future-focused education across multiple disciplines.\n\nAs NSBM marks a decade of excellence and national impact, the new Civil Engineering Laboratory Complex stands as a testament to its continued investment in education, infrastructure and the next generation of engineering professionals.",
+    "date": "Oct 26, 2026",
+    "publishedDate": "Oct 26, 2026"
+  },
+  {
+    "id": 2,
+    "title": "NSBM Green University Marks 10th Anniversary with Multi-Religious Observances",
+    "category": "Events",
+    "categorySlug": "events",
+    "author": "Cultural & Inter-Faith Directorate",
+    "authorRole": "Campus Press Bureau",
+    "readTime": "6 min read",
+    "views": 1780,
+    "featured": true,
+    "image": "news/news 2/WhatsApp Image 2026-11-23 at 18.54.33.jpeg",
+    "imageCaption": "Overnight Pirith chanting ceremony and inter-faith observances marking NSBM 10th Anniversary",
+    "images": [
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.33.jpeg",
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.34 (1).jpeg",
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.34 (2).jpeg",
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.34.jpeg"
+    ],
+    "excerpt": "As part of its 10th anniversary celebrations, NSBM Green University organised a series of multi-religious observances from 21 to 24 October 2026, bringing together its university community to seek blessings.",
+    "content": "As part of its 10th anniversary celebrations, NSBM Green University organised a series of religious observances from 21 to 24 October 2026, bringing together members of its university community to seek blessings for the institution’s continued growth and success.\n\nReflecting NSBM’s respect for Sri Lanka’s diverse religious traditions, the observances provided an opportunity for staff and students to come together in prayer, thanksgiving and reflection, while celebrating a decade of achievements and looking towards the university’s future.\n\nThe series included religious programmes organised by the NSBM Buddhist Society, Hindu Society, Islamic Society, and Catholic and Christian Society, each reflecting the spiritual traditions and cultural heritage of their respective communities.\n\nThe Buddhist observances began with a Buddha Pooja organised by the NSBM Buddhist Society, invoking blessings for peace, prosperity and the university’s future journey. The programme also included an overnight Pirith Chanting Ceremony held on 23 October at the newly constructed NSBM Civil Engineering Laboratory premises, followed by the traditional Heel Dane (morning alms offering) to the venerable Maha Sangha.\n\nThe Hindu Society hosted Natham ’26, a celebration that commenced with sacred poojas seeking blessings for the university and its leadership. The event was attended by Vice-Chancellor Prof. E. A. Weerasinghe, Senior Deputy Vice-Chancellor Prof. Chaminda Rathnayake, members of the senior management team, deans and staff.\n\nThe NSBM Islamic Society organised a special cultural gathering featuring Qaseeda recitations, a keynote Bayan session delivered by Moulavi Nashik Farook Tanweeri, and traditional delicacies. Meanwhile, the NSBM Catholic and Christian Society organised a Holy Mass celebrated by Rev. Fr. Prasad Harshana and Rev. Fr. Teshan Priyadarshana.\n\nTogether, these religious observances formed a meaningful part of NSBM’s anniversary celebrations, recognising the diversity of faiths while uniting the community in fellowship.",
+    "date": "Oct 24, 2026",
+    "publishedDate": "Oct 24, 2026"
+  },
+  {
+    "id": 3,
+    "title": "NSBM Academic Staff Empowered to Embed Entrepreneurship Across the Curriculum",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "author": "Staff Development & Quality Assurance Center",
+    "authorRole": "Curriculum Innovation Bureau",
+    "readTime": "5 min read",
+    "views": 1340,
+    "featured": false,
+    "image": "news/news 3/WhatsApp Image 2026-11-23 at 19.23.05 (1).jpeg",
+    "imageCaption": "Dr. Adam Scott of Victoria University Australia facilitating the CPD entrepreneurship session for NSBM academic staff",
+    "images": [
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.05 (1).jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.05.jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.06 (1).jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.06.jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.07.jpeg"
+    ],
+    "excerpt": "NSBM Green University conducted a Continuing Professional Development (CPD) session on embedding entrepreneurial thinking across curricula, facilitated by Dr. Adam Scott of Victoria University, Australia.",
+    "content": "NSBM Green University conducted a Continuing Professional Development (CPD) session titled \"Embedding Entrepreneurship Across the Curriculum: Practical Strategies for Teaching and Learning,\" bringing together academic staff from all faculties to explore ways of integrating entrepreneurial thinking and practices into teaching and learning across disciplines.\n\nThe session was facilitated by Dr Adam Scott of Victoria University, Australia, who shared research-based insights and practical approaches drawn from nine instructional design principles developed in collaboration with Dr Nilusha Gallage, Lecturer and Coordinator – Undergraduate Courses at Victoria University.\n\nThe discussions covered three key areas of curriculum design: content, teaching and assessment. Participants explored strategies for scaffolding learning materials to accommodate different levels of student readiness, using Generative AI to present complex theories through visual formats, and connecting academic concepts with real-world applications.\n\nIn relation to teaching approaches, the session highlighted the importance of balancing the use of Generative AI with interactive and discussion-based learning. Practical strategies included AI critique activities to strengthen students’ critical thinking, as well as collaborative team projects that encourage creativity, problem-solving and teamwork.\n\nThe assessment component focused on designing authentic learning experiences that reflect real-world entrepreneurial practices, including venture pitches and reflective portfolios. The session was organised by the Young Entrepreneurship Circle in collaboration with the Department of Management and Staff Development Center as part of Global Entrepreneurship Week 2026.",
+    "date": "Nov 18, 2026",
+    "publishedDate": "Nov 18, 2026"
+  },
+  {
+    "id": 4,
+    "title": "Economics and Decision Sciences Students Host ECONOMICA 2026 and Launch NEXsurge",
+    "category": "Events",
+    "categorySlug": "events",
+    "author": "Students’ Circle of Economics (SCEDS)",
+    "authorRole": "Faculty of Business Syndicate",
+    "readTime": "6 min read",
+    "views": 1620,
+    "featured": true,
+    "image": "news/news 4/WhatsApp Image 2026-11-23 at 19.25.33 (1).jpeg",
+    "imageCaption": "Official launch of NEXsurge Magazine during ECONOMICA 2026 at NSBM Green University",
+    "images": [
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.33 (1).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.33.jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.34 (1).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.34 (2).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.34.jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.35 (1).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.35 (2).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.35.jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.36.jpeg"
+    ],
+    "excerpt": "SCEDS at the Faculty of Business successfully hosted ECONOMICA 2026 under the theme \"Harnessing Sri Lanka’s Economic Resources\" alongside the official launch of NEXsurge magazine.",
+    "content": "The Students’ Circle of Economics and Decision Sciences (SCEDS) of the Faculty of Business at NSBM Green University successfully hosted ECONOMICA 2026, its flagship academic initiative, under the theme \"Harnessing Sri Lanka’s Economic Resources.\" The event brought together young economic thinkers, academics, and distinguished industry experts to explore sustainable national development.\n\nA key highlight was the official launch of NEXsurge, a magazine featuring thought-provoking articles and fresh perspectives on harnessing Sri Lanka’s economic resources for sustainable development. The publication provides a platform for sharing knowledge, encouraging critical thinking, and highlighting the perspectives of emerging economic thinkers.\n\nThe event recognised outstanding contributions through competitions: Sanithi Jayasinghe (University of Sri Jayewardenepura) was named Inter-University Winner, while Pramodi De Silva (NSBM Green University) secured the Intra-University Winner title. Competition entries were evaluated by senior academics from the University of Kelaniya, University of Colombo, and Staffordshire University, UK.\n\nA panel discussion titled \"From Potential to Progress: Harnessing Sri Lanka’s Resources for Sustainable Economic Growth\" featured Dr. Nisha Arunatilake (Director of Research, IPS), Ms. Arani Rodrigo (Chief Economist, Ceylon Chamber of Commerce), and Prof. Janaka Fernando (USJ). ECONOMICA 2026 reflected SCEDS’s commitment to fostering economic awareness and nurturing young talent.",
+    "date": "Nov 14, 2026",
+    "publishedDate": "Nov 14, 2026"
+  },
+  {
+    "id": 5,
+    "title": "NSBM Psychology Undergraduates Exhibit Developmental Theories Creatively",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "author": "Psychology Student Association",
+    "authorRole": "Faculty of Science Bureau",
+    "readTime": "4 min read",
+    "views": 1190,
+    "featured": false,
+    "image": "news/news 5/WhatsApp Image 2026-11-23 at 19.27.43.jpeg",
+    "imageCaption": "BSc (Hons) Psychology undergraduates showcasing creative developmental exhibits at NSBM",
+    "images": [
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.43.jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.44 (1).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.44 (2).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.44.jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.45 (1).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.45 (2).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.45.jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.46 (1).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.46.jpeg"
+    ],
+    "excerpt": "Undergraduates of the 26.2 BSc (Hons) Psychology programme following the University of Plymouth degree pathway showcased learning through innovative Exhibit Presentations analyzing human development in films.",
+    "content": "Undergraduates of the 26.2 BSc (Hons) Psychology programme, following the University of Plymouth degree pathway at NSBM Green University, recently showcased their learning through a series of creative and insightful Exhibit Presentations.\n\nAs part of their academic activities, students explored the application of developmental psychology theories by examining how different aspects of human development are portrayed in films. Through this exercise, they connected theoretical concepts with real-world representations, critically evaluating how developmental theories are reflected in characters, behaviours and life experiences on screen.\n\nMoving beyond conventional classroom learning, the activity provided students with an opportunity to demonstrate their understanding through creative exhibits while strengthening their critical thinking, analytical, teamwork and presentation skills. It also encouraged them to communicate complex psychological concepts in engaging and accessible ways.\n\nThrough their thoughtful analyses and creative presentations, the students demonstrated how academic knowledge can be translated into practical understanding. The initiative reflects NSBM’s commitment to providing an engaging and experiential learning environment that prepares future psychology professionals to apply their knowledge beyond the classroom.",
+    "date": "Nov 15, 2026",
+    "publishedDate": "Nov 15, 2026"
+  },
+  {
+    "id": 6,
+    "title": "NSBM Strengthens International Academic Ties with St. Joseph's College, India",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "author": "International Relations Office",
+    "authorRole": "Global Academic Partnerships Desk",
+    "readTime": "3 min read",
+    "views": 950,
+    "featured": false,
+    "image": "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11 (1).jpeg",
+    "imageCaption": "MoU signing between NSBM Green University and St. Joseph's College (Autonomous), India facilitated by CIMA Sri Lanka",
+    "images": [
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11 (1).jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11 (2).jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11.jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.12 (1).jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.12.jpeg"
+    ],
+    "excerpt": "NSBM Green University has expanded its international academic network by signing an MoU with St. Joseph’s College (Autonomous), Tiruchirappalli, India, facilitated by CIMA Sri Lanka.",
+    "content": "NSBM Green University has further expanded its international academic network through the signing of a Memorandum of Understanding (MoU) with St. Joseph’s College (Autonomous), Tiruchirappalli, Tamil Nadu, India.\n\nInitiated with the facilitation of CIMA Sri Lanka, this partnership marks another step in NSBM’s continued efforts to build meaningful global connections, foster academic collaboration, and expand its international engagement.\n\nThe occasion was attended by Mr. Sivasubramaniam Vithushan, Lead Manager – Business Development & Stakeholder Relationships; Mr. Tharindu Wijewardana, Country Head – Sri Lanka; and Dr. A. John Peter, Director, St. Joseph’s International, St. Joseph’s College, Tiruchirappalli, Tamil Nadu, India.\n\nThrough this partnership, NSBM continues to expand its international connections and pursue opportunities for meaningful engagement, joint student initiatives, and faculty research exchanges with leading higher education institutions across the South Asian region.",
+    "date": "Nov 12, 2026",
+    "publishedDate": "Nov 12, 2026"
+  },
+  {
+    "id": 7,
+    "title": "NSBM Hosts Dr. Hans Wijayasuriya for Sri Lanka's Digital Future Session",
+    "category": "Computing & AI",
+    "categorySlug": "computing",
+    "author": "Faculty of Computing Press Syndicate",
+    "authorRole": "Technology & Digital Economy Desk",
+    "readTime": "5 min read",
+    "views": 2450,
+    "featured": true,
+    "image": "news/news 7/WhatsApp Image 2026-11-23 at 19.36.12.jpeg",
+    "imageCaption": "Dr. Hans Wijayasuriya delivering the keynote address on Sri Lanka's Digital Transformation at NSBM Green University",
+    "images": [
+      "news/news 7/WhatsApp Image 2026-11-23 at 19.36.12.jpeg"
+    ],
+    "excerpt": "NSBM welcomed Dr. Hans Wijayasuriya, Chief Advisor to the President on the Digital Economy and Chairman of GovTech and ICTA, for an insightful session on Sri Lanka's digital economy.",
+    "content": "NSBM Green University welcomed Dr. Hans Wijayasuriya, Chief Advisor to the President on the Digital Economy and Chairman of GovTech and the ICT Agency of Sri Lanka, for an insightful session with its students and academic staff on the future of Sri Lanka’s digital economy.\n\nThe session explored the opportunities and challenges shaping the country’s digital transformation, highlighting the growing importance of digital literacy, technological adaptability and the development of skills and competencies required to thrive in an increasingly digital world. The discussion provided students with valuable perspectives on emerging developments in the digital economy and the role of the next generation in supporting the country’s digital advancement.\n\nDuring his visit, Dr. Wijayasuriya also met with Senior Deputy Vice Chancellor Prof. Chaminda Rathnayake and the University’s senior management. The meeting provided an opportunity to exchange perspectives on the evolving role of higher education in supporting national development and preparing future-ready graduates equipped to respond to the changing demands of the digital economy.\n\nThe engagement reinforced the importance of strengthening connections between academia and the evolving digital landscape, ensuring that higher education remains responsive to emerging industry needs, AI governance, and technological developments.",
+    "date": "Nov 10, 2026",
+    "publishedDate": "Nov 10, 2026"
+  },
+  {
+    "id": 8,
+    "title": "NSBM Delegation Represents Sri Lanka at 88th SAARC CCI Executive Meeting in Maldives",
+    "category": "General",
+    "categorySlug": "general",
+    "author": "Executive Directorate Press",
+    "authorRole": "Diplomatic & Regional Affairs Bureau",
+    "readTime": "4 min read",
+    "views": 1180,
+    "featured": false,
+    "image": "news/news 8/WhatsApp Image 2026-11-23 at 22.47.35 (1).jpeg",
+    "imageCaption": "Vice-Chancellor Prof. E. A. Weerasinghe leading the NSBM delegation at the 88th SAARC CCI Meeting in Maldives",
+    "images": [
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.35 (1).jpeg",
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.35.jpeg",
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.36 (1).jpeg",
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.36.jpeg"
+    ],
+    "excerpt": "NSBM Green University proudly represented Sri Lanka at the 88th Executive Committee Meeting of the SAARC Chamber of Commerce and Industry (SAARC CCI) held in the Maldives.",
+    "content": "NSBM Green University proudly represented Sri Lanka at the 88th Executive Committee Meeting of the SAARC Chamber of Commerce and Industry (SAARC CCI), held on 16 November 2026 in the Maldives. The meeting brought together representatives from across South Asia to discuss important matters related to regional economic cooperation, sustainable development and opportunities for strengthening partnerships among institutions and organisations in the region.\n\nThe NSBM delegation consisted of Vice-Chancellor Professor E. A. Weerasinghe, Senior Deputy Vice-Chancellor Professor Chaminda Rathnayake and Head of Administration Mr. Kapila Liyanage. Their participation provided an opportunity for NSBM to engage with regional representatives and contribute to discussions focused on improving cooperation, higher education integration, and building stronger connections across South Asian countries.\n\nNSBM's involvement in this prestigious international summit reflects the university's ongoing commitment to expanding its global presence and strengthening Sri Lanka's position as an emerging higher education hub in South Asia.",
+    "date": "Nov 16, 2026",
+    "publishedDate": "Nov 16, 2026"
+  },
+  {
+    "id": 9,
+    "title": "NSBM Celebrates Nursing Pledge Ceremony 2026 for Undergraduates",
+    "category": "Events",
+    "categorySlug": "events",
+    "author": "Department of Life Sciences",
+    "authorRole": "Healthcare & Science Desk",
+    "readTime": "5 min read",
+    "views": 1890,
+    "featured": true,
+    "image": "news/news 9/WhatsApp Image 2026-11-23 at 22.47.37 (1).jpeg",
+    "imageCaption": "Undergraduate nurses receiving ceremonial caps and lighting traditional lamps at the NSBM Nursing Pledge Ceremony 2026",
+    "images": [
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.37 (1).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.37.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.38.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.39 (1).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.39 (2).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.39.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.40 (1).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.40.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.41.jpeg"
+    ],
+    "excerpt": "NSBM Green University celebrated the Nursing Pledge Ceremony 2026 for batches 25.2 and 25.3, marking a sacred milestone in the healthcare journeys of nursing undergraduates.",
+    "content": "NSBM Green University proudly celebrated the Nursing Pledge Ceremony 2026 on 11 November 2026, marking a significant milestone in the academic and professional journeys of students from the 25.2 and 25.3 Nursing batches. The ceremony provided an opportunity for nursing undergraduates to formally express their commitment to the nursing profession and its responsibilities towards individuals, families and communities.\n\nThe event was honoured by the presence of Mrs. H. M. C. M. Herath, Former Chief Nursing Officer and Lecturer in Nursing at the Faculty of Nursing, University of Colombo, who attended as Chief Guest. The ceremony was also attended by distinguished university leaders, including Vice-Chancellor Prof. E. A. Weerasinghe, Senior Deputy Vice-Chancellor Prof. Chaminda Rathnayake, Deputy Vice-Chancellor Prof. Thilini de Silva, and Dr. Nuwanthi Katuwavila, Dean of the Faculty of Science.\n\nThe ceremony welcomed distinguished healthcare leaders from Sri Jayewardenepura General Hospital, Durdans Hospital, and Shanthi Nivasa.\n\nA central highlight was the ceremonial presentation of nursing caps and the lighting of traditional three-wick oil lamps, symbolising the wisdom, compassion and dedication essential to professional healthcare. The university extends its heartfelt blessings to all inducted nursing scholars.",
+    "date": "Nov 11, 2026",
+    "publishedDate": "Nov 11, 2026"
+  },
+  {
+    "id": 10,
+    "title": "NSBM and Southern Cross University Australia Sign MoU for Dual Degree Programme",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "author": "Global Academic Bureau",
+    "authorRole": "Senior University Press",
+    "readTime": "5 min read",
+    "views": 1950,
+    "featured": true,
+    "image": "news/news 10/WhatsApp Image 2026-11-23 at 23.13.12.jpeg",
+    "imageCaption": "Prof. Tyrone Carlin (Vice-Chancellor SCU) and Prof. E. A. Weerasinghe signing the Dual Degree MoU at NSBM",
+    "images": [
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.12.jpeg",
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.13 (1).jpeg",
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.13 (2).jpeg",
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.13.jpeg"
+    ],
+    "excerpt": "NSBM Green University signed an MoU with Southern Cross University (SCU), Australia, introducing a groundbreaking double degree combining Bachelor of Business and Bachelor of Information Technology.",
+    "content": "NSBM Green University has taken another important step towards expanding international higher education opportunities in Sri Lanka by signing a Memorandum of Understanding (MoU) with Southern Cross University (SCU), Australia. The agreement introduces a new double degree programme combining a Bachelor of Business and a Bachelor of Information Technology, which is expected to commence in 2027.\n\nThe agreement was formalised as part of NSBM Green University's 10th Anniversary Celebrations, marking a significant milestone in the longstanding academic partnership between the two universities. The MoU was signed by Professor Tyrone Carlin, Vice-Chancellor of Southern Cross University, and Professor E. A. Weerasinghe, Vice-Chancellor of NSBM Green University. Both institutions reaffirmed their shared commitment to providing internationally aligned education and preparing students for the changing demands of the global employment market.\n\nThe proposed double degree programme is designed to bring together two vital fields: business and information technology. In today's rapidly developing digital world, organisations increasingly require professionals who understand both business operations and technological solutions.\n\nBeyond the introduction of the double degree, the MoU represents the continued development of the relationship between NSBM and Southern Cross University, laying a robust foundation for joint research initiatives and student exchanges.",
+    "date": "Oct 27, 2026",
+    "publishedDate": "Oct 27, 2026"
+  },
+  {
+    "id": 11,
+    "title": "NSBM Green University Awarded Platinum Rating at Annual Green Building Awards 2026",
+    "category": "Sustainability",
+    "categorySlug": "sustainability",
+    "author": "Green Task Force & Campus Architecture Bureau",
+    "authorRole": "Eco-Sustainability Desk",
+    "readTime": "5 min read",
+    "views": 2800,
+    "featured": true,
+    "image": "news/news 11/WhatsApp Image 2026-11-23 at 23.22.05.jpeg",
+    "imageCaption": "NSBM Phase II development awarded the highest Platinum Rating by the Green Building Council of Sri Lanka",
+    "images": [
+      "news/news 11/WhatsApp Image 2026-11-23 at 23.22.04.jpeg",
+      "news/news 11/WhatsApp Image 2026-11-23 at 23.22.05.jpeg"
+    ],
+    "excerpt": "NSBM Green University achieves top environmental honours with the prestigious Platinum Rating for its Phase II development at the Annual Green Building Awards 2026.",
+    "content": "NSBM Green University continues to set the benchmark for ecological campus design and sustainable higher education in South Asia, securing the prestigious Platinum Rating for its Phase II development at the Annual Green Building Awards 2026 organised by the Green Building Council of Sri Lanka (GBCSL).\n\nThe award honours NSBM's exemplary commitment to energy efficiency, sustainable water management, carbon emissions reduction, and green architectural design across its state-of-the-art campus premises in Pitipana, Homagama. The Phase II development integrates advanced solar microgrids, natural ventilation engineering, rainwater harvesting systems, and sustainable landscaping.\n\nVice-Chancellor Prof. E. A. Weerasinghe accepted the honour on behalf of the university, stating: 'Receiving the Platinum Rating from the Green Building Council of Sri Lanka reaffirms our founding philosophy as South Asia's first green university. We remain dedicated to providing future generations with a sustainable, inspiring learning environment.'\n\nThe certification cements NSBM's position as a regional pioneer in sustainable university infrastructure and environmental stewardship.",
+    "date": "Nov 20, 2026",
+    "publishedDate": "Nov 20, 2026"
+  }
+];
 
   // Seed Submissions for Admin Editorial Queue
   const DEFAULT_SUBMISSIONS = [
     {
       id: 'sub-101',
-      title: 'Autonomous Solar Rovers for Soil Moisture Sampling on Campus Grounds',
+      title: 'Development of Low-Power LoRa IoT Nodes for Campus Microclimate Monitoring',
       category: 'Academic',
       author: 'Ravindu Perera',
       studentId: 'NSBM-IT-23-4819',
-      submittedDate: 'Oct 22, 2026',
+      submittedDate: 'Nov 21, 2026',
       status: 'pending',
       readTime: '5 min read',
-      excerpt: 'A prototype solar rover built by mechatronics students that maps moisture and nitrogen levels across NSBM landscaping.',
-      content: `Our mechatronics second-year team has completed field trials for a low-cost, 3D-printed solar rover designed to roam campus gardens autonomously.
-
-The vehicle navigates using dual ultrasonic distance sensors and GPS waypoints. As it traverses the soil, an automated probe plunges 10cm into the earth to capture capacitive moisture, pH, and electrical conductivity metrics, transmitting the telemetry directly to the campus facilities web dashboard via LoRaWAN.
-
-We hope to expand this initiative to local agricultural smallholders throughout the Homagama region in 2027.`,
+      excerpt: 'A prototype IoT sensor network developed by computing students that monitors microclimate parameters across NSBM landscaping.',
+      content: `Our computing second-year engineering team has deployed field trials for low-power LoRa mesh nodes designed to track soil moisture and ambient temperatures across university grounds. Telemetry is uploaded wirelessly to the campus sustainability dashboard.`,
       feedback: ''
     },
     {
       id: 'sub-102',
-      title: 'NSBM Aquatics Team Sweeps Gold at National Inter-University Swimming Meet',
-      category: 'Sports',
+      title: 'NSBM Robotics Club Showcases Autonomous Search and Rescue Drones at TechEx',
+      category: 'Computing & AI',
       author: 'Minoli Weerakkody',
       studentId: 'NSBM-BM-22-1904',
-      submittedDate: 'Oct 21, 2026',
+      submittedDate: 'Nov 20, 2026',
       status: 'pending',
       readTime: '4 min read',
-      excerpt: 'NSBM swimmers claim 7 gold medals and break two national university records in the 200m freestyle and 4x100m relay.',
-      content: `The NSBM Green Waves swimming team dominated the pool at the Sugathadasa Stadium, taking home top honors in seven individual and relay events.
-
-Star swimmer Kavishka Senaratne set a new university meet record in the 200m individual medley, clocking in at 2:08.41. The victory marks the third consecutive year NSBM has retained the overall championship trophy in the aquatic arena.`,
+      excerpt: 'Student robotics engineers demo edge-vision drones capable of mapping confined indoor disaster zones.',
+      content: `The NSBM Robotics Guild demonstrated its search and rescue quadcopter platform at TechEx 2026, featuring onboard computer vision and collision avoidance systems running on edge neural compute sticks.`,
       feedback: ''
     },
     {
       id: 'sub-103',
-      title: 'Student Senate Pass Resolution on Zero-Single-Use Plastics at University Cafes',
-      category: 'General',
+      title: 'Student Senate Adopts Green Campus Single-Use Plastic Elimination Policy',
+      category: 'Sustainability',
       author: 'Hiran Jayasundara',
       studentId: 'NSBM-LAW-24-0312',
-      submittedDate: 'Oct 19, 2026',
+      submittedDate: 'Nov 18, 2026',
       status: 'approved',
       readTime: '3 min read',
       excerpt: 'New legislative framework requires all dining providers on campus to adopt biodegradable packaging by January 2027.',
-      content: `In a historic vote, the Student Senate unanimously ratified the 'Green Dining Compact 2026'. Under this agreement, all campus eateries will phase out single-use plastic cutlery and cups, replacing them with areca-nut leaf plates and paper straws produced by regional cottage industries.`,
+      content: `In a historic vote, the Student Senate unanimously ratified the Green Dining Compact 2026. Under this agreement, all campus eateries will phase out single-use plastic cutlery and cups, replacing them with areca-nut leaf plates and paper straws produced by regional cottage industries.`,
       feedback: 'Approved by Chief Editor. Published to campus newsfeed.'
     }
   ];
@@ -246,177 +380,423 @@ Star swimmer Kavishka Senaratne set a new university meet record in the 200m ind
       id: 'cmt-1',
       articleId: 1,
       author: 'Danushka Silva',
-      role: 'Computing Undergrad',
-      date: 'Oct 22, 2026, 11:30 AM',
-      text: 'Proud of our third-year team! The zero-cloud edge AI model is going to help so many farmers across our rural zones.',
+      role: 'Civil Engineering Undergrad',
+      date: 'Oct 26, 2026, 11:30 AM',
+      text: 'The new structural testing facilities and concrete tech labs in the Rs. 720M complex are world class!',
       status: 'approved'
     },
     {
       id: 'cmt-2',
-      articleId: 1,
-      author: 'Dr. Rohan Samarasinghe',
-      role: 'Visiting Faculty',
-      date: 'Oct 22, 2026, 12:45 PM',
-      text: 'Exceptional technical execution on the low-power microcontroller deployment. Looking forward to the symposium demonstration.',
+      articleId: 7,
+      author: 'Dr. Priyantha Kumar',
+      role: 'Chief Editor',
+      date: 'Nov 10, 2026, 02:45 PM',
+      text: 'Dr. Hans Wijayasuriya\'s insights on digital public infrastructure and AI governance provide an essential roadmap for our computing undergraduates.',
       status: 'approved'
     },
     {
       id: 'cmt-3',
-      articleId: 3,
-      author: 'Kasun Wickrama',
-      role: 'Student Athlete',
-      date: 'Oct 20, 2026, 09:15 AM',
-      text: 'That try in the 78th minute was pure tactical brilliance. Green Dragons all the way!',
+      articleId: 11,
+      author: 'Student Contributor',
+      role: 'Student Reporter',
+      date: 'Nov 20, 2026, 04:15 PM',
+      text: 'Receiving the Platinum Rating from the Green Building Council is a proud achievement for every student and staff member at NSBM!',
       status: 'approved'
     }
   ];
 
-  // Seed Community Social Posts with diverse high-quality campus photography
+  // Seed Community Social Posts
   const DEFAULT_SOCIAL_POSTS = [
-    {
-      id: 'post-seed-1',
-      articleId: null,
-      isOfficialArticle: false,
-      author: 'Sanduni Ariyaratne',
-      role: 'Student Researcher',
-      faculty: 'Faculty of Computing',
-      date: '2 hours ago',
-      category: 'Computing & AI',
-      categorySlug: 'computing',
-      title: 'Our Edge AI Model Surpassed 98% Accuracy in Plantation Trials! 🚀',
-      excerpt: 'We deployed our microcontroller sensor array on regional tea plantations this morning. Real-time inference in 34ms without any cloud connection!',
-      content: `Incredible milestone for our undergrad research squad! We deployed our microcontroller sensor array on regional tea plantations this morning.\n\nLeaf histology scans returned 98.4% diagnostic accuracy with 34ms inference time. Zero Wi-Fi, zero cloud dependency — pure edge computing right on the field!\n\nMassive gratitude to Dr. Rohan and our senior lab engineers for the sleepless debugging sessions over Ceylon tea! ☕🌱`,
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
-      imageCaption: 'Field testing embedded microcontrollers & edge diagnostics sensor',
-      likesCount: 142,
-      isLiked: true,
-      commentsCount: 2,
-      comments: [
-        { author: 'Nuwantha Bandara', role: 'Software Eng Undergrad', text: 'Stunning work Sanduni! Are you guys open-sourcing the training weights after patent review?' },
-        { author: 'Dr. Rohan Samarasinghe', role: 'Faculty Mentor', text: 'Proud of this milestone. Excellent deployment execution under low-voltage constraints.' }
-      ],
-      sharesCount: 19,
-      readTime: 'Quick Update',
-      tags: ['#EdgeAI', '#FacultyOfComputing', '#UndergradResearch', '#NSBM']
-    },
-    {
-      id: 'post-seed-2',
-      articleId: null,
-      isOfficialArticle: false,
-      author: 'Thisara Alwis',
-      role: 'Varsity Rugby Captain',
-      faculty: 'Faculty of Business',
-      date: '5 hours ago',
-      category: 'Sports',
-      categorySlug: 'sports',
-      title: 'Green Dragons Western Province Victory Celebration 🐉🏆',
-      excerpt: 'Undefeated season sealed at Pitipana grounds! Huge shoutout to the student crowd whose chants kept us pushing through the final scrum.',
-      content: `28-24 in the final 2 minutes. What a match against Colombo University!\n\nA huge shoutout to every student, alumni, and lecturer who packed the Pitipana bleachers today. Your chants carried us through that final 78th-minute try.\n\nThe trophy is coming back to NSBM Green Campus where it belongs! Next stop: All-Island University Games! 🏉🔥`,
-      image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
-      imageCaption: 'Varsity Green Dragons championship celebration',
-      likesCount: 285,
-      isLiked: true,
-      commentsCount: 2,
-      comments: [
-        { author: 'Malinda Jayasuriya', role: 'Sports Editor', text: 'That tactical kick in the 78th was pure class captain!' },
-        { author: 'Chamod Jayawardena', role: 'Arts Club', text: 'The stadium atmosphere was electric! Well deserved victory.' }
-      ],
-      sharesCount: 44,
-      readTime: 'Sports Dispatch',
-      tags: ['#GreenDragons', '#VarsityRugby', '#Champions2026', '#NSBMSports']
-    },
-    {
-      id: 'post-seed-3',
-      articleId: null,
-      isOfficialArticle: false,
-      author: 'Dilini Rajapakse',
-      role: 'Green Campus Ambassador',
-      faculty: 'Faculty of Science',
-      date: 'Yesterday',
-      category: 'Sustainability',
-      categorySlug: 'sustainability',
-      title: 'Biodiversity Walk & Native Butterfly Sanctuary Survey 🦋🍃',
-      excerpt: 'Over 42 native butterfly and avian species recorded around the university wetlands during our morning ecological census.',
-      content: `Morning biodiversity census around the NSBM Green Wetlands & Solar Microgrid corridor.\n\nOur environmental science team identified 42 native butterfly and pollinator species, confirming our campus micro-ecosystem is actively flourishing.\n\nReminder: Next tree plantation drive happens this Saturday near the lake amphitheatre. Everyone is welcome to plant a sapling! 🌳💚`,
-      image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80',
-      imageCaption: 'NSBM Green Wetlands ecosystem & native plant sanctuary',
-      likesCount: 198,
-      isLiked: false,
-      commentsCount: 1,
-      comments: [
-        { author: 'Sanduni Ariyaratne', role: 'Computing Undergrad', text: 'Count me in for Saturday! Will bring our whole lab group.' }
-      ],
-      sharesCount: 27,
-      readTime: 'Green University',
-      tags: ['#GreenUniversity', '#EcoLiving', '#Sustainability', '#NSBMLife']
-    },
-    {
-      id: 'post-seed-4',
-      articleId: null,
-      isOfficialArticle: false,
-      author: 'Nuwantha Bandara',
-      role: 'Hackathon Lead Organiser',
-      faculty: 'Faculty of Computing',
-      date: '2 days ago',
-      category: 'Events',
-      categorySlug: 'events',
-      title: 'HackPulse 2026: 48-Hour Coding Marathon Underway at the Dome 💻⚡',
-      excerpt: '120 teams, 48 hours, infinite energy drinks and Ceylon tea. The decentralized disaster-tech systems are mind-blowing!',
-      content: `Hour 34 of HackPulse 2026 at the NSBM Recreation Dome.\n\nWatching 120 student teams debug distributed offline protocols and mesh networks through the dead of night is nothing short of inspiring.\n\nBig pitches start at 9:00 AM on the main stage with angel investor judges. Come witness the future of Sri Lankan tech! 🚀`,
-      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
-      imageCaption: 'Collaborative coding sprints at NSBM HackPulse 2026',
-      likesCount: 312,
-      isLiked: true,
-      commentsCount: 1,
-      comments: [
-        { author: 'Kasun Perera', role: 'Computing Undergrad', text: 'The energy in the dome is unmatched! Let us go team ByteForce!' }
-      ],
-      sharesCount: 38,
-      readTime: 'Campus Event',
-      tags: ['#HackPulse2026', '#CodeCampus', '#Innovation', '#NSBMComputing']
-    },
-    {
-      id: 'post-seed-5',
-      articleId: null,
-      isOfficialArticle: false,
-      author: 'Chamod Jayawardena',
-      role: 'Campus Cultural Guild',
-      faculty: 'Faculty of Business',
-      date: '3 days ago',
-      category: 'Events',
-      categorySlug: 'events',
-      title: 'Acoustic Jam Under the Stars: Campus Amphitheatre Sessions 🎸✨',
-      excerpt: 'Guitars, cajons, flutes and original poetry. Nothing beats Friday evenings beneath the Pitipana green canopy.',
-      content: `Friday dusk beneath the palm canopy at the open-air amphitheatre.\n\nFrom acoustic Sinhala classics to indie arrangements and spontaneous rap cyphers, tonight reminded all of us why university life is about so much more than exams.\n\nNext session is October 31st — bring your instruments and good vibes! 🎵🌙`,
-      image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
-      imageCaption: 'Undergraduate acoustic musical night at campus open-air theatre',
-      likesCount: 220,
-      isLiked: false,
-      commentsCount: 1,
-      comments: [
-        { author: 'Dilini Rajapakse', role: 'Student', text: 'The flute solo on the lake steps was pure magic!' }
-      ],
-      sharesCount: 16,
-      readTime: 'Arts & Culture',
-      tags: ['#CampusMusic', '#AcousticNights', '#NSBMLife', '#PitipanaVibes']
-    }
-  ];
+  {
+    "id": "post-seed-1",
+    "articleId": 1,
+    "isOfficialArticle": true,
+    "author": "Prof. E. A. Weerasinghe & Media Bureau",
+    "role": "University Infrastructure Bureau",
+    "faculty": "Academic Faculty",
+    "date": "Oct 26, 2026",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "title": "NSBM Opens Rs. 720 Million Civil Engineering Laboratory Complex",
+    "excerpt": "NSBM Green University ceremonially opened its state-of-the-art Civil Engineering Laboratory Complex, representing a significant Rs. 720 million self-financed investment in engineering education as part of its 10th anniversary celebrations.",
+    "content": "NSBM Green University ceremonially opened its state-of-the-art Civil Engineering Laboratory Complex, representing a significant Rs. 720 million self-financed investment in engineering education as part of its 10th anniversary celebrations.\n\nNSBM Green University ceremonially opened its state-of-the-art Civil Engineering Laboratory Complex, representing a significant Rs. 720 million self-financed investment in engineering education, on 26 October 2026 as part of its 10th anniversary celebrations.\n\nLocated within the university’s Phase II development at Pitipana, Homagama, the new complex marks an important milestone in NSBM’s continued investment in modern academic infrastructure and practical engineering education. Equipped with modern infrastructure, high-tech laboratories and advanced learning facilities, the complex is designed to strengthen students’ practical learning experiences and support the development of industry-relevant engineering skills.\n\nThe complex was ceremonially declared open by the Attorney General of Sri Lanka, Hon. K. A. Parinda Ranasinghe Jr., PC, in the distinguished presence of NSBM Founder and Vice-Chancellor Prof. E. A. Weerasinghe; Prof. Richard Davies, Vice-Chancellor and CEO of the University of Plymouth, United Kingdom; Prof. Tyrone Carlin, Vice-Chancellor and President of Southern Cross University, Australia; and Prof. Li Lu, Vice-Chancellor and President of Zhejiang Shuren University, China.\n\nThe Rs. 720 million investment reflects NSBM’s commitment to providing students with an academic environment that connects theoretical knowledge with practical application. By strengthening its engineering facilities, the university aims to equip future engineers with the technical knowledge, practical experience and competencies required to meet the evolving demands of the profession.\n\nThe opening of the complex also forms part of NSBM’s broader campus expansion programme, which seeks to enhance its academic capabilities and create opportunities for future-focused education across multiple disciplines.\n\nAs NSBM marks a decade of excellence and national impact, the new Civil Engineering Laboratory Complex stands as a testament to its continued investment in education, infrastructure and the next generation of engineering professionals.",
+    "image": "news/news 1/news 1.jpeg",
+    "imageCaption": "Ceremonial opening of the Rs. 720M Civil Engineering Laboratory Complex by Attorney General Hon. K. A. Parinda Ranasinghe Jr.",
+    "images": [
+      "news/news 1/news 1.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "5 min read",
+    "tags": [
+      "#NSBM",
+      "#Academic",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-2",
+    "articleId": 2,
+    "isOfficialArticle": true,
+    "author": "Cultural & Inter-Faith Directorate",
+    "role": "Campus Press Bureau",
+    "faculty": "University Bureau",
+    "date": "Oct 24, 2026",
+    "category": "Events",
+    "categorySlug": "events",
+    "title": "NSBM Green University Marks 10th Anniversary with Multi-Religious Observances",
+    "excerpt": "As part of its 10th anniversary celebrations, NSBM Green University organised a series of multi-religious observances from 21 to 24 October 2026, bringing together its university community to seek blessings.",
+    "content": "As part of its 10th anniversary celebrations, NSBM Green University organised a series of multi-religious observances from 21 to 24 October 2026, bringing together its university community to seek blessings.\n\nAs part of its 10th anniversary celebrations, NSBM Green University organised a series of religious observances from 21 to 24 October 2026, bringing together members of its university community to seek blessings for the institution’s continued growth and success.\n\nReflecting NSBM’s respect for Sri Lanka’s diverse religious traditions, the observances provided an opportunity for staff and students to come together in prayer, thanksgiving and reflection, while celebrating a decade of achievements and looking towards the university’s future.\n\nThe series included religious programmes organised by the NSBM Buddhist Society, Hindu Society, Islamic Society, and Catholic and Christian Society, each reflecting the spiritual traditions and cultural heritage of their respective communities.\n\nThe Buddhist observances began with a Buddha Pooja organised by the NSBM Buddhist Society, invoking blessings for peace, prosperity and the university’s future journey. The programme also included an overnight Pirith Chanting Ceremony held on 23 October at the newly constructed NSBM Civil Engineering Laboratory premises, followed by the traditional Heel Dane (morning alms offering) to the venerable Maha Sangha.\n\nThe Hindu Society hosted Natham ’26, a celebration that commenced with sacred poojas seeking blessings for the university and its leadership. The event was attended by Vice-Chancellor Prof. E. A. Weerasinghe, Senior Deputy Vice-Chancellor Prof. Chaminda Rathnayake, members of the senior management team, deans and staff.\n\nThe NSBM Islamic Society organised a special cultural gathering featuring Qaseeda recitations, a keynote Bayan session delivered by Moulavi Nashik Farook Tanweeri, and traditional delicacies. Meanwhile, the NSBM Catholic and Christian Society organised a Holy Mass celebrated by Rev. Fr. Prasad Harshana and Rev. Fr. Teshan Priyadarshana.\n\nTogether, these religious observances formed a meaningful part of NSBM’s anniversary celebrations, recognising the diversity of faiths while uniting the community in fellowship.",
+    "image": "news/news 2/WhatsApp Image 2026-11-23 at 18.54.33.jpeg",
+    "imageCaption": "Overnight Pirith chanting ceremony and inter-faith observances marking NSBM 10th Anniversary",
+    "images": [
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.33.jpeg",
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.34 (1).jpeg",
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.34 (2).jpeg",
+      "news/news 2/WhatsApp Image 2026-11-23 at 18.54.34.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "6 min read",
+    "tags": [
+      "#NSBM",
+      "#Events",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-3",
+    "articleId": 3,
+    "isOfficialArticle": true,
+    "author": "Staff Development & Quality Assurance Center",
+    "role": "Curriculum Innovation Bureau",
+    "faculty": "Academic Faculty",
+    "date": "Nov 18, 2026",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "title": "NSBM Academic Staff Empowered to Embed Entrepreneurship Across the Curriculum",
+    "excerpt": "NSBM Green University conducted a Continuing Professional Development (CPD) session on embedding entrepreneurial thinking across curricula, facilitated by Dr. Adam Scott of Victoria University, Australia.",
+    "content": "NSBM Green University conducted a Continuing Professional Development (CPD) session on embedding entrepreneurial thinking across curricula, facilitated by Dr. Adam Scott of Victoria University, Australia.\n\nNSBM Green University conducted a Continuing Professional Development (CPD) session titled \"Embedding Entrepreneurship Across the Curriculum: Practical Strategies for Teaching and Learning,\" bringing together academic staff from all faculties to explore ways of integrating entrepreneurial thinking and practices into teaching and learning across disciplines.\n\nThe session was facilitated by Dr Adam Scott of Victoria University, Australia, who shared research-based insights and practical approaches drawn from nine instructional design principles developed in collaboration with Dr Nilusha Gallage, Lecturer and Coordinator – Undergraduate Courses at Victoria University.\n\nThe discussions covered three key areas of curriculum design: content, teaching and assessment. Participants explored strategies for scaffolding learning materials to accommodate different levels of student readiness, using Generative AI to present complex theories through visual formats, and connecting academic concepts with real-world applications.\n\nIn relation to teaching approaches, the session highlighted the importance of balancing the use of Generative AI with interactive and discussion-based learning. Practical strategies included AI critique activities to strengthen students’ critical thinking, as well as collaborative team projects that encourage creativity, problem-solving and teamwork.\n\nThe assessment component focused on designing authentic learning experiences that reflect real-world entrepreneurial practices, including venture pitches and reflective portfolios. The session was organised by the Young Entrepreneurship Circle in collaboration with the Department of Management and Staff Development Center as part of Global Entrepreneurship Week 2026.",
+    "image": "news/news 3/WhatsApp Image 2026-11-23 at 19.23.05 (1).jpeg",
+    "imageCaption": "Dr. Adam Scott of Victoria University Australia facilitating the CPD entrepreneurship session for NSBM academic staff",
+    "images": [
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.05 (1).jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.05.jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.06 (1).jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.06.jpeg",
+      "news/news 3/WhatsApp Image 2026-11-23 at 19.23.07.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "5 min read",
+    "tags": [
+      "#NSBM",
+      "#Academic",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-4",
+    "articleId": 4,
+    "isOfficialArticle": true,
+    "author": "Students’ Circle of Economics (SCEDS)",
+    "role": "Faculty of Business Syndicate",
+    "faculty": "University Bureau",
+    "date": "Nov 14, 2026",
+    "category": "Events",
+    "categorySlug": "events",
+    "title": "Economics and Decision Sciences Students Host ECONOMICA 2026 and Launch NEXsurge",
+    "excerpt": "SCEDS at the Faculty of Business successfully hosted ECONOMICA 2026 under the theme \"Harnessing Sri Lanka’s Economic Resources\" alongside the official launch of NEXsurge magazine.",
+    "content": "SCEDS at the Faculty of Business successfully hosted ECONOMICA 2026 under the theme \"Harnessing Sri Lanka’s Economic Resources\" alongside the official launch of NEXsurge magazine.\n\nThe Students’ Circle of Economics and Decision Sciences (SCEDS) of the Faculty of Business at NSBM Green University successfully hosted ECONOMICA 2026, its flagship academic initiative, under the theme \"Harnessing Sri Lanka’s Economic Resources.\" The event brought together young economic thinkers, academics, and distinguished industry experts to explore sustainable national development.\n\nA key highlight was the official launch of NEXsurge, a magazine featuring thought-provoking articles and fresh perspectives on harnessing Sri Lanka’s economic resources for sustainable development. The publication provides a platform for sharing knowledge, encouraging critical thinking, and highlighting the perspectives of emerging economic thinkers.\n\nThe event recognised outstanding contributions through competitions: Sanithi Jayasinghe (University of Sri Jayewardenepura) was named Inter-University Winner, while Pramodi De Silva (NSBM Green University) secured the Intra-University Winner title. Competition entries were evaluated by senior academics from the University of Kelaniya, University of Colombo, and Staffordshire University, UK.\n\nA panel discussion titled \"From Potential to Progress: Harnessing Sri Lanka’s Resources for Sustainable Economic Growth\" featured Dr. Nisha Arunatilake (Director of Research, IPS), Ms. Arani Rodrigo (Chief Economist, Ceylon Chamber of Commerce), and Prof. Janaka Fernando (USJ). ECONOMICA 2026 reflected SCEDS’s commitment to fostering economic awareness and nurturing young talent.",
+    "image": "news/news 4/WhatsApp Image 2026-11-23 at 19.25.33 (1).jpeg",
+    "imageCaption": "Official launch of NEXsurge Magazine during ECONOMICA 2026 at NSBM Green University",
+    "images": [
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.33 (1).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.33.jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.34 (1).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.34 (2).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.34.jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.35 (1).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.35 (2).jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.35.jpeg",
+      "news/news 4/WhatsApp Image 2026-11-23 at 19.25.36.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "6 min read",
+    "tags": [
+      "#NSBM",
+      "#Events",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-5",
+    "articleId": 5,
+    "isOfficialArticle": true,
+    "author": "Psychology Student Association",
+    "role": "Faculty of Science Bureau",
+    "faculty": "Academic Faculty",
+    "date": "Nov 15, 2026",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "title": "NSBM Psychology Undergraduates Exhibit Developmental Theories Creatively",
+    "excerpt": "Undergraduates of the 26.2 BSc (Hons) Psychology programme following the University of Plymouth degree pathway showcased learning through innovative Exhibit Presentations analyzing human development in films.",
+    "content": "Undergraduates of the 26.2 BSc (Hons) Psychology programme following the University of Plymouth degree pathway showcased learning through innovative Exhibit Presentations analyzing human development in films.\n\nUndergraduates of the 26.2 BSc (Hons) Psychology programme, following the University of Plymouth degree pathway at NSBM Green University, recently showcased their learning through a series of creative and insightful Exhibit Presentations.\n\nAs part of their academic activities, students explored the application of developmental psychology theories by examining how different aspects of human development are portrayed in films. Through this exercise, they connected theoretical concepts with real-world representations, critically evaluating how developmental theories are reflected in characters, behaviours and life experiences on screen.\n\nMoving beyond conventional classroom learning, the activity provided students with an opportunity to demonstrate their understanding through creative exhibits while strengthening their critical thinking, analytical, teamwork and presentation skills. It also encouraged them to communicate complex psychological concepts in engaging and accessible ways.\n\nThrough their thoughtful analyses and creative presentations, the students demonstrated how academic knowledge can be translated into practical understanding. The initiative reflects NSBM’s commitment to providing an engaging and experiential learning environment that prepares future psychology professionals to apply their knowledge beyond the classroom.",
+    "image": "news/news 5/WhatsApp Image 2026-11-23 at 19.27.43.jpeg",
+    "imageCaption": "BSc (Hons) Psychology undergraduates showcasing creative developmental exhibits at NSBM",
+    "images": [
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.43.jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.44 (1).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.44 (2).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.44.jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.45 (1).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.45 (2).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.45.jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.46 (1).jpeg",
+      "news/news 5/WhatsApp Image 2026-11-23 at 19.27.46.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "4 min read",
+    "tags": [
+      "#NSBM",
+      "#Academic",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-6",
+    "articleId": 6,
+    "isOfficialArticle": true,
+    "author": "International Relations Office",
+    "role": "Global Academic Partnerships Desk",
+    "faculty": "Academic Faculty",
+    "date": "Nov 12, 2026",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "title": "NSBM Strengthens International Academic Ties with St. Joseph's College, India",
+    "excerpt": "NSBM Green University has expanded its international academic network by signing an MoU with St. Joseph’s College (Autonomous), Tiruchirappalli, India, facilitated by CIMA Sri Lanka.",
+    "content": "NSBM Green University has expanded its international academic network by signing an MoU with St. Joseph’s College (Autonomous), Tiruchirappalli, India, facilitated by CIMA Sri Lanka.\n\nNSBM Green University has further expanded its international academic network through the signing of a Memorandum of Understanding (MoU) with St. Joseph’s College (Autonomous), Tiruchirappalli, Tamil Nadu, India.\n\nInitiated with the facilitation of CIMA Sri Lanka, this partnership marks another step in NSBM’s continued efforts to build meaningful global connections, foster academic collaboration, and expand its international engagement.\n\nThe occasion was attended by Mr. Sivasubramaniam Vithushan, Lead Manager – Business Development & Stakeholder Relationships; Mr. Tharindu Wijewardana, Country Head – Sri Lanka; and Dr. A. John Peter, Director, St. Joseph’s International, St. Joseph’s College, Tiruchirappalli, Tamil Nadu, India.\n\nThrough this partnership, NSBM continues to expand its international connections and pursue opportunities for meaningful engagement, joint student initiatives, and faculty research exchanges with leading higher education institutions across the South Asian region.",
+    "image": "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11 (1).jpeg",
+    "imageCaption": "MoU signing between NSBM Green University and St. Joseph's College (Autonomous), India facilitated by CIMA Sri Lanka",
+    "images": [
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11 (1).jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11 (2).jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.11.jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.12 (1).jpeg",
+      "news/news 6/WhatsApp Image 2026-11-23 at 19.29.12.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "3 min read",
+    "tags": [
+      "#NSBM",
+      "#Academic",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-7",
+    "articleId": 7,
+    "isOfficialArticle": true,
+    "author": "Faculty of Computing Press Syndicate",
+    "role": "Technology & Digital Economy Desk",
+    "faculty": "Faculty of Computing",
+    "date": "Nov 10, 2026",
+    "category": "Computing & AI",
+    "categorySlug": "computing",
+    "title": "NSBM Hosts Dr. Hans Wijayasuriya for Sri Lanka's Digital Future Session",
+    "excerpt": "NSBM welcomed Dr. Hans Wijayasuriya, Chief Advisor to the President on the Digital Economy and Chairman of GovTech and ICTA, for an insightful session on Sri Lanka's digital economy.",
+    "content": "NSBM welcomed Dr. Hans Wijayasuriya, Chief Advisor to the President on the Digital Economy and Chairman of GovTech and ICTA, for an insightful session on Sri Lanka's digital economy.\n\nNSBM Green University welcomed Dr. Hans Wijayasuriya, Chief Advisor to the President on the Digital Economy and Chairman of GovTech and the ICT Agency of Sri Lanka, for an insightful session with its students and academic staff on the future of Sri Lanka’s digital economy.\n\nThe session explored the opportunities and challenges shaping the country’s digital transformation, highlighting the growing importance of digital literacy, technological adaptability and the development of skills and competencies required to thrive in an increasingly digital world. The discussion provided students with valuable perspectives on emerging developments in the digital economy and the role of the next generation in supporting the country’s digital advancement.\n\nDuring his visit, Dr. Wijayasuriya also met with Senior Deputy Vice Chancellor Prof. Chaminda Rathnayake and the University’s senior management. The meeting provided an opportunity to exchange perspectives on the evolving role of higher education in supporting national development and preparing future-ready graduates equipped to respond to the changing demands of the digital economy.\n\nThe engagement reinforced the importance of strengthening connections between academia and the evolving digital landscape, ensuring that higher education remains responsive to emerging industry needs, AI governance, and technological developments.",
+    "image": "news/news 7/WhatsApp Image 2026-11-23 at 19.36.12.jpeg",
+    "imageCaption": "Dr. Hans Wijayasuriya delivering the keynote address on Sri Lanka's Digital Transformation at NSBM Green University",
+    "images": [
+      "news/news 7/WhatsApp Image 2026-11-23 at 19.36.12.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "5 min read",
+    "tags": [
+      "#NSBM",
+      "#ComputingAI",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-8",
+    "articleId": 8,
+    "isOfficialArticle": true,
+    "author": "Executive Directorate Press",
+    "role": "Diplomatic & Regional Affairs Bureau",
+    "faculty": "University Bureau",
+    "date": "Nov 16, 2026",
+    "category": "General",
+    "categorySlug": "general",
+    "title": "NSBM Delegation Represents Sri Lanka at 88th SAARC CCI Executive Meeting in Maldives",
+    "excerpt": "NSBM Green University proudly represented Sri Lanka at the 88th Executive Committee Meeting of the SAARC Chamber of Commerce and Industry (SAARC CCI) held in the Maldives.",
+    "content": "NSBM Green University proudly represented Sri Lanka at the 88th Executive Committee Meeting of the SAARC Chamber of Commerce and Industry (SAARC CCI) held in the Maldives.\n\nNSBM Green University proudly represented Sri Lanka at the 88th Executive Committee Meeting of the SAARC Chamber of Commerce and Industry (SAARC CCI), held on 16 November 2026 in the Maldives. The meeting brought together representatives from across South Asia to discuss important matters related to regional economic cooperation, sustainable development and opportunities for strengthening partnerships among institutions and organisations in the region.\n\nThe NSBM delegation consisted of Vice-Chancellor Professor E. A. Weerasinghe, Senior Deputy Vice-Chancellor Professor Chaminda Rathnayake and Head of Administration Mr. Kapila Liyanage. Their participation provided an opportunity for NSBM to engage with regional representatives and contribute to discussions focused on improving cooperation, higher education integration, and building stronger connections across South Asian countries.\n\nNSBM's involvement in this prestigious international summit reflects the university's ongoing commitment to expanding its global presence and strengthening Sri Lanka's position as an emerging higher education hub in South Asia.",
+    "image": "news/news 8/WhatsApp Image 2026-11-23 at 22.47.35 (1).jpeg",
+    "imageCaption": "Vice-Chancellor Prof. E. A. Weerasinghe leading the NSBM delegation at the 88th SAARC CCI Meeting in Maldives",
+    "images": [
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.35 (1).jpeg",
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.35.jpeg",
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.36 (1).jpeg",
+      "news/news 8/WhatsApp Image 2026-11-23 at 22.47.36.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "4 min read",
+    "tags": [
+      "#NSBM",
+      "#General",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-9",
+    "articleId": 9,
+    "isOfficialArticle": true,
+    "author": "Department of Life Sciences",
+    "role": "Healthcare & Science Desk",
+    "faculty": "University Bureau",
+    "date": "Nov 11, 2026",
+    "category": "Events",
+    "categorySlug": "events",
+    "title": "NSBM Celebrates Nursing Pledge Ceremony 2026 for Undergraduates",
+    "excerpt": "NSBM Green University celebrated the Nursing Pledge Ceremony 2026 for batches 25.2 and 25.3, marking a sacred milestone in the healthcare journeys of nursing undergraduates.",
+    "content": "NSBM Green University celebrated the Nursing Pledge Ceremony 2026 for batches 25.2 and 25.3, marking a sacred milestone in the healthcare journeys of nursing undergraduates.\n\nNSBM Green University proudly celebrated the Nursing Pledge Ceremony 2026 on 11 November 2026, marking a significant milestone in the academic and professional journeys of students from the 25.2 and 25.3 Nursing batches. The ceremony provided an opportunity for nursing undergraduates to formally express their commitment to the nursing profession and its responsibilities towards individuals, families and communities.\n\nThe event was honoured by the presence of Mrs. H. M. C. M. Herath, Former Chief Nursing Officer and Lecturer in Nursing at the Faculty of Nursing, University of Colombo, who attended as Chief Guest. The ceremony was also attended by distinguished university leaders, including Vice-Chancellor Prof. E. A. Weerasinghe, Senior Deputy Vice-Chancellor Prof. Chaminda Rathnayake, Deputy Vice-Chancellor Prof. Thilini de Silva, and Dr. Nuwanthi Katuwavila, Dean of the Faculty of Science.\n\nThe ceremony welcomed distinguished healthcare leaders from Sri Jayewardenepura General Hospital, Durdans Hospital, and Shanthi Nivasa.\n\nA central highlight was the ceremonial presentation of nursing caps and the lighting of traditional three-wick oil lamps, symbolising the wisdom, compassion and dedication essential to professional healthcare. The university extends its heartfelt blessings to all inducted nursing scholars.",
+    "image": "news/news 9/WhatsApp Image 2026-11-23 at 22.47.37 (1).jpeg",
+    "imageCaption": "Undergraduate nurses receiving ceremonial caps and lighting traditional lamps at the NSBM Nursing Pledge Ceremony 2026",
+    "images": [
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.37 (1).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.37.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.38.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.39 (1).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.39 (2).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.39.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.40 (1).jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.40.jpeg",
+      "news/news 9/WhatsApp Image 2026-11-23 at 22.47.41.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "5 min read",
+    "tags": [
+      "#NSBM",
+      "#Events",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-10",
+    "articleId": 10,
+    "isOfficialArticle": true,
+    "author": "Global Academic Bureau",
+    "role": "Senior University Press",
+    "faculty": "Academic Faculty",
+    "date": "Oct 27, 2026",
+    "category": "Academic",
+    "categorySlug": "academic",
+    "title": "NSBM and Southern Cross University Australia Sign MoU for Dual Degree Programme",
+    "excerpt": "NSBM Green University signed an MoU with Southern Cross University (SCU), Australia, introducing a groundbreaking double degree combining Bachelor of Business and Bachelor of Information Technology.",
+    "content": "NSBM Green University signed an MoU with Southern Cross University (SCU), Australia, introducing a groundbreaking double degree combining Bachelor of Business and Bachelor of Information Technology.\n\nNSBM Green University has taken another important step towards expanding international higher education opportunities in Sri Lanka by signing a Memorandum of Understanding (MoU) with Southern Cross University (SCU), Australia. The agreement introduces a new double degree programme combining a Bachelor of Business and a Bachelor of Information Technology, which is expected to commence in 2027.\n\nThe agreement was formalised as part of NSBM Green University's 10th Anniversary Celebrations, marking a significant milestone in the longstanding academic partnership between the two universities. The MoU was signed by Professor Tyrone Carlin, Vice-Chancellor of Southern Cross University, and Professor E. A. Weerasinghe, Vice-Chancellor of NSBM Green University. Both institutions reaffirmed their shared commitment to providing internationally aligned education and preparing students for the changing demands of the global employment market.\n\nThe proposed double degree programme is designed to bring together two vital fields: business and information technology. In today's rapidly developing digital world, organisations increasingly require professionals who understand both business operations and technological solutions.\n\nBeyond the introduction of the double degree, the MoU represents the continued development of the relationship between NSBM and Southern Cross University, laying a robust foundation for joint research initiatives and student exchanges.",
+    "image": "news/news 10/WhatsApp Image 2026-11-23 at 23.13.12.jpeg",
+    "imageCaption": "Prof. Tyrone Carlin (Vice-Chancellor SCU) and Prof. E. A. Weerasinghe signing the Dual Degree MoU at NSBM",
+    "images": [
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.12.jpeg",
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.13 (1).jpeg",
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.13 (2).jpeg",
+      "news/news 10/WhatsApp Image 2026-11-23 at 23.13.13.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "5 min read",
+    "tags": [
+      "#NSBM",
+      "#Academic",
+      "#CampusNews"
+    ]
+  },
+  {
+    "id": "post-seed-11",
+    "articleId": 11,
+    "isOfficialArticle": true,
+    "author": "Green Task Force & Campus Architecture Bureau",
+    "role": "Eco-Sustainability Desk",
+    "faculty": "Campus Architecture",
+    "date": "Nov 20, 2026",
+    "category": "Sustainability",
+    "categorySlug": "sustainability",
+    "title": "NSBM Green University Awarded Platinum Rating at Annual Green Building Awards 2026",
+    "excerpt": "NSBM Green University achieves top environmental honours with the prestigious Platinum Rating for its Phase II development at the Annual Green Building Awards 2026.",
+    "content": "NSBM Green University achieves top environmental honours with the prestigious Platinum Rating for its Phase II development at the Annual Green Building Awards 2026.\n\nNSBM Green University continues to set the benchmark for ecological campus design and sustainable higher education in South Asia, securing the prestigious Platinum Rating for its Phase II development at the Annual Green Building Awards 2026 organised by the Green Building Council of Sri Lanka (GBCSL).\n\nThe award honours NSBM's exemplary commitment to energy efficiency, sustainable water management, carbon emissions reduction, and green architectural design across its state-of-the-art campus premises in Pitipana, Homagama. The Phase II development integrates advanced solar microgrids, natural ventilation engineering, rainwater harvesting systems, and sustainable landscaping.\n\nVice-Chancellor Prof. E. A. Weerasinghe accepted the honour on behalf of the university, stating: 'Receiving the Platinum Rating from the Green Building Council of Sri Lanka reaffirms our founding philosophy as South Asia's first green university. We remain dedicated to providing future generations with a sustainable, inspiring learning environment.'\n\nThe certification cements NSBM's position as a regional pioneer in sustainable university infrastructure and environmental stewardship.",
+    "image": "news/news 11/WhatsApp Image 2026-11-23 at 23.22.05.jpeg",
+    "imageCaption": "NSBM Phase II development awarded the highest Platinum Rating by the Green Building Council of Sri Lanka",
+    "images": [
+      "news/news 11/WhatsApp Image 2026-11-23 at 23.22.04.jpeg",
+      "news/news 11/WhatsApp Image 2026-11-23 at 23.22.05.jpeg"
+    ],
+    "likesCount": 0,
+    "isLiked": false,
+    "commentsCount": 0,
+    "comments": [],
+    "sharesCount": 0,
+    "readTime": "5 min read",
+    "tags": [
+      "#NSBM",
+      "#Sustainability",
+      "#CampusNews"
+    ]
+  }
+];
 
-  // Demo Profiles
+  // User Profiles (Authentic NSBM Credentials)
   const DEMO_USERS = {
     student: {
-      name: 'Kasun Perera',
+      name: 'NSBM Student Contributor',
       email: 'student@students.nsbm.ac.lk',
       role: 'student',
       studentId: 'NSBM-IT-24-9021',
-      faculty: 'Faculty of Computing'
+      faculty: 'Faculty of Computing',
+      title: 'Student Contributor'
     },
     admin: {
-      name: 'Dr. Priyantha Kumar',
+      name: 'NSBM Editorial Administrator',
       email: 'admin@nsbm.ac.lk',
       role: 'admin',
-      adminId: 'ADMIN-PRESS-01',
-      title: 'Chief Editor & Communications Director'
+      adminId: 'NSBM-ADM-001',
+      title: 'Chief Newsdesk Administrator'
     }
   };
 
@@ -894,7 +1274,7 @@ Star swimmer Kavishka Senaratne set a new university meet record in the 200m ind
         id: newId,
         articleId: null,
         isOfficialArticle: false,
-        author: user.name || 'Kasun Perera',
+        author: user.name || 'NSBM Student Contributor',
         role: user.role === 'admin' ? 'Chief Editor & Press Director' : (user.title || 'Student Contributor'),
         faculty: user.faculty || 'Faculty of Computing',
         date: 'Just now',
@@ -903,10 +1283,11 @@ Star swimmer Kavishka Senaratne set a new university meet record in the 200m ind
         title: postData.title || '',
         excerpt: postData.content ? postData.content.substring(0, 160) + '...' : '',
         content: postData.content || '',
-        image: postData.image || null,
+        image: postData.image || (Array.isArray(postData.images) && postData.images.length > 0 ? postData.images[0] : null),
+        images: (Array.isArray(postData.images) && postData.images.length > 0) ? postData.images : (postData.image ? [postData.image] : []),
         imageCaption: postData.imageCaption || '',
-        likesCount: 1,
-        isLiked: true,
+        likesCount: 0,
+        isLiked: false,
         commentsCount: 0,
         comments: [],
         sharesCount: 0,
@@ -921,7 +1302,15 @@ Star swimmer Kavishka Senaratne set a new university meet record in the 200m ind
 
     // --- USER SESSION ---
     getCurrentUser: function() {
-      const stored = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+      // Try localStorage first (persistent), then sessionStorage (tab-only fallback)
+      let stored = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+      if (!stored) {
+        stored = sessionStorage.getItem('nsbm_newsdesk_session_user');
+        // Promote sessionStorage hit into localStorage for persistence
+        if (stored) {
+          try { localStorage.setItem(STORAGE_KEYS.CURRENT_USER, stored); } catch(e) {}
+        }
+      }
       if (stored) {
         try { return JSON.parse(stored); } catch (e) { return null; }
       }
@@ -929,11 +1318,14 @@ Star swimmer Kavishka Senaratne set a new university meet record in the 200m ind
     },
 
     setCurrentUser: function(user) {
-      localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(user));
+      const json = JSON.stringify(user);
+      localStorage.setItem(STORAGE_KEYS.CURRENT_USER, json);
+      try { sessionStorage.setItem('nsbm_newsdesk_session_user', json); } catch(e) {}
     },
 
     logout: function() {
       localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+      try { sessionStorage.removeItem('nsbm_newsdesk_session_user'); } catch(e) {}
     },
 
     loginAsDemo: function(role) {

@@ -1,0 +1,23 @@
+# Archive files (prevent huge zip uploads)
+*.zip
+*.tar.gz
+*.rar
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary & Log files
+*.log
+tmp/
+temp/
+
+# Note: team_distribution/ contains documentation and module packages for the 8 team members.
+

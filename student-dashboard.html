@@ -6,6 +6,29 @@
   <title>Student Panel — NSBM NewsDesk Campus Management System</title>
   <meta name="description" content="Student portal to browse news, filter by category/date, bookmark dispatches, manage category subscriptions, and submit articles for editorial approval." />
 
+  <!-- Favicon -->
+  <link rel="icon" href="nsbm-logo.jpg" type="image/jpeg" />
+
+  <!-- Auth Protection Guard -->
+  <script>
+    (function() {
+      try {
+        var user = JSON.parse(
+          localStorage.getItem('nsbm_newsdesk_current_user_v7') ||
+          sessionStorage.getItem('nsbm_newsdesk_session_user') ||
+          localStorage.getItem('nsbm_newsdesk_current_user_v6') ||
+          localStorage.getItem('nsbm_newsdesk_current_user_v5') ||
+          localStorage.getItem('nsbm_newsdesk_current_user_v4')
+        );
+        if (!user) {
+          window.location.replace('login.html?redirect=student-dashboard.html');
+        }
+      } catch(e) {
+        window.location.replace('login.html?redirect=student-dashboard.html');
+      }
+    })();
+  </script>
+
   <!-- Google Fonts: Space Grotesk + Plus Jakarta Sans + Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,7 +71,7 @@
         <div class="sidebar-user-card">
           <div class="sidebar-avatar">KP</div>
           <div class="sidebar-user-info">
-            <span id="user-profile-name" class="sidebar-user-name">Kasun Perera</span>
+            <span id="user-profile-name" class="sidebar-user-name">Student Journalist</span>
             <span id="user-profile-id" class="sidebar-user-role">NSBM-IT-24-9021</span>
           </div>
         </div>
@@ -342,7 +365,7 @@
                   Submissions are reviewed within 24 hours under NSBM Media Guild standards.
                 </span>
                 <button type="submit" class="btn-primary">
-                  Submit for Editorial Review →
+                  Submit for Editorial Review &rarr;
                 </button>
               </div>
             </form>

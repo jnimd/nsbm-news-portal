@@ -1,22 +1,21 @@
-# Member_03_Admin_Dashboard_CRUD
+# Member_04_Student_Submissions
 
 **Assigned Role & Responsibilities:**
-Admin Panel & CRUD Specialist (Admin panels, article editor scripts, CRUD APIs)
+Student Contributor Portal Lead (Student portal views, submission handlers, submission storage JS)
 
 ## Distributed Active Project Deliverables (Day 04 Final):
-- `admin-dashboard.html`
+- `student-dashboard.html`
 - `nsbm-logo.jpg`
 - `css/global.css`
 - `css/dashboard.css`
-- `js/admin-dashboard.js`
+- `js/student-dashboard.js`
 - `js/theme.js`
 - `js/icons.js`
-- `api/articles.php`
-- `api/categories.php`
+- `api/submissions.php`
 - `config/db.php`
 
-- **Total Files Allocated**: 10
-- **Total Volume**: 0.37 MB
+- **Total Files Allocated**: 9
+- **Total Volume**: 0.36 MB
 
 ## Instructions for Member GitHub Commit:
 1. Stage and commit the files allocated in this folder directly into your branch or assigned repository section.

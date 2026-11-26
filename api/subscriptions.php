@@ -1,10 +1,11 @@
-<?php
+﻿<?php
 // bookmarks and subscriptions api
 require_once __DIR__ . '/../config/db.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Content-Type: application/json; charset=UTF-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
@@ -124,3 +125,4 @@ switch ($method) {
         echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
         break;
 }
+
